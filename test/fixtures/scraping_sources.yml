@@ -1,13 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email_limit: 1
+  url: MyString
   status: MyString
-  user: one
-  industry: one
 
 two:
-  email_limit: 1
+  url: MyString
   status: MyString
-  user: two
-  industry: two

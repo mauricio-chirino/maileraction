@@ -1,13 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email_limit: 1
+  amount: 1
   status: MyString
+  payment_method: MyString
   user: one
-  industry: one
+  credit_account: one
 
 two:
-  email_limit: 1
+  amount: 1
   status: MyString
+  payment_method: MyString
   user: two
-  industry: two
+  credit_account: two
