@@ -13,25 +13,25 @@ Rails.application.routes.draw do
       resources :industries, only: [ :index, :show ]
 
       # Campañas
-      resources :campaigns, only: [ :index, :create, :show ] do
+      resources :campaigns, only: [ :index, :create, :show, :update, :destroy ] do
         member do
-          get "stats"      # /api/v1/campaigns/:id/stats
-          post "send"      # /api/v1/campaigns/:id/send
+          get :stats        # /api/v1/campaigns/:id/stats
+          post :send        # /api/v1/campaigns/:id/send
         end
       end
 
       # Créditos
       resources :credit_accounts, only: [ :show ]
-      resources :transactions, only: [ :create, :index ]
+      resources :transactions, only: [ :index, :create ]
 
       # Estadísticas
       resources :email_logs, only: [ :index, :show ]
       resources :bounces, only: [ :index, :show ]
 
-      # Correos disponibles (cuenta por industria)
+      # Correos disponibles (por industria)
       get "emails/available_count/:industry_id", to: "emails#available_count"
 
-      # Webhooks (ej. Stripe)
+      # Webhooks (Stripe, MercadoPago, etc.)
       post "webhooks/:provider", to: "webhooks#receive"
     end
   end
