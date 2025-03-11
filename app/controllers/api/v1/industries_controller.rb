@@ -6,7 +6,8 @@ module Api
       def index
         industries = policy_scope(Industry)
         authorize Industry
-        render json: industries
+
+        render json: industries, each_serializer: IndustrySerializer
       end
     end
   end

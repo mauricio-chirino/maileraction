@@ -7,13 +7,13 @@ module Api
       # GET /api/v1/campaigns
       def index
         @campaigns = policy_scope(Campaign)
-        render json: @campaigns
+        render json: @campaigns, each_serializer: CampaignSerializer
       end
 
       # GET /api/v1/campaigns/:id
       def show
         authorize @campaign
-        render json: @campaign
+        render json: @campaign, serializer: CampaignSerializer
       end
 
       # POST /api/v1/campaigns
@@ -22,7 +22,7 @@ module Api
         authorize @campaign
 
         if @campaign.save
-          render json: @campaign, status: :created
+          render json: @campaign, serializer: CampaignSerializer, status: :created
         else
           render json: { errors: @campaign.errors.full_messages }, status: :unprocessable_entity
         end
@@ -32,7 +32,7 @@ module Api
       def update
         authorize @campaign
         if @campaign.update(campaign_params)
-          render json: @campaign
+          render json: @campaign, serializer: CampaignSerializer
         else
           render json: { errors: @campaign.errors.full_messages }, status: :unprocessable_entity
         end

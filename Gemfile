@@ -56,3 +56,4 @@ gem 'pundit'
 gem 'rack-cors'
 
 gem 'jwt'
+gem "active_model_serializers", "~> 0.10.15"
