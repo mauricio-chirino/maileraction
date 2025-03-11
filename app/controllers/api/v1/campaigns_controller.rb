@@ -2,56 +2,71 @@ module Api
   module V1
     class CampaignsController < ApplicationController
       before_action :authenticate_user!
+      before_action :set_campaign, only: [ :show, :update, :destroy, :stats, :send ]
 
+      # GET /api/v1/campaigns
       def index
-        #  Muestra todas las campañas del usuario actual (gracias a current_user).
-        render json: current_user.campaigns
+        @campaigns = policy_scope(Campaign)
+        render json: @campaigns
       end
 
+      # GET /api/v1/campaigns/:id
       def show
-        # Muestra los detalles de una campaña específica, siempre que pertenezca al usuario autenticado.
-        campaign = current_user.campaigns.find(params[:id])
-        render json: campaign
+        authorize @campaign
+        render json: @campaign
       end
 
-      # Permite crear una nueva campaña vinculada al usuario.
-      # Si se guarda correctamente, devuelve la campaña y el status 201 Created.
-      # Si hay errores, devuelve los errores y 422.
+      # POST /api/v1/campaigns
       def create
-        campaign = current_user.campaigns.new(campaign_params)
-        if campaign.save
-          render json: campaign, status: :created
+        @campaign = current_user.campaigns.build(campaign_params)
+        authorize @campaign
+
+        if @campaign.save
+          render json: @campaign, status: :created
         else
-          render json: { errors: campaign.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: @campaign.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
-      # Permite modificar una campaña existente del usuario. Si no la encuentra, lanza error.
-      # Si se actualiza, responde con el JSON actualizado.
-      # Si falla, devuelve errores.
+      # PUT /api/v1/campaigns/:id
       def update
-        campaign = current_user.campaigns.find(params[:id])
-        if campaign.update(campaign_params)
-          render json: campaign
+        authorize @campaign
+        if @campaign.update(campaign_params)
+          render json: @campaign
         else
-          render json: { errors: campaign.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: @campaign.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
-      # Elimina una campaña del usuario.
-      # Devuelve un 204 No Content si se elimina correctamente (sin body).
+      # DELETE /api/v1/campaigns/:id
       def destroy
-        campaign = current_user.campaigns.find(params[:id])
-        campaign.destroy
+        authorize @campaign
+        @campaign.destroy
         head :no_content
       end
 
-      # Este método filtra los parámetros permitidos al crear o actualizar campañas.
-      # Solo permite:
-      # industry_id: rubro seleccionado
-      # email_limit: límite de correos a enviar
-      # status: estado de la campaña (ej: "draft", "scheduled", "sent")
+      # GET /api/v1/campaigns/:id/stats
+      def stats
+        authorize @campaign, :stats?
+        render json: {
+          opens: EmailLog.where(campaign_id: @campaign.id).where.not(opened_at: nil).count,
+          clicks: EmailLog.where(campaign_id: @campaign.id).where.not(clicked_at: nil).count,
+          bounces: Bounce.joins(:email_record).where(email_records: { campaign_id: @campaign.id }).count
+        }
+      end
+
+      # POST /api/v1/campaigns/:id/send
+      def send
+        authorize @campaign, :send?
+        # lógica de envío (Solid Queue Job)
+        render json: { message: "Campaña en cola para envío." }
+      end
+
       private
+
+      def set_campaign
+        @campaign = Campaign.find(params[:id])
+      end
 
       def campaign_params
         params.require(:campaign).permit(:industry_id, :email_limit, :status)

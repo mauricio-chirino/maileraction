@@ -10,16 +10,16 @@
 # top_domains_bounced	Dominios que más generaron rebotes (ej: gmail.com, hotmail.com)
 
 
-
 module Api
   module V1
     class StatsController < ApplicationController
       before_action :authenticate_user!
 
       def show
-        campaign = current_user.campaigns.find(params[:id])
-        total_sent = EmailLog.where(campaign_id: campaign.id).count
+        campaign = Campaign.find(params[:id])
+        authorize campaign, :stats?
 
+        total_sent = EmailLog.where(campaign_id: campaign.id).count
         opens = EmailLog.where(campaign_id: campaign.id).where.not(opened_at: nil).count
         clicks = EmailLog.where(campaign_id: campaign.id).where.not(clicked_at: nil).count
         bounces = Bounce.joins(:email_record).where(email_records: { campaign_id: campaign.id }).count

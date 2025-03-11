@@ -5,6 +5,8 @@ module Api
 
       def show
         credit_account = current_user.credit_account
+        authorize credit_account || CreditAccount  # En caso de nil, protege igual
+
         plan = current_user.plan
         transactions = current_user.transactions.order(created_at: :desc)
 

@@ -4,7 +4,8 @@ module Api
       before_action :authenticate_user!
 
       def index
-        industries = Industry.select(:id, :name, :email_count)
+        industries = policy_scope(Industry)
+        authorize Industry
         render json: industries
       end
     end
