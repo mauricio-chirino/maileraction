@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   # Autenticación (con UseAuthentication)
   post "/login",  to: "sessions#create"
   delete "/logout", to: "sessions#destroy"

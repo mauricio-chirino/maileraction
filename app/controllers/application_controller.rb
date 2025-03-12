@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include Authentication
   include UseAuthentication::ControllerMethods
   include Pundit
 

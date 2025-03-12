@@ -1,7 +1,9 @@
 class User < ApplicationRecord
-  has_secure_password # Habilita autenticación segura con bcrypt
+  has_secure_password
+  has_many :sessions, dependent: :destroy
 
-  belongs_to :role, optional: true
+
+  # belongs_to :role, optional: true
   belongs_to :plan, optional: true
 
   has_many :campaigns
@@ -12,4 +14,8 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6 }, if: -> { password.present? }
 
   enum :role, [ :admin, :campaign_manager, :designer, :analyst, :user, :collaborator, :observer ], default: :user
+
+
+
+  normalizes :email_address, with: ->(e) { e.strip.downcase }
 end

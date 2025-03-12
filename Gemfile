@@ -19,7 +19,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
-gem 'cable_ready'
+gem "cable_ready"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -45,15 +45,14 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-
 end
 
 
 # Gestión de permisos con Pundit
-gem 'pundit'
+gem "pundit"
 
 # Manejo de CORS (para comunicación con frontend)
-gem 'rack-cors'
+gem "rack-cors"
 
-gem 'jwt'
+gem "jwt"
 gem "active_model_serializers", "~> 0.10.15"
