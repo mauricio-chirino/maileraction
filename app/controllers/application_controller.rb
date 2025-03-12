@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::API
-  include Authentication
-  include UseAuthentication::ControllerMethods
+  include Authentication  # 👈 este es el bueno
   include Pundit
+  # agrgados************************************
+  include ActionController::Cookies
+  include ActionController::Helpers
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 

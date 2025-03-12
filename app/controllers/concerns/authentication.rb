@@ -3,7 +3,7 @@ module Authentication
 
   included do
     before_action :require_authentication
-    helper_method :authenticated?
+    helper_method :authenticated? if respond_to?(:helper_method)
   end
 
   class_methods do
@@ -30,8 +30,7 @@ module Authentication
     end
 
     def request_authentication
-      session[:return_to_after_authenticating] = request.url
-      redirect_to new_session_path
+      render json: { error: "No autorizado. Iniciá sesión." }, status: :unauthorized
     end
 
     def after_authentication_url
@@ -39,9 +38,15 @@ module Authentication
     end
 
     def start_new_session_for(user)
-      user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
+      user.sessions.create!(
+        user_agent: request.user_agent,
+        ip_address: request.remote_ip
+      ).tap do |session|
         Current.session = session
-        cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+        cookies.signed.permanent[:session_id] = {
+          value: session.id, httponly: true,
+          same_site: :lax
+        }
       end
     end
 

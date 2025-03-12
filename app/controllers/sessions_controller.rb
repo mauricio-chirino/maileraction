@@ -1,18 +1,18 @@
 class SessionsController < ApplicationController
   allow_unauthenticated_access only: %i[ new create ]
-  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_session_url, alert: "Try again later." }
+  # rate_limit to: 10, within: 3.minutes, only: :create, with: -> { head :too_many_requests }
 
   def new
   end
 
   def create
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email_address: params[:email_address])
 
-    if user = User.authenticate_by(params.permit(:email_address, :password))
+    if user&.authenticate(params[:password])
       start_new_session_for user
-      redirect_to after_authentication_url
+      render json: { message: "Sesión iniciada", user: user.email_address }, status: :ok
     else
-      redirect_to new_session_path, alert: "Try another email address or password."
+      render json: { error: "Email o contraseña inválidos" }, status: :unauthorized
     end
   end
 
@@ -22,15 +22,16 @@ class SessionsController < ApplicationController
   # end
   #
   def destroy
+    terminate_session
     render json: { message: "Sesión cerrada correctamente" }, status: :ok
   end
 
-  private
+  # private
 
-  def generate_token(user)
-    payload = { user_id: user.id, exp: 24.hours.from_now.to_i }
-    JWT.encode(payload, Rails.application.secrets.secret_key_base)
-  end
+  # def generate_token(user)
+  #   payload = { user_id: user.id, exp: 24.hours.from_now.to_i }
+  #   JWT.encode(payload, Rails.application.secrets.secret_key_base)
+  # end
 
 
 

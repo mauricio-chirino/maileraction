@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_one :credit_account
   has_many :transactions
 
-  validates :email, presence: true, uniqueness: true
+  validates :email_address, presence: true, uniqueness: true
   validates :password, length: { minimum: 6 }, if: -> { password.present? }
 
   enum :role, [ :admin, :campaign_manager, :designer, :analyst, :user, :collaborator, :observer ], default: :user
