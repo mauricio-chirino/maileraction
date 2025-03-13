@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   # API Version 1
   namespace :api do
     namespace :v1 do
+      get "me", to: "users#me"
+
+
       # Rubros (Industries)
       resources :industries, only: [ :index, :show ]
 
