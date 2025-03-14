@@ -13,6 +13,15 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "me", to: "users#me"
 
+      # Consultar creditos de un usuario
+      resources :credit_accounts, only: [] do
+        collection do
+          post :assign_initial
+          post :consume
+        end
+      end
+
+
 
       # Rubros (Industries)
       resources :industries, only: [ :index, :show ]

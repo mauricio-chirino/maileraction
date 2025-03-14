@@ -7,6 +7,8 @@ class User < ApplicationRecord
   belongs_to :plan, optional: true
 
   has_many :campaigns
+
+
   has_one :credit_account
   has_many :transactions
 

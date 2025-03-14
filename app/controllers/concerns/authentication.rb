@@ -12,6 +12,15 @@ module Authentication
     end
   end
 
+
+
+  def authenticate_user!
+    unless current_user
+      render json: { error: "No autenticado" }, status: :unauthorized
+    end
+  end
+
+
   private
     def authenticated?
       resume_session
