@@ -13,6 +13,55 @@ module Api
 
 
 
+      # POST /api/v1/credit_accounts/consume_campaign
+      def consume_campaign
+        credit_account = current_user.credit_account
+        authorize credit_account || CreditAccount
+
+        if params[:campaign_id].blank?
+          render json: { error: "Se requiere campaign_id." }, status: :bad_request and return
+        end
+
+        campaign = Campaign.find_by(id: params[:campaign_id])
+        unless campaign
+          render json: { error: "Campaña no encontrada." }, status: :not_found and return
+        end
+
+        email_count = params[:emails_sent].to_i
+        if email_count <= 0
+          render json: { error: "Cantidad de correos inválida." }, status: :unprocessable_entity and return
+        end
+
+        if credit_account.nil? || credit_account.available_credit < email_count
+          render json: { error: "Créditos insuficientes." }, status: :unprocessable_entity and return
+        end
+
+        # Transacción atómica
+        ActiveRecord::Base.transaction do
+          credit_account.decrement!(:available_credit, email_count)
+
+          Transaction.create!(
+            user: current_user,
+            credit_account: credit_account,
+            amount: email_count,
+            status: "consumed",
+            payment_method: "campaign",
+            campaign_id: campaign.id
+          )
+        end
+
+
+        render json: {
+          credit_account: CreditAccountSerializer.new(credit_account),
+          transaction: TransactionSerializer.new(transaction)
+        }
+      end
+
+
+
+
+
+
       # POST /api/v1/credit_accounts/assign_initial
       def assign_initial
         authorize CreditAccount, :assign_initial?
