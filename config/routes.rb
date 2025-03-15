@@ -13,13 +13,14 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "me", to: "users#me"
 
-      # Consultar creditos de un usuario
-      resources :credit_accounts, only: [] do
-        collection do
-          post :assign_initial
-          post :consume
-        end
-      end
+
+      get "credit_account", to: "credit_accounts#show"
+      post "credit_accounts/assign_initial", to: "credit_accounts#assign_initial"
+      post "credit_accounts/consume", to: "credit_accounts#consume"
+
+
+      post "credit_accounts/consume_campaign", to: "credit_accounts#consume_campaign"
+
 
 
 
@@ -34,11 +35,8 @@ Rails.application.routes.draw do
         end
       end
 
-      # Créditos
-      resources :credit_accounts, only: [ :show ]
-      resources :transactions, only: [ :index, :create ]
 
-      # Estadísticas
+      resources :transactions, only: [ :index, :create ]
       resources :email_logs, only: [ :index, :show ]
       resources :bounces, only: [ :index, :show ]
 
