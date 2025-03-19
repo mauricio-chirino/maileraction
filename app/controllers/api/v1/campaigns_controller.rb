@@ -78,12 +78,26 @@ module Api
 
 
 
-      # POST /api/v1/campaigns/:id/send_campaign
+      # POST /api/v1/campaigns/:id/send
       def send_campaign
         authorize @campaign, :send?
-        # lógica de envío (Solid Queue Job)
+
+        if @campaign.status == "sent"
+          render json: { error: "La campaña ya fue enviada." }, status: :unprocessable_entity and return
+        end
+
+        @campaign.update!(status: "in_progress")
+
+        Campaigns::SendCampaignJob.perform_later(@campaign.id)
+
         render json: { message: "Campaña en cola para envío." }
       end
+
+
+
+
+
+
 
       private
 
