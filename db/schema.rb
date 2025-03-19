@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_12_044642) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_15_033236) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -121,6 +121,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_12_044642) do
     t.bigint "credit_account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "campaign_id"
+    t.index ["campaign_id"], name: "index_transactions_on_campaign_id"
     t.index ["credit_account_id"], name: "index_transactions_on_credit_account_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
@@ -145,6 +147,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_12_044642) do
   add_foreign_key "email_logs", "email_records"
   add_foreign_key "email_records", "industries"
   add_foreign_key "sessions", "users"
+  add_foreign_key "transactions", "campaigns"
   add_foreign_key "transactions", "credit_accounts"
   add_foreign_key "transactions", "users"
   add_foreign_key "users", "plans"

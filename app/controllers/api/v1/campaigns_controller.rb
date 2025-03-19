@@ -2,7 +2,8 @@ module Api
   module V1
     class CampaignsController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_campaign, only: [ :show, :update, :destroy, :stats, :send ]
+      before_action :set_campaign, only: [ :show, :update, :destroy, :stats, :send_campaign ]
+
 
       # GET /api/v1/campaigns
       def index
@@ -45,18 +46,40 @@ module Api
         head :no_content
       end
 
+
+
       # GET /api/v1/campaigns/:id/stats
       def stats
         authorize @campaign, :stats?
+
+        logs = EmailLog.where(campaign_id: @campaign.id)
+
+        total_sent = logs.count
+        total_opens = logs.where.not(opened_at: nil).count
+        total_clicks = logs.where.not(clicked_at: nil).count
+        total_bounces = Bounce.joins(:email_record).where(email_records: { campaign_id: @campaign.id }).count
+
+        open_rate = total_sent > 0 ? ((total_opens.to_f / total_sent) * 100).round(2) : 0
+        click_rate = total_sent > 0 ? ((total_clicks.to_f / total_sent) * 100).round(2) : 0
+        bounce_rate = total_sent > 0 ? ((total_bounces.to_f / total_sent) * 100).round(2) : 0
+
         render json: {
-          opens: EmailLog.where(campaign_id: @campaign.id).where.not(opened_at: nil).count,
-          clicks: EmailLog.where(campaign_id: @campaign.id).where.not(clicked_at: nil).count,
-          bounces: Bounce.joins(:email_record).where(email_records: { campaign_id: @campaign.id }).count
+          campaign_id: @campaign.id,
+          emails_sent: total_sent,
+          emails_opened: total_opens,
+          emails_clicked: total_clicks,
+          emails_bounced: total_bounces,
+          open_rate: "#{open_rate}%",
+          click_rate: "#{click_rate}%",
+          bounce_rate: "#{bounce_rate}%"
         }
       end
 
-      # POST /api/v1/campaigns/:id/send
-      def send
+
+
+
+      # POST /api/v1/campaigns/:id/send_campaign
+      def send_campaign
         authorize @campaign, :send?
         # lógica de envío (Solid Queue Job)
         render json: { message: "Campaña en cola para envío." }

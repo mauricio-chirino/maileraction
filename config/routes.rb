@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       resources :campaigns, only: [ :index, :create, :show, :update, :destroy ] do
         member do
           get :stats        # /api/v1/campaigns/:id/stats
-          post :send        # /api/v1/campaigns/:id/send
+          post :send_campaign       # /api/v1/campaigns/:id/send
         end
       end
 

@@ -36,11 +36,13 @@ module Api
           render json: { error: "Créditos insuficientes." }, status: :unprocessable_entity and return
         end
 
+        transaction = nil
+
         # Transacción atómica
         ActiveRecord::Base.transaction do
           credit_account.decrement!(:available_credit, email_count)
 
-          Transaction.create!(
+          transaction = Transaction.create!(
             user: current_user,
             credit_account: credit_account,
             amount: email_count,
@@ -50,12 +52,12 @@ module Api
           )
         end
 
-
         render json: {
           credit_account: CreditAccountSerializer.new(credit_account),
           transaction: TransactionSerializer.new(transaction)
         }
       end
+
 
 
 
