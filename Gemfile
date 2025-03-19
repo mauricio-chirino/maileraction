@@ -56,3 +56,5 @@ gem "rack-cors"
 
 gem "jwt"
 gem "active_model_serializers", "~> 0.10.15"
+
+gem "aws-sdk-ses", "~> 1"
