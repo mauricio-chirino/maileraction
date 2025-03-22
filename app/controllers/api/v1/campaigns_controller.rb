@@ -106,7 +106,7 @@ module Api
       end
 
       def campaign_params
-        params.require(:campaign).permit(:industry_id, :email_limit, :status)
+        params.require(:campaign).permit(:industry_id, :email_limit, :status, :subject, :body)
       end
     end
   end
