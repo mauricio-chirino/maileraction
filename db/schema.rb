@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_22_035420) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_22_051516) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -265,6 +265,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_22_035420) do
     t.datetime "updated_at", null: false
     t.integer "role", default: 4, null: false
     t.bigint "plan_id"
+    t.string "time_zone"
     t.index ["plan_id"], name: "index_users_on_plan_id"
   end
 
