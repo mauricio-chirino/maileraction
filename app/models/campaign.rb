@@ -8,4 +8,7 @@ class Campaign < ApplicationRecord
 
   validates :email_limit, numericality: { greater_than: 0 }
   validates :status, inclusion: { in: %w[pending sending completed] }
+
+  validates :subject, presence: true
+  validates :body, presence: true
 end

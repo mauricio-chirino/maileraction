@@ -5,7 +5,16 @@ module Campaigns
 
     def perform(campaign_id)
       campaign = Campaign.find(campaign_id)
-      return if campaign.status == "sent"
+      return if campaign.status == "completed"
+
+
+      if campaign.subject.blank? || campaign.body.blank?
+        Rails.logger.warn("⚠️ Campaña #{campaign.id} sin asunto o contenido. No se envió.")
+        return
+      end
+
+
+
 
       recipients = EmailRecord.where(industry_id: campaign.industry_id)
                               .limit(campaign.email_limit)
@@ -34,6 +43,15 @@ module Campaigns
             source: sender
           })
 
+
+          # ✅ Guardar en EmailLog
+          EmailLog.create!(
+            campaign_id: campaign.id,
+            email: recipient.email,
+            message_id: response.message_id
+          )
+
+
           Rails.logger.info("✅ Email enviado a #{recipient.email}, ID: #{response.message_id}")
 
         rescue Aws::SES::Errors::ServiceError => e
@@ -41,7 +59,7 @@ module Campaigns
         end
       end
 
-      campaign.update!(status: "sent")
+      campaign.update!(status: "completed")
     end
   end
 end
