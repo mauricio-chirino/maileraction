@@ -59,6 +59,19 @@ module Campaigns
         end
       end
 
+
+      if EmailLog.where(status: "error").where("created_at >= ?", 5.minutes.ago).count >= 3
+        AdminNotifierJob.perform_later("🚨 Se detectaron múltiples errores en el envío de emails de campañas en MailerAction.")
+      end
+
+
+      EmailErrorLog.create!(
+        email: recipient.email,
+        campaign_id: campaign.id,
+        error: e.message
+      )
+
+
       campaign.update!(status: "completed")
     end
   end

@@ -1,0 +1,2 @@
+class EmailErrorLog < ApplicationRecord
+end
