@@ -1,4 +1,3 @@
-# app/jobs/campaigns/send_campaign_job.rb
 module Campaigns
   class SendCampaignJob < ApplicationJob
     queue_as :default
@@ -7,13 +6,31 @@ module Campaigns
       campaign = Campaign.find(campaign_id)
       return if campaign.status == "completed"
 
-      if campaign.subject.blank? || campaign.body.blank?
+      # 🧠 Usar el contenido de la plantilla si body está vacío
+      email_body = campaign.body.presence || campaign.template&.content
+
+      if campaign.subject.blank? || email_body.blank?
         Rails.logger.warn("⚠️ Campaña #{campaign.id} sin asunto o contenido. No se envió.")
+        campaign.update!(status: "failed")
+
+        AdminNotifierJob.perform_later("❌ Campaña #{campaign.id} falló: sin asunto o contenido.")
         return
       end
 
+
+
       recipients = EmailRecord.where(industry_id: campaign.industry_id)
                               .limit(campaign.email_limit)
+
+
+      if recipients.empty?
+        Rails.logger.warn("⚠️ Campaña #{campaign.id} no tiene destinatarios. No se envió.")
+        campaign.update!(status: "failed")
+        AdminNotifierJob.perform_later("📭 Campaña #{campaign.id} no tiene destinatarios y no fue enviada.")
+        return
+      end
+
+
 
       ses = Aws::SES::Client.new
       sender = ENV["SES_VERIFIED_SENDER"] || "info@maileraction.com"
@@ -24,7 +41,7 @@ module Campaigns
             destination: { to_addresses: [ recipient.email ] },
             message: {
               body: {
-                html: { charset: "UTF-8", data: campaign.body }
+                html: { charset: "UTF-8", data: email_body }
               },
               subject: {
                 charset: "UTF-8", data: campaign.subject
@@ -33,7 +50,6 @@ module Campaigns
             source: sender
           })
 
-          # Guardar en EmailLog
           EmailLog.create!(
             campaign: campaign,
             email_record: recipient,
@@ -59,7 +75,6 @@ module Campaigns
         end
       end
 
-      # Notificar al admin si hubo 3 o más errores en los últimos 5 minutos
       if EmailLog.where(status: "error").where("created_at >= ?", 5.minutes.ago).count >= 3
         AdminNotifierJob.perform_later("🚨 Se detectaron múltiples errores en el envío de campañas.")
       end

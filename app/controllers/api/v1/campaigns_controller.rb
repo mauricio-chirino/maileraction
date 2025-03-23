@@ -17,17 +17,30 @@ module Api
         render json: @campaign, serializer: CampaignSerializer
       end
 
+
       # POST /api/v1/campaigns
       def create
         @campaign = current_user.campaigns.build(campaign_params)
-        authorize @campaign
 
+
+        # Verificación de ownership del template
+        if @campaign.template_id.present?
+          template = Template.find_by(id: @campaign.template_id)
+
+          if template.nil? || template.user_id != current_user.id
+            render json: { error: "No autorizado para usar esta plantilla" }, status: :forbidden and return
+          end
+        end
+
+
+        authorize @campaign
         if @campaign.save
           render json: @campaign, serializer: CampaignSerializer, status: :created
         else
           render json: { errors: @campaign.errors.full_messages }, status: :unprocessable_entity
         end
       end
+
 
       # PUT /api/v1/campaigns/:id
       def update
@@ -83,11 +96,11 @@ module Api
       def send_campaign
         authorize @campaign, :send?
 
-        if @campaign.status == "sent"
+        if @campaign.status == "completed"
           render json: { error: "La campaña ya fue enviada." }, status: :unprocessable_entity and return
         end
 
-        @campaign.update!(status: "in_progress")
+        @campaign.update!(status: "sending")
 
         Campaigns::SendCampaignJob.perform_later(@campaign.id)
 
@@ -107,7 +120,8 @@ module Api
       end
 
       def campaign_params
-        params.require(:campaign).permit(:industry_id, :email_limit, :status, :subject, :body)
+        # params.require(:campaign).permit(:industry_id, :email_limit, :status, :subject, :body)
+        params.require(:campaign).permit(:industry_id, :email_limit, :status, :subject, :body, :template_id)
       end
     end
   end
