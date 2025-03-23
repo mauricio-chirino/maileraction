@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_22_051516) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_22_060000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,6 +20,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_22_051516) do
     t.bigint "email_record_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "campaign_id"
+    t.index ["campaign_id"], name: "index_bounces_on_campaign_id"
     t.index ["email_record_id"], name: "index_bounces_on_email_record_id"
   end
 
@@ -269,6 +271,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_22_051516) do
     t.index ["plan_id"], name: "index_users_on_plan_id"
   end
 
+  add_foreign_key "bounces", "campaigns"
   add_foreign_key "bounces", "email_records"
   add_foreign_key "campaign_emails", "campaigns"
   add_foreign_key "campaign_emails", "email_records"

@@ -57,7 +57,8 @@ module Api
         total_sent = logs.count
         total_opens = logs.where.not(opened_at: nil).count
         total_clicks = logs.where.not(clicked_at: nil).count
-        total_bounces = Bounce.joins(:email_record).where(email_records: { campaign_id: @campaign.id }).count
+        # total_bounces = Bounce.joins(:email_record).where(email_records: { campaign_id: @campaign.id }).count
+        total_bounces = Bounce.where(campaign_id: @campaign.id).count
 
         open_rate = total_sent > 0 ? ((total_opens.to_f / total_sent) * 100).round(2) : 0
         click_rate = total_sent > 0 ? ((total_clicks.to_f / total_sent) * 100).round(2) : 0
