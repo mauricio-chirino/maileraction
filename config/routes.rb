@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   # API Version 1
   namespace :api do
     namespace :v1 do
+      get "template/index"
+      get "template/show"
+      get "template/create"
+      get "template/update"
+      get "template/destroy"
       get "me", to: "users#me"
 
 
@@ -21,7 +26,7 @@ Rails.application.routes.draw do
 
       post "credit_accounts/consume_campaign", to: "credit_accounts#consume_campaign"
 
-
+      resources :templates, only: [ :index, :create, :show, :update, :destroy ]
 
 
       # Rubros (Industries)

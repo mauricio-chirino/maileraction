@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :campaigns
 
+  has_many :templates
 
   has_one :credit_account
   has_many :transactions
