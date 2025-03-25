@@ -39,9 +39,19 @@ class Campaign < ApplicationRecord
   validates :status, inclusion: { in: %w[pending sending completed failed] }
 
   validates :subject, presence: true
-  validates :body, presence: true
+  # validates :body, presence: true
 
   validate :must_have_recipients
+
+  validate :body_or_template_present
+
+  def body_or_template_present
+    if body.blank? && template&.content.blank?
+      errors.add(:body, "no puede estar vacío si no se selecciona una plantilla con contenido.")
+    end
+  end
+
+
 
   private
 

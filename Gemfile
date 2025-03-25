@@ -45,6 +45,11 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Fixtures replacement with a straightforward definition syntax [https://github.com/thoughtbot/factory_bot_rails]
+  gem "factory_bot_rails"
+
+  gem "faker"
 end
 
 
@@ -58,3 +63,5 @@ gem "jwt"
 gem "active_model_serializers", "~> 0.10.15"
 
 gem "aws-sdk-ses", "~> 1"
+
+gem "rspec-rails", "~> 7.1", groups: [ :development, :test ]
