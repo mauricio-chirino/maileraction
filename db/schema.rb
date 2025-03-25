@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_25_033220) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_25_043758) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -92,6 +92,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_25_033220) do
     t.integer "email_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.text "body", null: false
+    t.datetime "read_at"
+    t.datetime "email_sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "plans", force: :cascade do |t|
@@ -308,6 +319,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_25_033220) do
   add_foreign_key "email_logs", "campaigns"
   add_foreign_key "email_logs", "email_records"
   add_foreign_key "email_records", "industries"
+  add_foreign_key "notifications", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

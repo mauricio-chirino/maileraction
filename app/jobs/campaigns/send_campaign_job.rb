@@ -33,7 +33,9 @@ module Campaigns
 
 
       ses = Aws::SES::Client.new
-      sender = ENV["SES_VERIFIED_SENDER"] || "info@maileraction.com"
+      # sender = ENV["SES_VERIFIED_SENDER"] || "info@maileraction.com"
+      #
+      sender = Rails.application.credentials.dig(:mailer, :from_email)
 
       recipients.each do |recipient|
         begin
