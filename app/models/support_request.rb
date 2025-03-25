@@ -19,4 +19,7 @@ class SupportRequest < ApplicationRecord
   validates :message, presence: true
   validates :category, inclusion: { in: %w[bug idea question] }
   validates :status, inclusion: { in: %w[open in_progress resolved] }
+
+  validates :priority, inclusion: { in: %w[low medium high] }
+  validates :source, inclusion: { in: %w[web mobile internal] }
 end
