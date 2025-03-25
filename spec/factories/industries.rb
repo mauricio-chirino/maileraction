@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :industry do
-    name { "Marketing" }
+    name { Faker::Company.industry }
   end
 end

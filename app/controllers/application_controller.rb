@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   around_action :set_time_zone_from_header
 
   include Authentication  # 👈 este es el bueno
-  include Pundit
+  include Pundit::Authorization
   # agrgados************************************
   include ActionController::Cookies
   include ActionController::Helpers

@@ -1,3 +1,34 @@
+# Configuración de rutas para la aplicación Rails.
+#
+# Rutas principales:
+# - resource :session: Define rutas para la sesión del usuario.
+# - resources :passwords, param: :token: Define rutas para la gestión de contraseñas utilizando un token.
+# - post "/login": Ruta para iniciar sesión.
+# - delete "/logout": Ruta para cerrar sesión.
+# - get "up": Ruta para verificar el estado de la aplicación (health check).
+#
+# API Version 1:
+# - namespace :api: Define un espacio de nombres para la API.
+# - namespace :v1: Define la versión 1 de la API.
+# - get "template/index": Ruta para listar plantillas.
+# - get "template/show": Ruta para mostrar una plantilla específica.
+# - get "template/create": Ruta para crear una nueva plantilla.
+# - get "template/update": Ruta para actualizar una plantilla existente.
+# - get "template/destroy": Ruta para eliminar una plantilla.
+# - get "me": Ruta para obtener información del usuario autenticado.
+# - get "credit_account": Ruta para mostrar la cuenta de crédito.
+# - post "credit_accounts/assign_initial": Ruta para asignar crédito inicial.
+# - post "credit_accounts/consume": Ruta para consumir crédito.
+# - post "credit_accounts/consume_campaign": Ruta para consumir crédito en una campaña.
+# - resources :templates: Define rutas para las operaciones CRUD de plantillas.
+# - resources :support_requests: Define rutas para la creación de solicitudes de soporte.
+# - resources :industries: Define rutas para listar y mostrar industrias.
+# - resources :campaigns: Define rutas para las operaciones CRUD de campañas, incluyendo estadísticas y envío de campañas.
+# - resources :transactions: Define rutas para listar y crear transacciones.
+# - resources :email_logs: Define rutas para listar y mostrar registros de correos electrónicos.
+# - resources :bounces: Define rutas para listar y mostrar rebotes de correos electrónicos.
+# - get "emails/available_count/:industry_id": Ruta para obtener el conteo de correos disponibles por industria.
+# - post "webhooks/:provider": Ruta para recibir webhooks de diferentes proveedores (Stripe, MercadoPago, etc.).
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
@@ -28,6 +59,7 @@ Rails.application.routes.draw do
 
       resources :templates, only: [ :index, :create, :show, :update, :destroy ]
 
+      resources :support_requests, only: [ :create ]
 
       # Rubros (Industries)
       resources :industries, only: [ :index, :show ]
