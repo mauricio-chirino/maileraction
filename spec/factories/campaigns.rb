@@ -2,8 +2,8 @@ FactoryBot.define do
   factory :campaign do
     user
     industry
-    email_limit { 5 }
-    subject { "Campaña de prueba" }
+    email_limit { 1 }
+    subject { "Campaña Autimatica" }
     body { "<p>Contenido de prueba</p>" }
     status { "pending" }
   end

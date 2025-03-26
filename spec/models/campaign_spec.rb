@@ -46,5 +46,20 @@ RSpec.describe Campaign, type: :model do
       expect(email_body).to eq("<h1>¡Hola!</h1>")
       expect(campaign).to be_valid
     end
+
+    it "es inválida si no tiene body ni template" do
+      campaign = Campaign.new(
+        user: user,
+        industry: industry,
+        email_limit: 5,
+        subject: "Campaña vacía",
+        body: nil,
+        template: nil,
+        status: "pending"
+      )
+
+      expect(campaign).not_to be_valid
+      expect(campaign.errors[:body]).to include("no puede estar vacío si no se selecciona una plantilla con contenido.")
+    end
   end
 end

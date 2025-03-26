@@ -43,7 +43,9 @@ class CampaignPolicy < ApplicationPolicy
 
 
 
-
+  def cancel?
+    user.admin? || record.user_id == user.id
+  end
 
     #   def index?
     #     user.admin? || user.campaign_manager? || user.user?

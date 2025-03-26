@@ -2,7 +2,7 @@ module Api
   module V1
     class CampaignsController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_campaign, only: [ :show, :update, :destroy, :stats, :send_campaign ]
+      before_action :set_campaign, only: [ :show, :update, :destroy, :stats, :send_campaign, :cancel ]
 
 
       # GET /api/v1/campaigns
@@ -107,6 +107,28 @@ module Api
         render json: { message: "Campaña en cola para envío." }
       end
 
+
+
+
+
+      # POST /api/v1/campaigns/:id/cancel
+      def cancel
+        authorize @campaign, :cancel?
+
+        if @campaign.status != "sending"
+          render json: { error: "Solo se pueden cancelar campañas en estado 'sending'." }, status: :unprocessable_entity and return
+        end
+
+        @campaign.update!(status: "cancelled")
+
+        Notification.create!(
+          user: @campaign.user,
+          title: "🚫 Campaña cancelada",
+          body: "La campaña \"#{@campaign.subject}\" fue cancelada antes de ser enviada."
+        )
+
+        render json: { message: "Campaña cancelada exitosamente." }, status: :ok
+      end
 
 
 

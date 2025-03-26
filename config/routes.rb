@@ -30,10 +30,10 @@
 # - get "emails/available_count/:industry_id": Ruta para obtener el conteo de correos disponibles por industria.
 # - post "webhooks/:provider": Ruta para recibir webhooks de diferentes proveedores (Stripe, MercadoPago, etc.).
 Rails.application.routes.draw do
+  # Autenticación
   resource :session
   resources :passwords, param: :token
-  # Autenticación (con UseAuthentication)
-  post "/login",  to: "sessions#create"
+  post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
   # Ruta de estado para health check
@@ -42,39 +42,45 @@ Rails.application.routes.draw do
   # API Version 1
   namespace :api do
     namespace :v1 do
+      # Templates
+      resources :templates, only: [ :index, :create, :show, :update, :destroy ]
       get "template/index"
       get "template/show"
       get "template/create"
       get "template/update"
       get "template/destroy"
+
+      # Usuarios
       get "me", to: "users#me"
 
-
+      # Cuentas de crédito
       get "credit_account", to: "credit_accounts#show"
       post "credit_accounts/assign_initial", to: "credit_accounts#assign_initial"
       post "credit_accounts/consume", to: "credit_accounts#consume"
-
-
       post "credit_accounts/consume_campaign", to: "credit_accounts#consume_campaign"
 
-      resources :templates, only: [ :index, :create, :show, :update, :destroy ]
-
+      # Solicitudes de soporte
       resources :support_requests, only: [ :create ]
 
-      # Rubros (Industries)
+      # Rubros (Industrias)
       resources :industries, only: [ :index, :show ]
 
       # Campañas
       resources :campaigns, only: [ :index, :create, :show, :update, :destroy ] do
         member do
-          get :stats        # /api/v1/campaigns/:id/stats
-          post :send_campaign       # /api/v1/campaigns/:id/send       # antes era :send, que causa conflictos
+          get :stats              # /api/v1/campaigns/:id/stats
+          post :send_campaign     # /api/v1/campaigns/:id/send_campaign
+          post :cancel            # /api/v1/campaigns/:id/cancel
         end
       end
 
-
+      # Transacciones
       resources :transactions, only: [ :index, :create ]
+
+      # Registros de correos electrónicos
       resources :email_logs, only: [ :index, :show ]
+
+      # Rebotes de correos electrónicos
       resources :bounces, only: [ :index, :show ]
 
       # Correos disponibles (por industria)

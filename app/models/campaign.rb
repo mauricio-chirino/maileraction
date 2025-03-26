@@ -22,6 +22,10 @@
 # - `must_have_recipients`: La campaña debe tener destinatarios. Si la industria o el límite de correos electrónicos es nil, se omite la validación. Si no hay destinatarios, se agrega un error a la base.
 
 class Campaign < ApplicationRecord
+  after_initialize do
+    self.status ||= "pending"
+  end
+
   belongs_to :user
   belongs_to :industry
 
@@ -36,7 +40,8 @@ class Campaign < ApplicationRecord
   delegate :content, to: :template, allow_nil: true
 
   validates :email_limit, numericality: { greater_than: 0 }
-  validates :status, inclusion: { in: %w[pending sending completed failed] }
+
+  validates :status, inclusion: { in: %w[pending sending completed failed cancelled] }
 
   validates :subject, presence: true
   # validates :body, presence: true
