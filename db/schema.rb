@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_27_010846) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_27_034339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,6 +63,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_27_010846) do
     t.text "error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "email_event_logs", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "event_type", null: false
+    t.jsonb "metadata", default: {}
+    t.bigint "campaign_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id"], name: "index_email_event_logs_on_campaign_id"
+    t.index ["email"], name: "index_email_event_logs_on_email"
+    t.index ["event_type"], name: "index_email_event_logs_on_event_type"
   end
 
   create_table "email_logs", force: :cascade do |t|
@@ -317,6 +329,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_27_010846) do
   add_foreign_key "campaigns", "templates"
   add_foreign_key "campaigns", "users"
   add_foreign_key "credit_accounts", "users"
+  add_foreign_key "email_event_logs", "campaigns"
   add_foreign_key "email_logs", "campaigns"
   add_foreign_key "email_logs", "email_records"
   add_foreign_key "email_records", "industries"
