@@ -1,4 +1,18 @@
 class CampaignPolicy < ApplicationPolicy
+  def allowed_roles_for_creation?
+    %w[admin campaign_manager user usuario_prepago].include?(user.role)
+  end
+
+
+
+  # Permite crear campañas si el usuario es:
+  # Administrador Gestor de campañas Usuario normal Usuario prepago
+  def create?
+    allowed_roles_for_creation?
+  end
+
+
+
   def index?
     user.present?
   end
@@ -11,15 +25,11 @@ class CampaignPolicy < ApplicationPolicy
     user.admin? || record.user_id == user.id
   end
 
-  # Permite crear campañas si el usuario es:
-  # Administrador Gestor de campañas Usuario normal Usuario prepago
-  def create?
-    user.campaign_manager? || user.admin? || user.user? || user.usuario_prepago?
-  end
+
 
   # Solo el administrador o el dueño de la campaña puede modificarla o eliminarla.
   def update?
-    user.admin? || record.user_id == user.id
+    user.admin? || user.campaign_manager? || record.user_id == user.id
   end
 
   def destroy?
@@ -30,7 +40,7 @@ class CampaignPolicy < ApplicationPolicy
   # El usuario es analista, o
   # Es el creador de la campaña
   def stats?
-    user.admin? || user.analyst? || record.user_id == user.id
+    user.admin? || user.analyst? || user.observer? || record.user_id == user.id
   end
 
   # Autoriza el envío de la campaña si el usuario tiene un rol que puede enviar:
@@ -38,38 +48,19 @@ class CampaignPolicy < ApplicationPolicy
   # Gestor de campañas
   # Usuario prepago
   def send?
-    user.campaign_manager? || user.admin? || user.usuario_prepago?
+    user.admin? || user.campaign_manager? || user.usuario_prepago?
   end
-
 
 
   def cancel?
     user.admin? || record.user_id == user.id
   end
 
-    #   def index?
-    #     user.admin? || user.campaign_manager? || user.user?
-    #   end
 
-    #   def create?
-    #     user.admin? || user.campaign_manager?
-    #   end
 
-    #   def update?
-    #     user.admin? || (user.campaign_manager? && record.user_id == user.id)
-    #   end
-
-    #   def destroy?
-    #     user.admin?
-    #   end
-
-    class Scope < Scope
-      def resolve
-        if user.admin?
-         scope.all
-        else
-          scope.where(user_id: user.id)
-        end
-      end
+  class Scope < Scope
+    def resolve
+      user.admin? ? scope.all : scope.where(user_id: user.id)
     end
+  end
 end

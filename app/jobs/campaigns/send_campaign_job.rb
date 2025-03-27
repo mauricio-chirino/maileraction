@@ -2,51 +2,10 @@ module Campaigns
   class SendCampaignJob < ApplicationJob
     queue_as :default
 
-    # Executes the process of sending a campaign email to a list of recipients.
-    #
-    # @param campaign_id [Integer] The ID of the campaign to be processed.
-    #
-    # The method performs the following steps:
-    # 1. Fetches the campaign by its ID and skips processing if the campaign's status is "completed".
-    # 2. Determines the email body using the campaign's body or its associated template content.
-    # 3. Logs a warning and marks the campaign as "failed" if the subject or email body is blank.
-    # 4. Retrieves a list of recipients based on the campaign's industry and email limit.
-    # 5. Logs a warning and marks the campaign as "failed" if no recipients are found.
-    # 6. Sends emails to the recipients using AWS SES, logging successes and errors.
-    # 7. Tracks errors and notifies an admin if multiple errors occur within a short time frame.
-    # 8. Updates the campaign's status to "completed" after processing.
-    # 9. Creates a notification for the user with a summary of the campaign's results.
-    # 10. Optionally sends an email notification to the user about the campaign's completion.
-    #
-    #
-    #
-    # Sends a campaign email to a list of recipients and handles logging, error tracking,
-    # and notifications for the campaign's progress and results.
-    #
-    # Notifications:
-    # - Creates a notification for the campaign's user summarizing the results of the email campaign.
-    # - The notification includes the total number of recipients, the number of successful emails,
-    #   the number of errors, and the error rate percentage.
-    # - Optionally triggers an email to the user with the campaign results.
-    #
-    # Parameters:
-    # - campaign_id: The ID of the campaign to be processed.
-    #
-    # Behavior:
-    # - If the campaign is already completed, it exits early.
-    # - If the campaign lacks a subject or content, it marks the campaign as failed and notifies the admin.
-    # - If there are no recipients, it marks the campaign as failed and notifies the admin.
-    # - Sends emails to recipients using AWS SES, logs successes and errors, and tracks error details.
-    # - If multiple errors are detected within a short time frame, it notifies the admin.
-    # - Updates the campaign status to "completed" after processing all recipients.
-    #
-
-
     def perform(campaign_id)
       campaign = Campaign.find(campaign_id)
       return if campaign.status == "completed"
 
-      # 🧠 Usar el contenido de la plantilla si body está vacío
       email_body = campaign.body.presence || campaign.template&.content
 
       if campaign.subject.blank? || email_body.blank?
@@ -57,10 +16,29 @@ module Campaigns
         return
       end
 
-
-
       recipients = EmailRecord.where(industry_id: campaign.industry_id)
                               .limit(campaign.email_limit)
+
+
+
+      if campaign.user.usuario_prepago?
+        credits_available = campaign.user.credit_account&.credits.to_i
+        if recipients.size > credits_available
+          Rails.logger.warn("❌ Usuario #{campaign.user.id} sin créditos suficientes para enviar la campaña.")
+          campaign.update!(status: "failed")
+          AdminNotifierJob.perform_later("❌ Usuario #{campaign.user.email_address} intentó enviar una campaña sin créditos suficientes.")
+          Notification.create!(
+            user: campaign.user,
+            title: "❌ No tienes créditos suficientes",
+            body: "Intentaste enviar tu campaña a #{recipients.size} destinatarios, pero solo tienes #{credits_available} créditos disponibles."
+          )
+          return
+        end
+      end
+
+
+
+
 
 
       if recipients.empty?
@@ -69,6 +47,39 @@ module Campaigns
         AdminNotifierJob.perform_later("📭 Campaña #{campaign.id} no tiene destinatarios y no fue enviada.")
         return
       end
+
+      # 🧮 Verificar créditos (solo para usuarios prepagos)
+      if campaign.user.role == "usuario_prepago"
+        credit_account = campaign.user.credit_account
+        if credit_account.nil? || credit_account.credits < recipients.count
+          Rails.logger.warn("❌ Usuario sin créditos suficientes para campaña #{campaign.id}")
+          campaign.update!(status: "failed")
+
+          Notification.create!(
+            user: campaign.user,
+            title: "⚠️ Campaña no enviada",
+            body: "No tenés créditos suficientes para enviar esta campaña. Créditos requeridos: #{recipients.count}."
+          )
+          return
+        end
+
+        # Descontar créditos
+        CreditAccount.transaction do
+          credit_account.update!(credits: credit_account.credits - recipients.count)
+
+          campaign.transaction do
+            recipients.each do |recipient|
+              Transaction.create!(
+                credit_account: credit_account,
+                amount: -1,
+                reason: "Envío de email a #{recipient.email}",
+                campaign: campaign
+              )
+            end
+          end
+        end
+      end
+
 
 
 
@@ -80,12 +91,8 @@ module Campaigns
           response = ses.send_email({
             destination: { to_addresses: [ recipient.email ] },
             message: {
-              body: {
-                html: { charset: "UTF-8", data: email_body }
-              },
-              subject: {
-                charset: "UTF-8", data: campaign.subject
-              }
+              body: { html: { charset: "UTF-8", data: email_body } },
+              subject: { charset: "UTF-8", data: campaign.subject }
             },
             source: sender
           })
@@ -96,8 +103,17 @@ module Campaigns
             status: "success"
           )
 
-          Rails.logger.info("✅ Email enviado a #{recipient.email}, ID: #{response.message_id}")
 
+
+          # ✅ Descontar 1 crédito si es usuario prepago
+          if campaign.user.usuario_prepago?
+            account = campaign.user.credit_account
+            account.update!(credits: account.credits - 1)
+          end
+
+
+
+          Rails.logger.info("✅ Email enviado a #{recipient.email}, ID: #{response.message_id}")
         rescue Aws::SES::Errors::ServiceError => e
           EmailLog.create!(
             campaign: campaign,
@@ -121,9 +137,9 @@ module Campaigns
 
       campaign.update!(status: "completed")
 
-      sent      = EmailLog.where(campaign: campaign, status: "success").count
-      errors    = EmailLog.where(campaign: campaign, status: "error").count
-      total     = sent + errors
+      sent   = EmailLog.where(campaign: campaign, status: "success").count
+      errors = EmailLog.where(campaign: campaign, status: "error").count
+      total  = sent + errors
 
       if total.zero?
         Notification.create!(
@@ -134,7 +150,7 @@ module Campaigns
       else
         error_pct = ((errors.to_f / total) * 100).round(1)
 
-        Notification.create!(
+        notification = Notification.create!(
           user: campaign.user,
           title: "✅ Tu campaña fue enviada con éxito",
           body: <<~MSG.strip
@@ -142,6 +158,8 @@ module Campaigns
             ✅ Éxito: #{sent} | ❌ Errores: #{errors} | ⚠️ Tasa de error: #{error_pct}%
           MSG
         )
+
+        Notifications::SendEmailJob.perform_later(notification.id)
       end
     end
   end
