@@ -1,18 +1,34 @@
 class EmailLog < ApplicationRecord
+  def self.statuses
+    %w[success error delivered]
+  end
+
+
   belongs_to :campaign
   belongs_to :email_record
 
-  enum status: { success: "success", error: "error", delivered: "delivered" }
-
-  # Validación personalizada del enum con mensaje explícito
-  validates :status, inclusion: {
-    in: statuses.keys,
-    message: "%{value} no es válido"
-  }
-
   # Scopes para trazabilidad de reembolsos
-  scope :refunded, -> { where(credit_refunded: true) }
-  scope :not_refunded, -> { where(credit_refunded: false) }
+  scope :refunded,     -> { where(credit_refunded: true) }
+  scope :not_refunded, -> { where(credit_refunded: [ false, nil ]) }
+
+  validates :status, inclusion: { in: statuses }
+
+  # Validación (opcional si decidís activarla)
+  # validates :status, inclusion: { in: ->(_) { statuses.keys }, message: "%{value} no es válido" }
+  #
+  #
+  # Métodos de conveniencia para manejar estados
+  def success?
+    status == "success"
+  end
+
+  def error?
+    status == "error"
+  end
+
+  def delivered?
+    status == "delivered"
+  end
 
   def refunded?
     credit_refunded
