@@ -1,0 +1,8 @@
+es:
+  activerecord:
+    errors:
+      models:
+        email_log:
+          attributes:
+            status:
+              inclusion: "El estado %{value} no es válido"

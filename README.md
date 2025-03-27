@@ -26,3 +26,30 @@ Things you may want to cover:
 
 * ...
 >>>>>>> 588b03b (Inicialización del proyecto MailerAction)
+
+# 📬 Modelo EmailLog
+
+El modelo `EmailLog` representa los registros de envíos de correos electrónicos realizados por campañas en MailerAction.
+
+## 🧱 Asociaciones
+
+- `belongs_to :campaign`
+- `belongs_to :email_record`
+
+## ✅ Campos relevantes
+
+| Campo              | Tipo     | Descripción                                                |
+|-------------------|----------|------------------------------------------------------------|
+| `status`          | string   | Estado del envío (`success`, `error`, `delivered`)         |
+| `credit_refunded` | boolean  | Indica si se devolvió el crédito (para planes prepagos)    |
+
+## 🚦 Enum: `status`
+
+Este campo usa un `enum` con valores:
+
+```ruby
+enum status: {
+  success: "success",
+  error: "error",
+  delivered: "delivered"
+}

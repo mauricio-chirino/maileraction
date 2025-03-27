@@ -59,6 +59,10 @@ Rails.application.routes.draw do
       post "credit_accounts/consume", to: "credit_accounts#consume"
       post "credit_accounts/consume_campaign", to: "credit_accounts#consume_campaign"
 
+
+      post "webhooks/aws_ses", to: "webhooks#aws_ses" # Ruta para recibir webhooks de AWS SES
+
+
       # Solicitudes de soporte
       resources :support_requests, only: [ :create ]
 

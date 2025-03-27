@@ -2,7 +2,7 @@
 class ReboundCreditRefunder
   def self.call(campaign_id:, email:)
     campaign = Campaign.find_by(id: campaign_id)
-    return unless campaign&.usuario_prepago?
+    return unless campaign&.user&.usuario_prepago?
 
     email_record = EmailRecord.find_by(email: email)
     return unless email_record

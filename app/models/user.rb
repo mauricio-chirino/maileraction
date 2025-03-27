@@ -43,7 +43,7 @@ class User < ApplicationRecord
   validates :email_address, presence: true, uniqueness: true
   validates :password, length: { minimum: 6 }, if: -> { password.present? }
 
-  enum :role, [ :admin, :campaign_manager, :designer, :analyst, :user, :collaborator, :observer ], default: :user
+  enum :role, [ :admin, :campaign_manager, :designer, :analyst, :user, :collaborator, :observer, :usuario_prepago ], default: :user
 
 
 

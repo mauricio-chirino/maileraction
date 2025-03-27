@@ -91,10 +91,17 @@ module Campaigns
           response = ses.send_email({
             destination: { to_addresses: [ recipient.email ] },
             message: {
-              body: { html: { charset: "UTF-8", data: email_body } },
-              subject: { charset: "UTF-8", data: campaign.subject }
+              body: {
+                html: { charset: "UTF-8", data: email_body }
+              },
+              subject: {
+                charset: "UTF-8", data: campaign.subject
+              }
             },
-            source: sender
+            source: sender,
+            tags: [ # Para que SES nos diga a qué campaña pertenece el rebote, necesitamos incluir un tag al enviar el email. Modificá el envío SES en tu job así:
+              { name: "campaign_id", value: campaign.id.to_s }
+            ]
           })
 
           EmailLog.create!(
