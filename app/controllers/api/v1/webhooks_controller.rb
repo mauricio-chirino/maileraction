@@ -11,8 +11,6 @@ module Api
       end
 
 
-
-
       def aws_ses
         raw = request.raw_post
         Rails.logger.info("Raw POST recibido: #{raw}")
