@@ -2,6 +2,8 @@ module Campaigns
   class SendCampaignJob < ApplicationJob
     queue_as :default
 
+    MAX_ATTEMPTS = 3
+
     def perform(campaign_id)
       campaign = Campaign.find(campaign_id)
       return if campaign.status == "completed"
@@ -13,7 +15,7 @@ module Campaigns
         AdminNotifierJob.perform_later("❌ Campaña #{campaign.id} falló: sin asunto o contenido.")
         NotificationSender.call(
           user: campaign.user,
-          title: "❌ Campaña no enviada",
+          title: "Campaña no enviada",
           body: "Tu campaña \"#{campaign.subject || 'Sin asunto'}\" no se envió porque le falta asunto o contenido."
         )
         return
@@ -32,53 +34,10 @@ module Campaigns
         return
       end
 
-      ses = Aws::SES::Client.new
-      sender = Rails.application.credentials.dig(:mailer, :from_email)
-
       recipients.each do |recipient|
         begin
-          response = ses.send_email({
-            destination: { to_addresses: [ recipient.email ] },
-            message: {
-              body: { html: { charset: "UTF-8", data: email_body } },
-              subject: { charset: "UTF-8", data: campaign.subject }
-            },
-            source: sender
-          })
-
-          EmailLog.create!(
-            campaign: campaign,
-            email_record: recipient,
-            status: "success"
-          )
-
-          EmailEventLogger.call(
-            email: recipient.email,
-            campaign: campaign,
-            event_type: "sent",
-            metadata: { message_id: response.message_id }
-          )
-
-        rescue Aws::SES::Errors::ServiceError => e
-          EmailLog.create!(
-            campaign: campaign,
-            email_record: recipient,
-            status: "error"
-          )
-
-          EmailErrorLog.create!(
-            email: recipient.email,
-            campaign_id: campaign.id,
-            error: e.message
-          )
-
-          EmailEventLogger.call(
-            email: recipient.email,
-            campaign: campaign,
-            event_type: "error",
-            metadata: { error_message: e.message }
-          )
-
+          Campaigns::CampaignEmailSender.call(campaign: campaign, recipient: recipient)
+        rescue => e
           Rails.logger.error("❌ Error al enviar a #{recipient.email}: #{e.message}")
         end
       end
@@ -99,7 +58,6 @@ module Campaigns
       total  = sent + errors
 
       if total.zero?
-        # No se envió a nadie
         NotificationSender.call(
           user: campaign.user,
           title: "⚠️ Campaña procesada sin envíos",
