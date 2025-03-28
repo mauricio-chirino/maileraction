@@ -3,10 +3,11 @@ module Campaigns
     queue_as :default
 
     MAX_ATTEMPTS = 3
+    RETRY_DELAY = 30.seconds
 
     def perform(campaign_id)
-      campaign = Campaign.find(campaign_id)
-      return if campaign.status == "completed"
+      campaign = Campaign.find_by(id: campaign_id)
+      return if campaign.nil? || campaign.status == "completed"
 
       email_body = campaign.body.presence || campaign.template&.content
 
@@ -22,49 +23,88 @@ module Campaigns
       end
 
       recipients = EmailRecord.where(industry_id: campaign.industry_id).limit(campaign.email_limit)
-
       if recipients.empty?
         campaign.update!(status: "failed")
-        AdminNotifierJob.perform_later("📭 Campaña #{campaign.id} no tiene destinatarios y no fue enviada.")
+        AdminNotifierJob.perform_later("📭 Campaña #{campaign.id} no tiene destinatarios.")
         NotificationSender.call(
           user: campaign.user,
-          title: "⚠️ Campaña procesada sin envíos",
-          body: "La campaña \"#{campaign.subject}\" fue procesada, pero no se registraron intentos de envío."
+          title: "⚠️ Campaña sin destinatarios",
+          body: "La campaña \"#{campaign.subject}\" no tiene destinatarios para enviar."
         )
         return
       end
 
+      ses = Aws::SES::Client.new
+      sender = Rails.application.credentials.dig(:mailer, :from_email)
+
       recipients.each do |recipient|
+        log = EmailLog.find_or_initialize_by(campaign: campaign, email_record: recipient)
+
+        next if log.status == "success"
+        next if log.attempts_count.to_i >= MAX_ATTEMPTS
+
         begin
-          Campaigns::CampaignEmailSender.call(campaign: campaign, recipient: recipient)
-        rescue => e
-          Rails.logger.error("❌ Error al enviar a #{recipient.email}: #{e.message}")
+          response = ses.send_email({
+            destination: { to_addresses: [ recipient.email ] },
+            message: {
+              body: { html: { charset: "UTF-8", data: email_body } },
+              subject: { charset: "UTF-8", data: campaign.subject }
+            },
+            source: sender
+          })
+
+          log.update!(
+            status: "success",
+            attempts_count: log.attempts_count.to_i + 1
+          )
+
+          EmailEventLogger.call(
+            email: recipient.email,
+            campaign: campaign,
+            event_type: "sent",
+            metadata: { message_id: response.message_id }
+          )
+
+        rescue Aws::SES::Errors::ServiceError => e
+          log.update!(
+            status: "error",
+            attempts_count: log.attempts_count.to_i + 1
+          )
+
+          EmailErrorLog.create!(
+            email: recipient.email,
+            campaign_id: campaign.id,
+            error: e.message
+          )
+
+          EmailEventLogger.call(
+            email: recipient.email,
+            campaign: campaign,
+            event_type: "error",
+            metadata: { error_message: e.message }
+          )
+
+          if log.attempts_count < MAX_ATTEMPTS
+            Rails.logger.warn("🔁 Reintentando a #{recipient.email} (#{log.attempts_count}/#{MAX_ATTEMPTS})")
+            Campaigns::SendCampaignJob.set(wait: RETRY_DELAY).perform_later(campaign.id)
+          else
+            Rails.logger.error("❌ Fallo permanente: #{recipient.email} después de #{MAX_ATTEMPTS} intentos")
+          end
         end
       end
 
-      if EmailLog.where(status: "error").where("created_at >= ?", 5.minutes.ago).count >= 3
-        AdminNotifierJob.perform_later("🚨 Se detectaron múltiples errores en el envío de campañas.")
-        NotificationSender.call(
-          user: campaign.user,
-          title: "🚨 Problemas en la campaña",
-          body: "Se detectaron múltiples errores al enviar tu campaña \"#{campaign.subject}\". Verifica el contenido o contacta soporte."
-        )
-      end
+      finalize_campaign(campaign)
+    end
 
-      campaign.update!(status: "completed")
+    private
 
-      sent   = EmailLog.where(campaign: campaign, status: "success").count
-      errors = EmailLog.where(campaign: campaign, status: "error").count
-      total  = sent + errors
-
-      if total.zero?
-        NotificationSender.call(
-          user: campaign.user,
-          title: "⚠️ Campaña procesada sin envíos",
-          body: "La campaña \"#{campaign.subject}\" fue procesada, pero no se registraron intentos de envío."
-        )
-      else
+    def finalize_campaign(campaign)
+      if EmailLog.where(campaign: campaign, status: "success").exists?
+        sent   = EmailLog.where(campaign: campaign, status: "success").count
+        errors = EmailLog.where(campaign: campaign, status: "error").count
+        total  = sent + errors
         error_pct = ((errors.to_f / total) * 100).round(1)
+
         NotificationSender.call(
           user: campaign.user,
           title: "✅ Tu campaña fue enviada con éxito",
@@ -73,7 +113,15 @@ module Campaigns
             ✅ Éxito: #{sent} | ❌ Errores: #{errors} | ⚠️ Tasa de error: #{error_pct}%
           MSG
         )
+      else
+        NotificationSender.call(
+          user: campaign.user,
+          title: "⚠️ Campaña procesada sin envíos",
+          body: "La campaña \"#{campaign.subject}\" no se pudo enviar a ningún destinatario."
+        )
       end
+
+      campaign.update!(status: "completed")
     end
   end
 end
