@@ -37,11 +37,30 @@ module Campaigns
       ses = Aws::SES::Client.new
       sender = Rails.application.credentials.dig(:mailer, :from_email)
 
-      recipients.each do |recipient|
-        log = EmailLog.find_or_initialize_by(campaign: campaign, email_record: recipient)
 
-        next if log.status == "success"
-        next if log.attempts_count.to_i >= MAX_ATTEMPTS
+        recipients.each do |recipient|
+          log = EmailLog.find_or_initialize_by(campaign: campaign, email_record: recipient)
+
+          if log.persisted? && log.status == "error" && log.attempts_count.to_i >= MAX_ATTEMPTS
+            if recipient.respond_to?(:increment_bounce!)
+              recipient.increment_bounce!
+              Rails.logger.warn("📤 Correo desactivado tras #{MAX_ATTEMPTS} intentos fallidos: #{recipient.email}")
+            end
+            next
+          end
+
+          next if log.status == "success"  # 👈 Si ya fue enviado exitosamente, no lo reenvíes
+
+          if log.attempts_count.to_i >= MAX_ATTEMPTS
+            Rails.logger.debug("📊 Evaluando bounce para #{recipient.email} con #{log.attempts_count} intentos.")
+            # 👇 Desactivar el correo si supera el máximo de intentos
+            if recipient.respond_to?(:increment_bounce!)
+              Rails.logger.debug("☠️ Ejecutando increment_bounce! para #{recipient.email}")
+              recipient.increment_bounce!
+              Rails.logger.warn("📤 Correo desactivado tras #{MAX_ATTEMPTS} intentos fallidos: #{recipient.email}")
+            end
+            next # 👈 Detiene el reenvío
+          end
 
         begin
           response = ses.send_email({
@@ -66,37 +85,35 @@ module Campaigns
           )
 
         rescue Aws::SES::Errors::ServiceError => e
-          email_log = EmailLog.find_or_initialize_by(campaign: campaign, email_record: recipient)
-          email_log.status = "error"
-          email_log.attempts_count = email_log.attempts_count.to_i + 1
-          email_log.save!
-        
+          log.status = "error"
+          log.attempts_count = log.attempts_count.to_i + 1
+          log.save!
+
           EmailErrorLog.create!(
             email: recipient.email,
             campaign_id: campaign.id,
             error: e.message
           )
-        
+
           EmailEventLogger.call(
             email: recipient.email,
             campaign: campaign,
             event_type: "error",
             metadata: { error_message: e.message }
           )
-        
+
           Rails.logger.error("❌ Error al enviar a #{recipient.email}: #{e.message}")
-        
-          if email_log.attempts_count >= MAX_ATTEMPTS
-            if recipient.respond_to?(:increment_bounce!)
-              recipient.increment_bounce!
-            end
+
+          if log.attempts_count >= MAX_ATTEMPTS
+            recipient.increment_bounce! if recipient.respond_to?(:increment_bounce!)
             Rails.logger.warn("📤 Correo desactivado tras #{MAX_ATTEMPTS} intentos fallidos: #{recipient.email}")
           else
-            Rails.logger.info("🔁 Reintentando a #{recipient.email} (#{email_log.attempts_count}/#{MAX_ATTEMPTS})")
-            SendCampaignJob.set(wait: 30.seconds).perform_later(campaign.id)
+            Rails.logger.info("🔁 Reintentando a #{recipient.email} (#{log.attempts_count}/#{MAX_ATTEMPTS})")
+            SendCampaignJob.set(wait: RETRY_DELAY).perform_later(campaign.id)
           end
-        
+        end
       end
+
 
       finalize_campaign(campaign)
     end
