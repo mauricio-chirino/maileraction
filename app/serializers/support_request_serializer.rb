@@ -12,5 +12,6 @@
 # - created_at: The timestamp when the support request was created.
 # - updated_at: The timestamp when the support request was last updated.
 class SupportRequestSerializer < ActiveModel::Serializer
-  attributes :id, :message, :category, :priority, :source, :status, :created_at, :updated_at
+  attributes :id, :message, :category, :status, :priority, :source, :created_at, :updated_at
+  belongs_to :user
 end

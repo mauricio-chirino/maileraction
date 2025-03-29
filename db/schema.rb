@@ -286,6 +286,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_29_004929) do
     t.string "source", default: "web"
     t.index ["user_id"], name: "index_support_requests_on_user_id"
   end
+  
 
   create_table "templates", force: :cascade do |t|
     t.string "name"

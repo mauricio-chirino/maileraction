@@ -17,18 +17,18 @@ class SupportRequest < ApplicationRecord
 
 
   validates :message, presence: true
-  validates :category, inclusion: { in: %w[bug idea question] }
-  validates :status, inclusion: { in: %w[open in_progress resolved] }
+  # validates :category, inclusion: { in: %w[bug idea question] }
 
-  validates :priority, inclusion: { in: %w[low medium high] }
-  validates :source, inclusion: { in: %w[web mobile internal] }
+  # validates :status, inclusion: { in: %w[open in_progress resolved] }
 
+  # validates :priority, inclusion: { in: %w[low medium high] }
+  # validates :source, inclusion: { in: %w[web mobile internal] }
 
 
   enum category: { bug: "bug", idea: "idea", question: "question" }
-  enum status: { open: "open", in_progress: "in_progress", resolved: "resolved" }
-  enum priority: { low: "low", medium: "medium", high: "high" }
-  enum source: { web: "web", mobile: "mobile", internal: "internal" }
+  # enum status: { open: "open", in_progress: "in_progress", resolved: "resolved" }
+  # enum priority: { low: "low", medium: "medium", high: "high" }
+  # enum source: { web: "web", mobile: "mobile", internal: "internal" }
 
   # 🔍 Scopes útiles para consultas frecuentes
   scope :open, -> { where(status: :open) }

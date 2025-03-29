@@ -19,12 +19,13 @@ module Api
   module V1
     class SupportRequestsController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_support_request, only: [ :show, :update ]
+      before_action :set_support_request, only: [ :create, :show, :update ]
+
 
       def create
         @support_request = current_user.support_requests.build(support_request_params)
-        authorize @support_request
-
+        authorize @support_request, :create? # 👈 Corregido
+      
         if @support_request.save
           AdminNotifierJob.perform_later("📬 Nuevo soporte de #{current_user.email_address}: #{@support_request.message}")
           render json: @support_request, status: :created

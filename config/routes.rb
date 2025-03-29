@@ -69,6 +69,8 @@ Rails.application.routes.draw do
       resources :support_requests, only: [ :create, :index, :show, :update ]
 
 
+
+
       # Rubros (Industrias)
       resources :industries, only: [ :index, :show ]
 
