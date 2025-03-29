@@ -14,7 +14,7 @@ class CampaignPolicy < ApplicationPolicy
 
 
   def index?
-    user.present?
+    user.admin? || user.campaign_manager? || user.user? || user.usuario_prepago?
   end
 
   # Permite ver una campaña si:
@@ -27,9 +27,15 @@ class CampaignPolicy < ApplicationPolicy
 
 
 
-  # Solo el administrador o el dueño de la campaña puede modificarla o eliminarla.
+  # Permite editar una campaña si:
+  # El usuario es admin, o
+  # Es el dueño de la campaña
+  # El usuario es gestor de campañas
+  # El usuario es colaborador prepago
+  # El usuario es observador prepago
+  # El usuario es analista
   def update?
-    user.admin? || user.campaign_manager? || record.user_id == user.id
+    can_manage_campaigns? || owns_campaign?
   end
 
   def destroy?
@@ -56,8 +62,23 @@ class CampaignPolicy < ApplicationPolicy
     user.admin? || record.user_id == user.id
   end
 
+  # Permite ver la lista de campañas si el usuario es admin o el creador de la campaña.
+  def owns_campaign?
+    record.user_id == user.id
+  end
 
 
+  # Permite ver las estadísticas de la campaña si el usuario es analista o el creador de la campaña.
+  def can_manage_campaigns?
+    user.admin? || user.campaign_manager?
+  end
+
+
+
+
+
+
+  # Permite ver las estadísticas de la campaña si el usuario es analista o el creador de la campaña.
   class Scope < Scope
     def resolve
       user.admin? ? scope.all : scope.where(user_id: user.id)

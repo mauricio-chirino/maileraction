@@ -22,4 +22,15 @@ class SupportRequest < ApplicationRecord
 
   validates :priority, inclusion: { in: %w[low medium high] }
   validates :source, inclusion: { in: %w[web mobile internal] }
+
+
+
+  enum category: { bug: "bug", idea: "idea", question: "question" }
+  enum status: { open: "open", in_progress: "in_progress", resolved: "resolved" }
+  enum priority: { low: "low", medium: "medium", high: "high" }
+  enum source: { web: "web", mobile: "mobile", internal: "internal" }
+
+  # 🔍 Scopes útiles para consultas frecuentes
+  scope :open, -> { where(status: :open) }
+  scope :by_priority, ->(level) { where(priority: level) }
 end
