@@ -6,4 +6,10 @@ class EmailRecord < ApplicationRecord
   has_many :campaigns, through: :campaign_emails
 
   validates :email, presence: true, uniqueness: true
+
+
+  def increment_bounce!
+    increment!(:bounces_count)
+    update!(active: false) if bounces_count >= 3
+  end
 end
