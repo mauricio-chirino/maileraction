@@ -1,17 +1,20 @@
-# Serializer for SupportRequest model.
-# This serializer defines the attributes to be included in the JSON representation
-# of a SupportRequest object.
-#
-# Attributes:
-# - id: The unique identifier of the support request.
-# - message: The message content of the support request.
-# - category: The category of the support request.
-# - priority: The priority level of the support request.
-# - source: The source from which the support request originated.
-# - status: The current status of the support request.
-# - created_at: The timestamp when the support request was created.
-# - updated_at: The timestamp when the support request was last updated.
 class SupportRequestSerializer < ActiveModel::Serializer
   attributes :id, :message, :category, :status, :priority, :source, :created_at, :updated_at
-  belongs_to :user
+  belongs_to :user, serializer: UserSerializer
+
+  def category
+    object.category&.to_s
+  end
+
+  def status
+    object.status&.to_s
+  end
+
+  def priority
+    object.priority&.to_s
+  end
+
+  def source
+    object.source&.to_s
+  end
 end

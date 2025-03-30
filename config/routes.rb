@@ -68,9 +68,6 @@ Rails.application.routes.draw do
       # Solicitudes de soporte
       resources :support_requests, only: [ :create, :index, :show, :update ]
 
-
-
-
       # Rubros (Industrias)
       resources :industries, only: [ :index, :show ]
 

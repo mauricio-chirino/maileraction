@@ -57,6 +57,9 @@ class User < ApplicationRecord
   ], default: :user
 
 
+
+
+
   def can?(action)
     Permissions.allowed?(role, action)
   end
