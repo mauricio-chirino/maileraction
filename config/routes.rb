@@ -89,6 +89,13 @@ Rails.application.routes.draw do
       # Ruta para obtener el estado de los scraping
       resources :public_email_records, only: [ :index ]
 
+      # Ruta para obtener el estado de los scraping
+      # /api/v1/scrape_targets
+      # /api/v1/scrape_targets/:id
+      # /api/v1/scrape_targets/:id/stop
+      # /api/v1/scrape_targets/:id/start
+      # /api/v1/scrape_targets/:id/force_stop
+      resources :scrape_targets, only: [ :create ]
 
 
       # Registros de correos electrónicos públicos

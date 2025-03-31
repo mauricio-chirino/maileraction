@@ -171,3 +171,91 @@ Editar
 | /api/v1/campaigns/:id/send_campaign      | POST     | ✅               | Enviar campaña y verificar consumo de créditos       |
 | /api/v1/campaigns/:id/stats              | GET      | ✅               | Ver estadísticas de una campaña                      |
 | /api/v1/admin/industries/reset_counts    | POST     | ✅ (admin)       | Recalcular contadores de emails por industria        |
+
+
+
+
+Querés correr scraping masivo con: ProcessScrapeTargetsJob.perform_later
+
+
+
+
+## 🌐 Gestión de Sitios Web para Scraping
+
+MailerAction permite administrar un listado de sitios web desde los cuales se extraerán correos electrónicos públicos mediante el modelo `ScrapeTarget`.
+
+### 🧱 Modelo `ScrapeTarget`
+
+Este modelo actúa como cola de scraping. Los campos clave son:
+
+| Campo            | Tipo      | Descripción                                      |
+|------------------|-----------|--------------------------------------------------|
+| `url`            | `string`  | Sitio web objetivo para scraping                |
+| `status`         | `string`  | Estado del scraping (`pending`, `done`, `failed`) |
+| `last_attempt_at`| `datetime`| Fecha del último intento de scraping            |
+
+---
+
+### 🚀 Formas de cargar sitios para scrapear
+
+#### ✅ Opción 1: Seed inicial (`db/seeds.rb`)
+
+Ideal para entorno local o pruebas iniciales:
+
+                ```ruby
+                [
+                  "https://empresa1.cl",
+                  "https://empresa2.cl",
+                  "https://empresa3.cl"
+                ].each do |url|
+                  ScrapeTarget.find_or_create_by(url: url) do |t|
+                    t.status = "pending"
+                  end
+                end
+
+                bin/rails db:seed
+
+
+Opción 2: Script personalizado (lib/scripts/import_scrape_targets.rb)
+                Útil para cargas masivas desde archivos .txt o .csv:
+
+
+                # lib/scripts/import_scrape_targets.rb
+                urls = File.readlines(Rails.root.join("lib", "data", "urls.txt")).map(&:strip)
+
+                urls.each do |url|
+                  ScrapeTarget.find_or_create_by(url: url) do |t|
+                    t.status = "pending"
+                  end
+                end
+
+                bin/rails runner lib/scripts/import_scrape_targets.rb
+
+
+
+Opción 3: Endpoint API
+            Permite agregar sitios desde otras apps o un panel admin:
+
+          POST /api/v1/scrape_targets
+          Content-Type: application/json
+
+          {
+            "url": "https://empresa4.cl"
+          } 
+
+           Procesamiento automático
+            Los sitios pendientes se procesan con el job:
+
+            ProcessScrapeTargetsJob.perform_later
+
+📌 Recomendación:
+
+Usar seed o script para carga inicial
+
+Usar el endpoint /scrape_targets para integraciones externas
+
+Ejecutar el job periódicamente con Solid Queue
+
+
+
+

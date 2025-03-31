@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_30_064901) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_31_021131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -148,6 +148,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_064901) do
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scrape_targets", force: :cascade do |t|
+    t.string "url"
+    t.string "status"
+    t.datetime "last_attempt_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
