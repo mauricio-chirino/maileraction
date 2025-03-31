@@ -42,6 +42,17 @@ Rails.application.routes.draw do
   # API Version 1
   namespace :api do
     namespace :v1 do
+      # Rutas de administración
+      # Rutas de administración para la API
+      namespace :admin do
+        post "industries/reset_counts", to: "industries#reset_counts"
+      end
+
+
+
+
+
+
       # Templates
       resources :templates, only: [ :index, :create, :show, :update, :destroy ]
       get "template/index"
@@ -70,6 +81,26 @@ Rails.application.routes.draw do
 
       # Rubros (Industrias)
       resources :industries, only: [ :index, :show ]
+
+      # Scraping de correos electrónicos
+      # Ruta para iniciar el scraping de correos electrónicos
+      post "scrape", to: "scrapings#create"
+
+      # Ruta para obtener el estado de los scraping
+      resources :public_email_records, only: [ :index ]
+
+
+
+      # Registros de correos electrónicos públicos
+      resources :public_email_records, only: [ :index, :show, :create ] do
+        collection do
+          get :by_industry
+          get :by_region
+          get :search # /api/v1/public_email_records/search?industry=Retail&limit=10
+        end
+      end
+
+
 
 
       # Campañas

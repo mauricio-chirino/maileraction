@@ -65,3 +65,7 @@ gem "active_model_serializers", "~> 0.10.15"
 gem "aws-sdk-ses", "~> 1"
 
 gem "rspec-rails", "~> 7.1", groups: [ :development, :test ]
+
+
+gem "httparty"
+gem "nokogiri"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_30_035428) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_30_064901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -105,9 +105,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_035428) do
 
   create_table "industries", force: :cascade do |t|
     t.string "name"
-    t.integer "email_count"
+    t.integer "email_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name_en"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -128,6 +129,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_035428) do
     t.integer "max_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "public_email_records", force: :cascade do |t|
+    t.string "email"
+    t.string "website"
+    t.string "address"
+    t.string "municipality"
+    t.string "city"
+    t.string "country"
+    t.string "company_name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "industry_id", null: false
+    t.index ["industry_id"], name: "index_public_email_records_on_industry_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -337,6 +353,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_30_035428) do
   add_foreign_key "email_logs", "email_records"
   add_foreign_key "email_records", "industries"
   add_foreign_key "notifications", "users"
+  add_foreign_key "public_email_records", "industries"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

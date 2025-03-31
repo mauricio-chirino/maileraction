@@ -1,0 +1,5 @@
+class AddIndustryToPublicEmailRecords < ActiveRecord::Migration[8.0]
+  def change
+    add_reference :public_email_records, :industry, null: false, foreign_key: true
+  end
+end
