@@ -77,6 +77,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
     aws-eventstream (1.3.2)
     aws-partitions (1.1069.0)
@@ -227,6 +229,7 @@ GEM
     psych (5.2.3)
       date
       stringio
+    public_suffix (6.0.1)
     puma (6.6.0)
       nio4r (~> 2.0)
     pundit (2.5.0)
@@ -384,6 +387,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.15)
+  addressable
   aws-sdk-ses (~> 1)
   bcrypt (~> 3.1.7)
   bootsnap

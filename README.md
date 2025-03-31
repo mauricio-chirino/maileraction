@@ -258,4 +258,34 @@ Ejecutar el job periódicamente con Solid Queue
 
 
 
+Scraping de Correos Públicos con DuckDuckGo
 
+  MailerAction utiliza un servicio automatizado para buscar y extraer correos públicos desde sitios web chilenos a través de búsquedas avanzadas en DuckDuckGo.
+
+  Proceso de Búsqueda
+  Se realiza una búsqueda en DuckDuckGo con una query específica por industria:
+
+    DuckDuckGoSearchScraperService.new("contacto@ logistica site:.cl", 1).scrape
+
+  Esto busca sitios chilenos con correos visibles relacionados a la industria de logística.
+
+
+  Se recorren los primeros resultados y se visita cada URL.
+
+  En cada sitio web, se realiza scraping con Nokogiri para obtener la siguiente información:
+
+
+## Campos extraídos por el Scraper de Correos Públicos
+
+| Campo           | Tipo      | ¿Se obtiene automáticamente? | Fuente en el sitio web                                |
+|------------------|-----------|------------------------------|------------------------------------------------------|
+| email           | string    | ✅ Sí                        | Extraído desde enlaces mailto:                       |
+| website         | string    | ✅ Sí                        | URL del sitio visitado desde DuckDuckGo              |
+| company_name    | string    | ✅ Sí                        | Título de la página o etiqueta `<meta property="og:site_name">` |
+| address         | string    | ⚠️ Parcial                   | Texto visible con patrones como “Av.”, “Calle”, etc. |
+| municipality    | string    | ⚠️ Parcial                   | A través del contenido si se encuentra explícitamente |
+| city            | string    | ⚠️ Parcial                   | Detectado por patrones de texto o ubicación          |
+| country         | string    | ✅ Fijo                      | Siempre asignado como "Chile"                        |
+| description     | text      | ✅ Sí                        | `<meta name="description">` o contenido del sitio    |
+| industry_id     | integer   | ✅ Sí                        | Asignado automáticamente según el keyword de búsqueda |
+| source_keyword  | string    | ✅ Sí                        | Palabra clave usada para buscar (ej. logistica, salud) |

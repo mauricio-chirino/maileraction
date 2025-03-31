@@ -14,13 +14,11 @@ class ChilePymesScraperService
 
     puts "📥 Respuesta: #{response.code} desde #{url}"
     puts "URL: #{url}"
-    parse_page(response.body)
-
-      if response.success?
-    parse_page(response.body)
-      else
-    puts "❌ Error al acceder al sitio (status: #{response.code})"
-      end
+    if response.success?
+      parse_page(response.body)
+    else
+      puts "❌ Error al acceder al sitio (status: #{response.code})"
+    end
   end
 
   private

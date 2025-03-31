@@ -69,3 +69,7 @@ gem "rspec-rails", "~> 7.1", groups: [ :development, :test ]
 
 gem "httparty"
 gem "nokogiri"
+
+# gem "playwright-ruby-client"
+# gem "ferrum"
+gem "addressable"
