@@ -289,3 +289,22 @@ Scraping de Correos Públicos con DuckDuckGo
 | description     | text      | ✅ Sí                        | `<meta name="description">` o contenido del sitio    |
 | industry_id     | integer   | ✅ Sí                        | Asignado automáticamente según el keyword de búsqueda |
 | source_keyword  | string    | ✅ Sí                        | Palabra clave usada para buscar (ej. logistica, salud) |
+
+
+
+
+
+## 🧠 Mejora automática de registros de correos públicos
+
+MailerAction incluye un job llamado `EnhancePublicEmailRecordsJob` que **visita automáticamente los sitios web extraídos durante el scraping inicial**, con el objetivo de recolectar información faltante, como:
+
+- Dirección (`address`)
+- Ciudad (`city`)
+- Comuna (`municipality`)
+- Descripción (`description`)
+- Nombre de empresa (`company_name`)
+
+### 🛠 Cómo ejecutarlo manualmente
+
+```bash
+bin/rails runner 'EnhancePublicEmailRecordsJob.perform_now'

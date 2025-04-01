@@ -26,8 +26,13 @@ module Api
       end
 
       def search
-        records = PublicEmailRecord.where(industry: params[:industry]).limit(params[:limit] || 10)
-        render json: records
+        industry = Industry.find_by(name: params[:industry])
+        if industry
+          records = PublicEmailRecord.where(industry: industry).limit(params[:limit] || 100)
+          render json: records
+        else
+          render json: { error: "Industria no encontrada" }, status: :not_found
+        end
       end
     end
   end

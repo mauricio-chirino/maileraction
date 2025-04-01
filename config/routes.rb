@@ -61,8 +61,16 @@ Rails.application.routes.draw do
       get "template/update"
       get "template/destroy"
 
+
+      # Ruta para obtener correos  electrónicos disponibles por industria
+      get "/api/v1/public_email_records/search", to: "public_email_records#search"
+
+
+
       # Usuarios
       get "me", to: "users#me"
+
+
 
       # Cuentas de crédito
       get "credit_account", to: "credit_accounts#show"
@@ -81,6 +89,10 @@ Rails.application.routes.draw do
 
       # Rubros (Industrias)
       resources :industries, only: [ :index, :show ]
+
+
+
+
 
       # Scraping de correos electrónicos
       # Ruta para iniciar el scraping de correos electrónicos
