@@ -62,6 +62,15 @@ Rails.application.routes.draw do
       get "template/destroy"
 
 
+      #
+      resources :industries, only: [ :index ]
+      # Ruta para obtener el conteo de correos electrónicos por industria
+      # /industries/email_counts
+      get "industries/email_counts", to: "industries#email_counts"
+
+
+
+
       # Ruta para obtener correos  electrónicos disponibles por industria
       get "/api/v1/public_email_records/search", to: "public_email_records#search"
 

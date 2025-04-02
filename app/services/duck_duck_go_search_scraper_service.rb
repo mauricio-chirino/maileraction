@@ -63,6 +63,7 @@ class DuckDuckGoSearchScraperService
       country: "Chile",
       description: extract_description(doc),
       industry: industry,
+      status: "pending",
       source_keyword: industry_keyword
     )
 

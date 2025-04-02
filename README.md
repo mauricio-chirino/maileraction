@@ -308,3 +308,366 @@ MailerAction incluye un job llamado `EnhancePublicEmailRecordsJob` que **visita 
 
 ```bash
 bin/rails runner 'EnhancePublicEmailRecordsJob.perform_now'
+
+
+
+
+
+
+
+
+
+🔐 Acceso a Registros Públicos de Correos (PublicEmailRecord)
+El acceso a la API de registros públicos de correos (/api/v1/public_email_records) está protegido por una política de autorización basada en roles, utilizando Pundit.
+
+✅ Roles autorizados
+Solo los siguientes roles tienen permiso para acceder a los registros públicos de correos:
+
+admin
+
+campaign_manager
+
+designer
+
+analyst
+
+user
+
+collaborator
+
+Los roles con acceso limitado o de solo visualización como observer, usuario_prepago, colaborador_prepago y observador_prepago no tienen acceso a esta funcionalidad por defecto.
+
+🧠 Lógica de autorización
+Implementada en app/policies/public_email_record_policy.rb:
+
+ruby
+Copiar
+Editar
+class PublicEmailRecordPolicy < ApplicationPolicy
+  def index?
+    allowed_roles = %w[admin campaign_manager designer analyst user collaborator]
+    allowed_roles.include?(user.role)
+  end
+
+  class Scope < Scope
+    def resolve
+      scope.all
+    end
+  end
+end
+
+
+
+
+
+
+
+
+🔍 API: Buscar y Filtrar Correos Públicos
+📥 Endpoint
+bash
+Copiar
+Editar
+GET /api/v1/public_email_records
+✅ Requiere Autenticación
+Sí. Solo roles autorizados pueden acceder. Ver acceso autorizado por roles.
+
+🎯 Parámetros de Filtro Soportados
+Parámetro	Tipo	Descripción
+industry_id	Integer	Filtra por ID de industria
+industry	String	Filtra por nombre de industria
+city	String	Filtra por nombre de ciudad
+status	String	Filtra por estado del correo: verified, unverified, rejected
+page	Integer	Número de página (por defecto: 1)
+per_page	Integer	Registros por página (máximo sugerido: 100)
+🧪 Ejemplo de uso en Postman
+📘 Headers
+http
+Copiar
+Editar
+Authorization: Bearer TU_TOKEN_AQUI
+Content-Type: application/json
+📗 Request
+bash
+Copiar
+Editar
+GET /api/v1/public_email_records?industry=Veterinarias&city=Santiago&status=verified&page=1&per_page=20
+📙 Respuesta esperada
+json
+Copiar
+Editar
+{
+  "public_email_records": [
+    {
+      "id": 123,
+      "email": "info@clinicaveterinaria.cl",
+      "company_name": "Clínica Veterinaria Santiago",
+      "city": "Santiago",
+      "status": "verified",
+      "industry": {
+        "id": 8,
+        "name": "Veterinarias"
+      }
+    },
+    ...
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 20,
+    "total_pages": 3,
+    "total_count": 45
+  }
+}
+📄 Notas Técnicas
+La paginación está implementada usando la gema kaminari.
+
+Por defecto, solo se muestran correos con estado verified si no se especifica el parámetro status.
+
+Si no se encuentra la industria o ciudad, se devuelve una lista vacía.
+
+
+
+
+
+
+
+
+
+🔎 API: Búsqueda Rápida por Industria
+📥 Endpoint
+bash
+Copiar
+Editar
+GET /api/v1/public_email_records/search
+✅ Requiere Autenticación
+Sí. Sólo accesible para usuarios autenticados.
+
+🎯 Parámetros Requeridos
+Parámetro	Tipo	Descripción
+industry	String	Nombre exacto de la industria (como figura en /api/v1/industries)
+limit	Integer	(Opcional) Número máximo de resultados a retornar (por defecto: 100)
+🧪 Ejemplo de uso en Postman
+📘 Headers
+http
+Copiar
+Editar
+Authorization: Bearer TU_TOKEN_AQUI
+Content-Type: application/json
+📗 Request
+bash
+Copiar
+Editar
+GET /api/v1/public_email_records/search?industry=Veterinarias&limit=10
+📙 Respuesta esperada
+json
+Copiar
+Editar
+[
+  {
+    "id": 201,
+    "email": "contacto@veterinariafeliz.cl",
+    "company_name": "Veterinaria Feliz",
+    "city": "Valparaíso",
+    "status": "verified",
+    "industry_id": 8,
+    "website": "https://veterinariafeliz.cl"
+  },
+  ...
+]
+💡 Consideraciones
+Este endpoint es útil para integraciones rápidas o pruebas.
+
+No incluye paginación ni estructura de meta.
+
+Solo devuelve registros cuya industria coincide exactamente con el nombre enviado.
+
+La cantidad máxima de resultados puede ser limitada para evitar cargas innecesarias al sistema.
+
+
+
+
+
+
+
+
+
+
+🔎 API: Búsqueda Rápida por Industria
+📥 Endpoint
+bash
+Copiar
+Editar
+GET /api/v1/public_email_records/search
+✅ Requiere Autenticación
+Sí. Sólo accesible para usuarios autenticados con token válido.
+
+🎯 Parámetros
+Parámetro	Tipo	Requerido	Descripción
+industry	String	✅	Nombre exacto de la industria (según /api/v1/industries)
+limit	Integer	❌	Cantidad máxima de resultados. Por defecto: 100
+📘 Headers Requeridos
+pgsql
+Copiar
+Editar
+Authorization: Bearer TU_TOKEN_AQUI
+Content-Type: application/json
+🧪 Ejemplo de uso en Postman
+bash
+Copiar
+Editar
+GET /api/v1/public_email_records/search?industry=Veterinarias&limit=10
+📟 Ejemplo con cURL
+bash
+Copiar
+Editar
+curl -X GET "https://maileraction.com/api/v1/public_email_records/search?industry=Veterinarias&limit=10" \
+  -H "Authorization: Bearer TU_TOKEN_AQUI" \
+  -H "Content-Type: application/json"
+📦 Respuesta esperada
+json
+Copiar
+Editar
+[
+  {
+    "id": 201,
+    "email": "info@veterinariafeliz.cl",
+    "company_name": "Veterinaria Feliz",
+    "address": "Av. Los Leones 456",
+    "city": "Santiago",
+    "municipality": "Providencia",
+    "country": "Chile",
+    "description": "Clínica veterinaria para mascotas",
+    "industry_id": 8,
+    "website": "https://veterinariafeliz.cl",
+    "status": "verified"
+  },
+  ...
+]
+💡 Notas importantes
+Sólo se incluyen registros verificados (status: "verified").
+
+Si el nombre de la industria no coincide, se retorna un mensaje de error.
+
+Los correos electrónicos no se muestran directamente para proteger la plataforma.
+
+El industry_id puede ser usado para búsquedas más avanzadas en otros endpoints.
+
+🤖 Sugerencias para Integraciones Externas
+Plataforma / Cliente	Recomendación de uso
+Python (requests)	Usa el header Authorization y convierte la respuesta con .json()
+JavaScript (Axios)	Ideal para integrar en apps React/Vue que consumen esta API
+Zapier / Make	Configura un Webhook con método GET y headers personalizados
+PostgREST / Supabase	Puedes construir wrappers si necesitas integraciones SQL-like
+
+
+
+*******************INTEGRACIONES *************************************************
+
+
+
+🔗 Ruby (con net/http)
+ruby
+Copiar
+Editar
+require 'net/http'
+require 'json'
+require 'uri'
+
+uri = URI("https://maileraction.com/api/v1/public_email_records/search?industry=Veterinarias&limit=10")
+req = Net::HTTP::Get.new(uri)
+req["Authorization"] = "Bearer TU_TOKEN_AQUI"
+
+res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+  http.request(req)
+end
+
+puts JSON.pretty_generate(JSON.parse(res.body))
+🐍 Python (con requests)
+python
+Copiar
+Editar
+import requests
+
+headers = {
+    "Authorization": "Bearer TU_TOKEN_AQUI",
+    "Content-Type": "application/json"
+}
+
+response = requests.get(
+    "https://maileraction.com/api/v1/public_email_records/search?industry=Veterinarias&limit=10",
+    headers=headers
+)
+
+print(response.json())
+🅰️ Angular (con HttpClient)
+typescript
+Copiar
+Editar
+this.http.get('/api/v1/public_email_records/search', {
+  params: { industry: 'Veterinarias', limit: '10' },
+  headers: { Authorization: 'Bearer TU_TOKEN_AQUI' }
+}).subscribe({
+  next: data => console.log(data),
+  error: err => console.error(err)
+});
+⚛️ React (con axios)
+jsx
+Copiar
+Editar
+import axios from 'axios';
+
+axios.get('https://maileraction.com/api/v1/public_email_records/search', {
+  params: {
+    industry: 'Veterinarias',
+    limit: 10
+  },
+  headers: {
+    Authorization: 'Bearer TU_TOKEN_AQUI'
+  }
+}).then(response => {
+  console.log(response.data);
+}).catch(error => {
+  console.error(error);
+});
+🐘 PHP (con curl)
+php
+Copiar
+Editar
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, "https://maileraction.com/api/v1/public_email_records/search?industry=Veterinarias&limit=10");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "Authorization: Bearer TU_TOKEN_AQUI",
+    "Content-Type: application/json"
+]);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+$data = json_decode($response, true);
+print_r($data);
+🌐 Node.js (con axios)
+javascript
+Copiar
+Editar
+const axios = require('axios');
+
+axios.get('https://maileraction.com/api/v1/public_email_records/search', {
+  params: { industry: 'Veterinarias', limit: 10 },
+  headers: { Authorization: 'Bearer TU_TOKEN_AQUI' }
+}).then(response => {
+  console.log(response.data);
+}).catch(error => {
+  console.error(error.response.data);
+});
+
+
+
+
+
+
+
+
+
+

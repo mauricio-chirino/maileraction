@@ -7,6 +7,12 @@ class PublicEmailRecord < ApplicationRecord
 
 
 
+
+  enum :status, [ :unverified, :verified, :rejected ]
+
+
+
+
   scope :by_industry, ->(industry) { where(industry: industry) }
   scope :by_city, ->(city) { where(city: city) }
 end
