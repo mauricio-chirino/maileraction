@@ -77,3 +77,5 @@ gem "nokogiri"
 # gem "playwright-ruby-client"
 # gem "ferrum"
 gem "addressable"
+
+gem "css-zero", "~> 1.1"

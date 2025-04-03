@@ -30,6 +30,7 @@
 # - get "emails/available_count/:industry_id": Ruta para obtener el conteo de correos disponibles por industria.
 # - post "webhooks/:provider": Ruta para recibir webhooks de diferentes proveedores (Stripe, MercadoPago, etc.).
 Rails.application.routes.draw do
+  get "home/index"
   # Autenticación
   resource :session
   resources :passwords, param: :token
@@ -174,6 +175,6 @@ Rails.application.routes.draw do
 
 
 
-  # Página principal
-  root "home#index"
+ # Página principal
+ root to: "web/home#index"
 end

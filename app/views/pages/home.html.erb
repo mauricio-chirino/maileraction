@@ -1,46 +1,53 @@
-<!-- app/views/pages/home.html.erb -->
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MailerAction - Tu campaña en la bandeja correcta</title>
-    <link href="https://cdn.jsdelivr.net/npm/@csszero/css@1.0.1/csszero.min.css" rel="stylesheet" />
-  </head>
-  <body class="container py-4">
-    <header class="d-flex justify-between align-center py-3">
-      <h1 class="text-xl font-bold">MailerAction</h1>
-      <nav>
-        <a href="#features" class="mr-4">Características</a>
-        <a href="#pricing" class="mr-4">Precios</a>
-        <a href="/login">Iniciar sesión</a>
-      </nav>
-    </header>
+<section class="text-center py-20">
+  <h1 class="text-5xl font-extrabold text-blue-700 mb-6">MailerAction</h1>
+  <p class="text-lg text-gray-600 mb-8">
+    Automatizá tus campañas de correo como un profesional. Rápido, seguro y sin complicaciones.
+  </p>
 
-    <section class="text-center py-6">
-      <h2 class="text-2xl font-bold mb-2">Envía campañas que llegan a la bandeja correcta</h2>
-      <p class="mb-4">MailerAction te permite enviar correos segmentados sin complicarte.</p>
-      <a href="/register" class="btn btn-primary">Probar Gratis</a>
-    </section>
+  <a href="/login" class="inline-block bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition">
+    Comenzar ahora 🚀
+  </a>
+</section>
 
-    <section id="features" class="py-5">
-      <h3 class="text-xl font-bold mb-3">Ventajas de MailerAction</h3>
-      <ul class="list-disc pl-5">
-        <li>✅ Campañas por rubro sin mostrar correos</li>
-        <li>✅ Créditos prepagos y planes flexibles</li>
-        <li>✅ Envíos desde tu propio dominio o desde MailerAction</li>
-        <li>✅ Estadísticas en tiempo real</li>
-        <li>✅ Sin necesidad de saber programar</li>
-      </ul>
-    </section>
+<section id="features" class="py-16 bg-gray-50">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl font-bold text-gray-800">¿Por qué elegir MailerAction?</h2>
+    <p class="text-gray-600">Más que una herramienta, una solución completa para tu negocio.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 max-w-6xl mx-auto">
+    <div class="p-6 border rounded shadow-sm bg-white">
+      <h3 class="text-xl font-semibold text-blue-700 mb-2">🎯 Segmentación Inteligente</h3>
+      <p class="text-gray-600">Enviá tus campañas a los rubros que realmente importan, sin desperdiciar correos.</p>
+    </div>
+    <div class="p-6 border rounded shadow-sm bg-white">
+      <h3 class="text-xl font-semibold text-blue-700 mb-2">📊 Estadísticas en tiempo real</h3>
+      <p class="text-gray-600">Medí aperturas, clics y rebotes para optimizar tus campañas al máximo.</p>
+    </div>
+    <div class="p-6 border rounded shadow-sm bg-white">
+      <h3 class="text-xl font-semibold text-blue-700 mb-2">🔒 Correos verificados</h3>
+      <p class="text-gray-600">Tu mensaje llega. Nosotros filtramos los correos válidos para vos.</p>
+    </div>
+  </div>
+</section>
 
-    <section id="pricing" class="py-5">
-      <h3 class="text-xl font-bold mb-3">Planes disponibles</h3>
-      <p>Próximamente podrás elegir entre planes Prepago, Empresa o Particular.</p>
-    </section>
-
-    <footer class="text-center py-4 mt-5 border-top">
-      <p>&copy; <%= Date.today.year %> MailerAction. Todos los derechos reservados.</p>
-    </footer>
-  </body>
-</html>
+<section id="plans" class="py-16 text-center">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6">Planes para cada tipo de usuario</h2>
+  <p class="text-gray-600 mb-10">Elegí el que se adapte a tu negocio</p>
+  <div class="flex flex-col md:flex-row justify-center gap-8 px-4">
+    <div class="bg-white border rounded-lg p-6 shadow-sm w-full md:w-1/3">
+      <h3 class="text-xl font-bold text-blue-700 mb-2">Starter</h3>
+      <p class="text-gray-600 mb-4">30 créditos gratis. Ideal para comenzar.</p>
+      <p class="font-bold text-lg">$0 CLP</p>
+    </div>
+    <div class="bg-white border rounded-lg p-6 shadow-md w-full md:w-1/3">
+      <h3 class="text-xl font-bold text-blue-700 mb-2">Pro</h3>
+      <p class="text-gray-600 mb-4">Automatización, plantillas premium y más envíos.</p>
+      <p class="font-bold text-lg">Desde $9.990 CLP</p>
+    </div>
+    <div class="bg-white border rounded-lg p-6 shadow-sm w-full md:w-1/3">
+      <h3 class="text-xl font-bold text-blue-700 mb-2">Empresas</h3>
+      <p class="text-gray-600 mb-4">Gestión avanzada para equipos y grandes volúmenes.</p>
+      <p class="font-bold text-lg">Planes a medida</p>
+    </div>
+  </div>
+</section>
