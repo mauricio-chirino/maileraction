@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>MailerAction - Tu campaña en la bandeja correcta</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://csszero.lazaronixon.com/favicon.ico" type="image/x-icon" />
+
+    <!-- CSSZero Stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@css-zero/core@latest/css/core.min.css">
+
+    <!-- Fonts opcional -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  </head>
+
+  <body class="font-sans antialiased text-gray-900 bg-white">
+    <header class="bg-white border-b shadow-sm">
+      <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold text-blue-600">MailerAction</a>
+        <nav class="space-x-4">
+          <a href="#features" class="text-gray-700 hover:text-blue-600">Ventajas</a>
+          <a href="#plans" class="text-gray-700 hover:text-blue-600">Planes</a>
+          <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Ingresar</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10">
+      <%= yield %>
+    </main>
+
+    <footer class="bg-gray-100 mt-12 border-t py-6 text-center text-sm text-gray-600">
+      © <%= Time.current.year %> MailerAction. Todos los derechos reservados.
+    </footer>
+  </body>
+</html>
+

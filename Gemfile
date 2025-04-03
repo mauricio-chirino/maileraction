@@ -52,6 +52,8 @@ group :development, :test do
   gem "faker"
 
   gem "foreman"
+
+  gem "pundit-matchers"
 end
 
 

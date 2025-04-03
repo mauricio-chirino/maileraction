@@ -671,3 +671,53 @@ axios.get('https://maileraction.com/api/v1/public_email_records/search', {
 
 
 
+Endpoint: Previsualizar una Plantilla
+Permite a un usuario autenticado ver cómo se renderiza una plantilla HTML antes de usarla en una campaña.
+
+Método	Ruta	Requiere Login	¿Qué hace?
+GET	/api/v1/templates/:id/preview	✅	Muestra una vista HTML renderizada de la plantilla seleccionada
+🔐 Permisos
+Solo el usuario propietario o si la plantilla es pública (public: true).
+
+🔧 Ejemplo de uso (Postman)
+URL:
+
+bash
+Copiar
+Editar
+GET http://localhost:3000/api/v1/templates/1/preview
+Headers:
+
+vbnet
+Copiar
+Editar
+Cookie: _session_id=TU_SESION_ID
+Accept: text/html
+📌 Recordá seleccionar "Text" como formato de respuesta en Postman, ya que devuelve HTML.
+
+
+
+
+Rutas clave para Plantillas (/api/v1/templates)
+Ruta	Método	Requiere Login	¿Qué hace?
+/api/v1/templates	GET	✅	Lista las plantillas visibles: públicas o del usuario autenticado.
+/api/v1/templates/:id	GET	✅	Muestra una plantilla si es del usuario o es pública.
+/api/v1/templates	POST	✅	Crea una nueva plantilla propia.
+/api/v1/templates/:id	PATCH	✅	Actualiza una plantilla propia.
+/api/v1/templates/:id	PUT	✅	(Alternativa a PATCH) Actualiza una plantilla propia.
+/api/v1/templates/:id	DELETE	✅	Elimina una plantilla propia.
+/api/v1/templates/:id/preview	GET	✅	Renderiza el contenido HTML de la plantilla. Solo disponible para el autor o si es pública.
+🛡️ Reglas de autorización (TemplatePolicy)
+Acción	Permitido si...
+index?	Cualquier usuario autenticado
+show?	Usuario autenticado y es el autor o plantilla pública
+create?	Cualquier usuario autenticado
+update?	Solo el autor
+destroy?	Solo el autor
+preview?	Igual que show?
+
+
+
+
+
+

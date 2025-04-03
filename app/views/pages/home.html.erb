@@ -1,0 +1,46 @@
+<!-- app/views/pages/home.html.erb -->
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MailerAction - Tu campaña en la bandeja correcta</title>
+    <link href="https://cdn.jsdelivr.net/npm/@csszero/css@1.0.1/csszero.min.css" rel="stylesheet" />
+  </head>
+  <body class="container py-4">
+    <header class="d-flex justify-between align-center py-3">
+      <h1 class="text-xl font-bold">MailerAction</h1>
+      <nav>
+        <a href="#features" class="mr-4">Características</a>
+        <a href="#pricing" class="mr-4">Precios</a>
+        <a href="/login">Iniciar sesión</a>
+      </nav>
+    </header>
+
+    <section class="text-center py-6">
+      <h2 class="text-2xl font-bold mb-2">Envía campañas que llegan a la bandeja correcta</h2>
+      <p class="mb-4">MailerAction te permite enviar correos segmentados sin complicarte.</p>
+      <a href="/register" class="btn btn-primary">Probar Gratis</a>
+    </section>
+
+    <section id="features" class="py-5">
+      <h3 class="text-xl font-bold mb-3">Ventajas de MailerAction</h3>
+      <ul class="list-disc pl-5">
+        <li>✅ Campañas por rubro sin mostrar correos</li>
+        <li>✅ Créditos prepagos y planes flexibles</li>
+        <li>✅ Envíos desde tu propio dominio o desde MailerAction</li>
+        <li>✅ Estadísticas en tiempo real</li>
+        <li>✅ Sin necesidad de saber programar</li>
+      </ul>
+    </section>
+
+    <section id="pricing" class="py-5">
+      <h3 class="text-xl font-bold mb-3">Planes disponibles</h3>
+      <p>Próximamente podrás elegir entre planes Prepago, Empresa o Particular.</p>
+    </section>
+
+    <footer class="text-center py-4 mt-5 border-top">
+      <p>&copy; <%= Date.today.year %> MailerAction. Todos los derechos reservados.</p>
+    </footer>
+  </body>
+</html>

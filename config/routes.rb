@@ -49,8 +49,16 @@ Rails.application.routes.draw do
       end
 
 
-
-
+      # Plantillas
+      # Rutas para la gestión de plantillas
+      # /api/v1/templates
+      # /api/v1/templates/:id
+      # /api/v1/templates/:id/preview
+      resources :templates do
+        member do
+          get :preview
+        end
+      end
 
 
       # Templates
@@ -138,7 +146,14 @@ Rails.application.routes.draw do
           post :send_campaign     # /api/v1/campaigns/:id/send_campaign
           post :cancel            # /api/v1/campaigns/:id/cancel
         end
+
+
+        collection do
+          get :monthly_summary
+        end
       end
+
+
 
       # Transacciones
       resources :transactions, only: [ :index, :create ]
@@ -156,4 +171,9 @@ Rails.application.routes.draw do
       post "webhooks/:provider", to: "webhooks#receive"
     end
   end
+
+
+
+  # Página principal
+  root "home#index"
 end
