@@ -1,44 +1,108 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Maileraction" %></title>
+    <title>MailerAction</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
+    <!-- Semantic UI CSS desde CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <!-- Estilos personalizados (Sprockets) -->
+    <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-<%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
-
-
-
-
-
+    <!-- Lordicon (para íconos animados) -->
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
   </head>
 
-  <body class="header-layout">
-    <header id="header">
-      <div class="container">
-        <h1 class="font-bold text-2xl">Maileraction</h1>
+  <body>
+    <!-- Fondo animado -->
+    <div id="tsparticles" style="position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%;"></div>
+
+    <!-- Encabezado -->
+    <header class="ui top fixed menu">
+      <div class="ui container">
+        <a href="/" class="header item">MailerAction</a>
+        <a href="#planes" class="item">Planes</a>
+        <a href="#testimonios" class="item">Testimonios</a>
+        <a href="#faq" class="item">FAQ</a>
       </div>
     </header>
 
-    <main id="main">
-      <% if notice.present? %>
-        <div popover class="flash" style="--flash-position: 5rem;" data-controller="element-removal" data-action="animationend->element-removal#remove" role="alert"><%= notice %></div>
-      <% end %>
-      <div class="container">
+    <!-- Contenido principal -->
+    <main style="margin-top: 5em;">
+      <div class="ui container">
         <%= yield %>
       </div>
     </main>
+
+    <!-- Pie de página -->
+    <footer class="ui vertical footer segment footer-custom">
+      <div class="ui center aligned container">
+        <div class="ui stackable grid">
+          <div class="eight wide column">
+            <h4 class="ui header">MailerAction</h4>
+            <p>Tu campaña en la bandeja correcta.</p>
+          </div>
+          <div class="eight wide column">
+            <h4 class="ui header">Contacto</h4>
+            <p>Email: contacto@maileraction.com</p>
+          </div>
+        </div>
+        <div class="ui divider"></div>
+        <p>© <%= Time.current.year %> MailerAction. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <!-- jQuery (requerido por Semantic UI) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" data-turbo-track="reload"></script>
+
+    <!-- Semantic UI JS -->
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js" data-turbo-track="reload"></script>
+
+    <!-- Inicializar componentes UI -->
+    <script>
+      $(document).ready(function() {
+        $('.ui.accordion').accordion();
+        $('.ui.dropdown').dropdown();
+      });
+    </script>
+
+
+    <div id="tsparticles"></div>
+
+
+    // tsParticles para animación de fondo
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
+    <script>
+      tsParticles.load("tsparticles", {
+        fullScreen: { enable: false },
+        background: {
+          color: { value: "#f9fafb" }
+        },
+        particles: {
+          number: { value: 50, density: { enable: true, area: 800 } },
+          color: { value: "#8e2de2" },
+          shape: { type: "circle" },
+          opacity: { value: 0.15 },
+          size: { value: 3 },
+          move: {
+            enable: true,
+            speed: 0.6,
+            direction: "none",
+            outModes: { default: "out" }
+          }
+        },
+        interactivity: {
+          events: {
+            onHover: { enable: false },
+            onClick: { enable: false }
+          }
+        },
+        detectRetina: true
+      });
+    </script>
   </body>
 </html>

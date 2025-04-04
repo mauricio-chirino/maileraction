@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require "sprockets/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -31,5 +32,6 @@ module Maileraction
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
     config.time_zone = "America/Santiago"
+    config.assets.paths << Rails.root.join("vendor", "assets", "stylesheets")
   end
 end

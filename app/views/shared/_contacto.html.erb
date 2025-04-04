@@ -1,0 +1,38 @@
+<section class="ui vertical segment contacto-section" id="contacto">
+  <div class="ui container center aligned">
+    <h2 class="ui header">Contáctanos</h2>
+    <p class="contacto-subtext">¿Tienes alguna pregunta o sugerencia? ¡Nos encantaría saber de ti!</p>
+
+    <div class="ui two column stackable grid" style="margin-top: 2rem;">
+      <div class="column">
+        <form class="ui form" action="/contacto" method="post">
+          <div class="field">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+          </div>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" placeholder="Tu correo" required>
+          </div>
+          <div class="field">
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="message" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+          </div>
+          <button type="submit" class="ui primary button fluid">Enviar mensaje</button>
+        </form>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+          <h4 class="ui header">Dirección</h4>
+          <p>📍 Calle Ficticia 123, Santiago, Chile</p>
+
+          <h4 class="ui header">Teléfono</h4>
+          <p>📞 +56 9 1234 5678</p>
+
+          <h4 class="ui header">Correo electrónico</h4>
+          <p>📧 contacto@maileraction.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

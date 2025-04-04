@@ -174,7 +174,18 @@ Rails.application.routes.draw do
   end
 
 
+  namespace :web do
+    get "/login", to: "sessions#new"
+    post "/login", to: "sessions#create"
+    delete "/logout", to: "sessions#destroy"
 
+    get "/signup", to: "registrations#new"
+    post "/signup", to: "registrations#create"
+
+
+    root "home#index"
+  end
  # Página principal
+ # root to: "web/home#index"
  root to: "web/home#index"
 end

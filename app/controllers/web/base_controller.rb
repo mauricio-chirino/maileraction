@@ -1,4 +1,3 @@
-# app/controllers/web/base_controller.rb
 module Web
   class BaseController < ActionController::Base
     protect_from_forgery with: :exception

@@ -78,4 +78,5 @@ gem "nokogiri"
 # gem "ferrum"
 gem "addressable"
 
+gem "sprockets-rails"
 gem "css-zero", "~> 1.1"

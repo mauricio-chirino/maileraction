@@ -1,76 +1,17 @@
-<section class="text-center py-20 bg-gradient-to-br from-blue-50 via-white to-blue-100 animate-fade-in">
-  <h1 class="text-5xl font-extrabold text-blue-700 mb-6 animate-fade-in-up delay-100">MailerAction</h1>
-  <p class="text-xl text-gray-700 mb-8 max-w-2xl mx-auto animate-fade-in-up delay-200">
-    Automatizá tus campañas de email como un profesional. Seguro, segmentado y sin complicaciones. 💌
-  </p>
 
-  <a href="/login" class="inline-block bg-blue-600 text-white px-6 py-3 rounded shadow-lg hover:bg-blue-700 transition transform hover:scale-105 animate-fade-in-up delay-300">
-    Comenzar ahora 🚀
-  </a>
-</section>
 
-<section id="features" class="py-20 bg-white">
-  <div class="text-center mb-12">
-    <h2 class="text-3xl font-bold text-gray-800 animate-fade-in-up">¿Por qué elegir MailerAction?</h2>
-    <p class="text-gray-600 animate-fade-in-up delay-100">Una solución de email marketing pensada para empresas y emprendedores de Chile.</p>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 max-w-6xl mx-auto">
-    <div class="p-6 border rounded shadow-sm bg-white hover:shadow-md transition animate-zoom-in delay-100">
-      <h3 class="text-xl font-semibold text-blue-700 mb-2">🎯 Segmentación Inteligente</h3>
-      <p class="text-gray-600">Seleccioná rubros y dejá que nuestro sistema se encargue de enviar los correos a quienes realmente importan.</p>
-    </div>
-    <div class="p-6 border rounded shadow-sm bg-white hover:shadow-md transition animate-zoom-in delay-200">
-      <h3 class="text-xl font-semibold text-blue-700 mb-2">📊 Estadísticas en tiempo real</h3>
-      <p class="text-gray-600">Visualizá aperturas, clics y rebotes de tus campañas para tomar decisiones basadas en datos.</p>
-    </div>
-    <div class="p-6 border rounded shadow-sm bg-white hover:shadow-md transition animate-zoom-in delay-300">
-      <h3 class="text-xl font-semibold text-blue-700 mb-2">🔒 Correos verificados</h3>
-      <p class="text-gray-600">Protegé tu reputación de envío. Usamos IA y scraping para asegurar que los emails sean válidos.</p>
-    </div>
-  </div>
-</section>
 
-<section id="plans" class="py-20 bg-gray-50">
-  <div class="text-center mb-12">
-    <h2 class="text-3xl font-bold text-gray-800 animate-fade-in-up">Planes flexibles para cada necesidad</h2>
-    <p class="text-gray-600 animate-fade-in-up delay-100">Adaptados a empresas, particulares y usuarios prepago.</p>
-  </div>
-  <div class="flex flex-col md:flex-row justify-center gap-8 px-6">
-    <div class="bg-white border rounded-lg p-6 shadow-md w-full md:w-1/3 hover:shadow-lg transition animate-fade-in-up delay-100">
-      <h3 class="text-xl font-bold text-blue-700 mb-2">Starter</h3>
-      <p class="text-gray-600 mb-4">30 créditos gratis para probar la plataforma.</p>
-      <p class="text-lg font-bold text-gray-800">GRATIS</p>
-    </div>
-    <div class="bg-white border rounded-lg p-6 shadow-md w-full md:w-1/3 hover:shadow-lg transition animate-fade-in-up delay-200">
-      <h3 class="text-xl font-bold text-blue-700 mb-2">Pro</h3>
-      <p class="text-gray-600 mb-4">Plantillas premium, automatización y más envíos.</p>
-      <p class="text-lg font-bold text-gray-800">$9.990 CLP / mes</p>
-    </div>
-    <div class="bg-white border rounded-lg p-6 shadow-md w-full md:w-1/3 hover:shadow-lg transition animate-fade-in-up delay-300">
-      <h3 class="text-xl font-bold text-blue-700 mb-2">Empresas</h3>
-      <p class="text-gray-600 mb-4">Soluciones a medida para grandes volúmenes y equipos.</p>
-      <p class="text-lg font-bold text-gray-800">A convenir</p>
-    </div>
-  </div>
-</section>
-<%= form_with url: nil, class: "card flex flex-col gap" do |form| %>
-  <div class="flex flex-col">
-    <h3 class="font-semibold leading-none mbe-1">Create project</h3>
-    <p class="text-sm text-subtle">Deploy your new project in one-click.</p>
-  </div>
-  <div class="flex flex-col gap mb-2">
-    <div class="flex flex-col gap-half">
-      <%= form.label :name, class: "text-sm font-medium leading-none" %>
-      <%= form.text_field :name, placeholder: "Name of your project", class: "input" %>
-    </div>
-    <div class="flex flex-col gap-half">
-      <%= form.label :framework, class: "text-sm font-medium leading-none" %>
-      <%= form.select :framework, [["Ruby on Rails", "ruby"], ["Laravel", "laravel"], ["Next", "next"]], {}, class: "input" %>
-    </div>
-  </div>
-  <div class="flex items-center justify-between">
-    <button type="reset" class="btn">Reset</button>
-    <%= form.submit "Destroy", class: "btn btn--primary" %>
-  </div>
-<% end %>
-cgdgd
+
+
+
+<%= render 'shared/hero' %>
+<%= render 'shared/funcionalidades' %>
+<%= render 'shared/testimonios' %>
+<%= render 'shared/cta' %>
+<%= render 'shared/contacto' %>
+<%= render 'shared/video_demo' %>
+<%= render 'shared/planes_comparador' %>
+<%= render 'shared/faq' %>
+<%= render 'shared/how_it_works' %>
+<%= render 'shared/benefits' %>
+<%= render 'shared/cta_final' %>

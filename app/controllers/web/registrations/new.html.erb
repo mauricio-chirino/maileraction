@@ -1,0 +1,35 @@
+<div class="ui middle aligned center aligned grid" style="height: 85vh;">
+  <div class="column" style="max-width: 450px;">
+    <h2 class="ui teal image header">
+      <img src="/logo.svg" class="image" alt="MailerAction logo">
+      <div class="content">Crear una cuenta nueva</div>
+    </h2>
+    <form class="ui large form" action="/signup" method="post">
+      <div class="ui stacked segment">
+        <div class="field">
+          <label>Nombre</label>
+          <input type="text" name="name" placeholder="Tu nombre" required>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="ejemplo@mail.com" required>
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <input type="password" name="password" placeholder="••••••••" required>
+        </div>
+        <div class="field">
+          <label>Confirmar Contraseña</label>
+          <input type="password" name="password_confirmation" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="ui fluid large teal button">Registrarme</button>
+      </div>
+
+      <div class="ui error message"></div>
+    </form>
+
+    <div class="ui message">
+      ¿Ya tenés cuenta? <a href="/login">Iniciá sesión</a>
+    </div>
+  </div>
+</div>
