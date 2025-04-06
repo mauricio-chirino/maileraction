@@ -15,6 +15,10 @@
 
     <!-- Lordicon (para íconos animados) -->
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+   <!-- Google Fonts al estilo Semantic UI -->
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
   </head>
 
   <body>
@@ -22,13 +26,14 @@
     <div id="tsparticles" style="position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%;"></div>
 
     <!-- Encabezado -->
-    <header class="ui top fixed menu">
-      <div class="ui container">
-        <a href="/" class="header item">MailerAction</a>
+    <header class="">
+      
+        <%# <a href="/" class="header item">MailerAction</a>
         <a href="#planes" class="item">Planes</a>
         <a href="#testimonios" class="item">Testimonios</a>
-        <a href="#faq" class="item">FAQ</a>
-      </div>
+        <a href="#faq" class="item">FAQ</a> %>
+        <%= render 'layouts/shared/navbar' %>
+ 
     </header>
 
     <!-- Contenido principal -->
@@ -42,18 +47,8 @@
     <footer class="ui vertical footer segment footer-custom">
       <div class="ui center aligned container">
         <div class="ui stackable grid">
-          <div class="eight wide column">
-            <h4 class="ui header">MailerAction</h4>
-            <p>Tu campaña en la bandeja correcta.</p>
-          </div>
-          <div class="eight wide column">
-            <h4 class="ui header">Contacto</h4>
-            <p>Email: contacto@maileraction.com</p>
-          </div>
+          <%= render "shared/footer" %>
         </div>
-        <div class="ui divider"></div>
-        <p>© <%= Time.current.year %> MailerAction. Todos los derechos reservados.</p>
-      </div>
     </footer>
 
     <!-- jQuery (requerido por Semantic UI) -->
@@ -74,7 +69,7 @@
     <div id="tsparticles"></div>
 
 
-    // tsParticles para animación de fondo
+    <!-- tsParticles para animación de fondo -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
     <script>
       tsParticles.load("tsparticles", {
@@ -104,5 +99,52 @@
         detectRetina: true
       });
     </script>
+
+    <div id="tsparticles"></div>
+
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const phrases = [
+          "Campañas inteligentes que crecen con vos",
+          "Emails segmentados que convierten",
+          "Automatizá tu marketing fácilmente",
+          "Analizá tus campañas en tiempo real",
+          "Diseñá correos atractivos sin esfuerzo",
+          "Aumentá tus ventas con MailerAction",
+          "Envía correos a los rubros que te interesan",
+          "Tus correos llegan a la bandeja correcta",
+          "Envía correos a los rubros que te interesan",
+
+
+        ];
+
+        let current = 0;
+        const el = document.getElementById("dynamic-heading");
+
+        setInterval(() => {
+          // Fade out (desvanecer suavemente)
+          el.classList.add("fade-out");
+
+          // Espera a que termine la animación
+          setTimeout(() => {
+            current = (current + 1) % phrases.length;
+            el.textContent = phrases[current];
+
+            // Fade in natural al remover la clase
+            el.classList.remove("fade-out");
+          }, 1000); // debe coincidir con el tiempo del transition
+        }, 5000); // cada 5 segundos
+      });
+    </script>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("active");
+  }
+</script>
+
   </body>
 </html>

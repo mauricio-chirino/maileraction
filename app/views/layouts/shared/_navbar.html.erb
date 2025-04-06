@@ -1,0 +1,66 @@
+<nav class="ui top fixed menu navbar-wrapper">
+  <div class="ui container navbar-inner">
+    
+    <!-- Logo -->
+    <a class="header item logo-text" href="/">
+      Mailer<span class="highlight">Action</span>
+    </a>
+
+    <!-- Menú de navegación (Desktop) -->
+    <div class="navbar-links">
+      <a href="#planes" class="item">Planes</a>
+      <a href="#testimonios" class="item">Testimonios</a>
+      <a href="#faq" class="item">FAQ</a>
+    </div>
+
+    <!-- Idioma y botones (Desktop) -->
+    <div class="navbar-actions">
+      <!-- Idioma -->
+      <div class="ui dropdown item language-selector">
+        <i class="globe icon"></i>
+        ES <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item">EN English</div>
+          <div class="item">ES Español</div>
+          <div class="item">FR Français</div>
+          <div class="item">BR Português</div>
+          <div class="item">DE Deutsch</div>
+          <div class="item">IT Italiano</div>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <a href="/login" class="ui button outline">Inicia sesión</a>
+      <a href="/register" class="ui button primary ml-2">Regístrate</a>
+    </div>
+
+    <!-- Botón Hamburguesa -->
+    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <i class="bars icon"></i>
+    </div>
+  </div>
+
+  <!-- Menú móvil (oculto por defecto) -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#planes" class="item">Planes</a>
+    <a href="#testimonios" class="item">Testimonios</a>
+    <a href="#faq" class="item">FAQ</a>
+    <a href="/login" class="ui button outline">Inicia sesión</a>
+    <a href="/register" class="ui button primary mt-2">Regístrate</a>
+
+    <div class="ui divider"></div>
+    <div class="ui simple dropdown item">
+      <i class="globe icon"></i>
+      Idioma
+      <div class="menu">
+        <div class="item">EN English</div>
+        <div class="item">ES Español</div>
+        <div class="item">FR Français</div>
+        <div class="item">BR Português</div>
+        <div class="item">DE Deutsch</div>
+        <div class="item">IT Italiano</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
