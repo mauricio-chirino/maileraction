@@ -1,0 +1,15 @@
+<!--
+<%= render 'shared/hero' %>
+<%= render 'shared/funcionalidades' %>
+<%= render 'shared/testimonios' %>
+<%= render 'shared/cta' %>
+<%= render 'shared/contacto' %>
+<%= render 'shared/video_demo' %>
+<%= render 'shared/planes_comparador' %>
+<%= render 'shared/faq' %>
+<%= render 'shared/how_it_works' %>
+<%= render 'shared/benefits' %>
+<%= render 'shared/cta_final' %>
+
+
+-->

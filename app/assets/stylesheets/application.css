@@ -3,4 +3,6 @@
  *= require maileraction
 
  *= require_self
+ *= require meraki_ui/components
+
 */

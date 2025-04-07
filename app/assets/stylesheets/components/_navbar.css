@@ -5,6 +5,16 @@
   z-index: 1000;
 }
 
+
+/* Ajuste para íconos del menú de navegación */
+.navbar-wrapper .ui.menu .dropdown .menu .item i.icon {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+  width: 1.2em; /* más estrecho */
+}
+
+
+
 .navbar-inner {
   display: flex;
   align-items: center;
@@ -24,13 +34,13 @@
 
 .navbar-links {
   display: flex;
-  gap: 2rem;
+  /*gap: 2rem;*/
 }
 
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  /*gap: 1rem;*/
 }
 
 .language-selector .menu {

@@ -1,30 +1,27 @@
+<!-- shared/_hero.html.erb -->
+
 <section class="hero-redesign ui vertical stripe segment">
-  <div class="ui stackable grid container">
-    <div class="eight wide column">
+  <div class="ui stackable grid container middle aligned">
+    <!-- Texto -->
+    <div class="eight wide column hero-content">
       <h1 class="hero-title">
-        <span>MailerAction</span><br>
-         <!--<strong>Campañas inteligentes<br>que crecen con vos</strong> -->
-
-          <h2 id="dynamic-heading" class="hero-dynamic-text">
-            Campañas inteligentes que crecen con vos
-          </h2>
-
-
-
-
-
+        <span>MailerAction</span>
+        <h2 id="dynamic-heading" class="hero-dynamic-text">
+          Campañas inteligentes que crecen con vos
+        </h2>
       </h1>
+
       <p class="hero-subtitle">
         Llevá tus campañas de email marketing al siguiente nivel con automatización, análisis y segmentación inteligente.
       </p>
 
-      <div class="ui stackable buttons" >
-        <a href="/login" class="ui huge primary button" style="align-items: center;">Comenzar ahora
-        
+      <div class="ui stackable buttons">
+        <a href="/login" class="ui huge primary button">Comenzar ahora</a>
         <a href="#video" class="ui huge basic violet button">Ver cómo funciona</a>
       </div>
     </div>
 
+    <!-- Imagen -->
     <div class="eight wide column">
       <%= image_tag '3.png', alt: 'Hero Image', class: 'hero-illustration' %>
     </div>

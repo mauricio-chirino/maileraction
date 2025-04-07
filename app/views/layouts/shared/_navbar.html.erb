@@ -1,6 +1,8 @@
+
+
+<%# 
 <nav class="ui top fixed menu navbar-wrapper">
   <div class="ui container navbar-inner">
-    
     <!-- Logo -->
     <a class="header item logo-text" href="/">
       Mailer<span class="highlight">Action</span>
@@ -8,13 +10,40 @@
 
     <!-- Menú de navegación (Desktop) -->
     <div class="navbar-links">
+      <!-- Dropdown Soluciones y servicios -->
+      <div class="ui dropdown item">
+        Soluciones y servicios <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="header">Funcionalidades</div>
+          <div class="item"><i class="envelope outline icon"></i> Marketing por correo electrónico</div>
+          <div class="item"><i class="globe icon"></i> Sitios web</div>
+          <div class="item"><i class="thumbs up outline icon"></i> Marketing en redes sociales</div>
+          <div class="item"><i class="clone outline icon"></i> Plantillas</div>
+          <div class="item"><i class="sync alternate icon"></i> Automatización de marketing</div>
+          <div class="item"><i class="chart bar icon"></i> Informes y análisis</div>
+          <div class="item"><i class="users icon"></i> Gestión de tu público</div>
+
+          <div class="divider"></div>
+          <div class="header">Estas son las novedades</div>
+          <div class="item"><i class="robot icon"></i> Herramientas de marketing de IA</div>
+          <div class="item"><i class="edit icon"></i> Herramientas de creación de contenido</div>
+          <div class="item"><i class="magnet icon"></i> Generación de clientes potenciales</div>
+          <div class="item"><i class="th icon"></i> Ver todas las características</div>
+        </div>
+      </div>
+
+      <!-- Enlaces adicionales -->
+      <a href="#precios" class="item">Precios</a>
       <a href="#planes" class="item">Planes</a>
-      <a href="#testimonios" class="item">Testimonios</a>
-      <a href="#faq" class="item">FAQ</a>
     </div>
 
-    <!-- Idioma y botones (Desktop) -->
+    <!-- Idioma, búsqueda y botones -->
     <div class="navbar-actions">
+      <!-- Ícono de búsqueda -->
+      <div class="item">
+        <i class="search icon"></i>
+      </div>
+
       <!-- Idioma -->
       <div class="ui dropdown item language-selector">
         <i class="globe icon"></i>
@@ -40,18 +69,16 @@
     </div>
   </div>
 
-  <!-- Menú móvil (oculto por defecto) -->
+  <!-- Menú móvil -->
   <div class="mobile-menu" id="mobileMenu">
+    <a href="#precios" class="item">Precios</a>
     <a href="#planes" class="item">Planes</a>
-    <a href="#testimonios" class="item">Testimonios</a>
-    <a href="#faq" class="item">FAQ</a>
     <a href="/login" class="ui button outline">Inicia sesión</a>
     <a href="/register" class="ui button primary mt-2">Regístrate</a>
 
     <div class="ui divider"></div>
     <div class="ui simple dropdown item">
-      <i class="globe icon"></i>
-      Idioma
+      <i class="globe icon"></i> Idioma
       <div class="menu">
         <div class="item">EN English</div>
         <div class="item">ES Español</div>
@@ -62,5 +89,4 @@
       </div>
     </div>
   </div>
-</nav>
-
+</nav> %>
