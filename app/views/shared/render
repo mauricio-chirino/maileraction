@@ -3,6 +3,8 @@
 <%= render 'shared/funcionalidades' %>
 <%= render 'shared/testimonios' %>
 <%= render 'shared/cta' %>
+
+
 <%= render 'shared/contacto' %>
 <%= render 'shared/video_demo' %>
 <%= render 'shared/planes_comparador' %>

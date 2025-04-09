@@ -1,0 +1,1009 @@
+/* Reset de los estilos predeterminados */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+body {
+  font-size: 16px;
+}
+
+/* Eliminar decoraciones de enlaces */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Eliminar los estilos por defecto de listas */
+ul, ol {
+  list-style: none;
+}
+
+/* Eliminar bordes y márgenes por defecto de tablas */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button, input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Restablecer el estilo del header, footer, main */
+header, footer, main, section, article {
+  display: block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  font-size: inherit;
+  color: inherit;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* Evitar que el contenido desborde fuera del viewport */
+html {
+  overflow-x: hidden;
+}
+
+/* Estilo para elementos de formulario */
+input, textarea, select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select {
+  background-color: transparent;
+}
+
+/* Configurar la apariencia de la tabla */
+table {
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+/* Quitar los bordes en los elementos por defecto */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilos para garantizar un diseño responsivo */
+
+/* Asegurar que el contenedor principal se ajuste al tamaño de la pantalla */
+html {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Para pantallas más pequeñas (móviles) */
+  @media (max-width: 767px) {
+    body {
+      font-size: 14px;
+    }
+  
+    header {
+      padding: 1em;
+    }
+  
+    .navbar-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .navbar-links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1em;
+    }
+  
+    .navbar-actions {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .navbar-actions .ui.button {
+      margin-top: 0.5em;
+    }
+  
+    .mobile-menu-toggle {
+      display: block;
+      font-size: 1.5rem;
+    }
+  
+    /* Menú móvil */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background-color: #fff;
+      padding: 1em;
+      width: 100%;
+    }
+  
+    .mobile-menu.active {
+      display: flex;
+    }
+  
+    .hero-title {
+      font-size: 2rem;
+      text-align: center;
+    }
+  
+    .hero-subtitle {
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 1em;
+    }
+  
+    .hero-illustration {
+      width: 100%;
+      margin-top: 2em;
+    }
+  
+    .cta-section .ui.header {
+      font-size: 1.5rem;
+    }
+  
+    .cta-section .button-primary {
+      width: 100%;
+      font-size: 1rem;
+    }
+  
+    /* Cards, grids y otros componentes */
+    .ui.card {
+      margin-bottom: 1rem;
+    }
+  
+    .plans-section .ui.card {
+      width: 100%;
+    }
+  
+    .footer-grid {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  
+  /* Para tabletas y pantallas medianas */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+  
+    .cta-section .ui.header {
+      font-size: 1.75rem;
+    }
+  }
+  
+  
+
+
+
+
+
+  /**************************************************/
+  
+.ui.vertical.segment {
+  background-color: #f9f9fb;
+  border: none;
+}
+
+.new-footer {
+  padding: 1rem 0;
+  background-color: #f9f9fb;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.new-footer.ui.header {
+  color: #111827;
+  font-weight: bold;
+}
+
+.new-footer a {
+  color: #4f46e5;
+}
+
+.new-footer a:hover {
+  text-decoration: underline;
+}
+
+p.conforme {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.ui.container.stackable.doubling.grid {
+  text-align: left !important;
+}
+
+#legal {
+  margin-top: 2rem !important;
+  font-size: 0.9rem !important;
+  color: #6b7280 !important;
+}
+
+.new-footer .ui.list .item {
+  padding: 0.3rem 0;
+}
+
+.ui.container.legal {
+  text-align: left !important;
+}
+
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+#derecho {
+  order: -1;
+}
+
+#conformidad {
+  order: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#conformidad i {
+  font-size: 24px;
+  justify-content: flex-end !important;
+}
+/* Estilo general para el navbar */
+
+
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav {
+      flex-direction: row;
+      margin-left: 5rem;
+  }
+}
+
+/* Estilos para los botones "Iniciar" y "Registrarse" */
+.navbar .btn.btn-outline-primary {
+  background-color: #8e2de2;
+  color: white;
+  font-weight: bold;
+  border: 2px solid var(--button-border);
+  transition: background-color 0.3s ease, border 0.3s ease; /* Solo cambio de color y borde en hover */
+  padding: 0.5rem 1.2rem; /* Ajusta el tamaño del botón */
+  border-radius: var(--radius);
+  box-sizing: border-box; /* Asegura que el tamaño no cambie */
+  box-shadow: none; /* Elimina cualquier sombra que pueda afectar el diseño */
+}
+
+/* Estilos cuando el usuario pasa el mouse por encima del botón */
+.navbar .btn.btn-outline-primary:hover {
+  background-color: #4a00e0; /* Cambia el color del fondo en hover */
+  border-color: var(--color-accent); /* Cambia el color del borde en hover */
+  transform: none; /* Elimina el desplazamiento cuando se pasa el mouse */
+  padding: 0.5rem 1.2rem; /* Asegura que el padding no cambie */
+}
+:root {
+    --color-accent: #8e2de2;
+    --color-primary: #4a00e0;
+    --color-text: #1f2937;
+    --bg-section: rgba(255, 255, 255, 0.95);
+    --radius: 0.75rem;
+    
+    }
+
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        color: #1a1a1a;
+        background-color: #ffffff;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box; /* Esto asegura que el padding y border no afecten el tamaño de los elementos */
+    }
+    
+    
+    h1, h2, h3, .ui.header {
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: #333;
+        margin-bottom: 0.5rem; /* Espacio debajo de cada encabezado */
+        line-height: 1.4; /* Mejor legibilidad */
+    }
+
+
+
+    /* Usar las variables definidas en :root para establecer colores en otras partes del sitio */
+    a {
+        color: var(--color-primary);
+    }
+
+    .navbar .navbar-nav .nav-link:hover {
+        color: var(--color-accent);
+    }
+
+    /* Fondo de secciones */
+    section {
+        background-color: var(--bg-section);
+        border-radius: var(--radius);
+    }
+
+    /* Botones con las variables definidas */
+    button {
+        background-color: var(--color-primary);
+        color: white;
+        border-radius: var(--radius);
+    }
+    button:hover {
+        background-color: var(--color-accent);
+    }
+
+
+
+
+
+    /********* HWERO CSS *********/
+
+    #dynamic-heading {
+        font-family: 'Lora', serif !important; 
+        font-weight: 600 !;
+        font-size: 4.5rem !important;
+        line-height: 1.1 !important;
+        letter-spacing: -0.02em !important;
+        color: #080808 !important;
+        margin-bottom: 1rem !important;
+    }
+        
+
+    .hero-title {
+        font-size: 3rem;
+        line-height: 1.2;
+        color: #4f46e5;
+        text-align: left !important;
+
+    }
+
+    .hero-title strong {
+        display: block;
+        margin-top: 0.5rem;
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #4f46e5;
+    }
+
+    .hero-subtitle {
+        margin-top: 2rem;
+        font-size: 1.25rem;
+        color: #6b7280;
+        max-width: 90%;
+    }
+
+    .hero-illustration {
+        max-width: 100%;
+        height: auto;
+        animation: floatY 6s ease-in-out infinite;
+        }
+
+
+        .ui.stackable.buttons{
+            margin-top: 1rem;
+            
+            }
+
+            .ui.huge.primary.button{
+                margin-right: 1rem;
+                }
+
+                .hero-dynamic-text {
+                    font-size: 3.5rem;
+                    margin-top: 0.5rem;
+                    color: #4f46e5;
+                    font-weight: bold;
+                    opacity: 1;
+                    transition: opacity 1s ease-in-out;
+                    min-height: 3rem;  /* Establece una altura mínima fija */
+                    line-height: 1.2;  /* Asegura que el texto se alinee bien */
+                    }
+
+
+    .hero-buttons{
+        margin-top: 2rem;
+        display: flex !important;
+        justify-content: left;
+        gap: 1rem !important;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Funcionalidades Sección */
+    .funcionalidades-section {
+        background-color: var(--color-bg-light);
+        padding: var(--spacing-section) 0;
+        text-align: center;
+        width: 100% !important;
+        margin-top: 1rem;
+    }
+
+    section.ui.vertical.segment {
+
+        padding-bottom: 5rem;
+
+    }
+        
+
+    .funcionalidades-section .ui.header {
+        color: var(--color-text);
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .funcionalidades-section .ui.icon.header {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--color-text);
+        margin-bottom: 1rem;
+    }
+
+    .funcionalidades-section p {
+        color: var(--color-muted);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        
+    }
+
+    /* Feature Section */
+    .feature-section {
+        background: linear-gradient(180deg, #ffffff, #dfe0e4);
+        padding: 5rem 0rem;
+        
+    }
+
+    /* Ajustar columnas para alinearlas horizontalmente en pantallas grandes */
+    .ui.stackable.three.column.grid {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .ui.column {
+        flex: 1;
+        margin: 1rem;
+    }
+
+    /* Asegurarse de que los elementos no se desborden en pantallas pequeñas */
+    @media (max-width: 768px) {
+        .ui.stackable.three.column.grid {
+            flex-direction: column;
+
+        }
+
+
+    }
+
+        
+
+
+
+    /********* TESTIMONIO CSS *********/
+
+
+
+  
+  
+  .testimonials-section {
+    background-color: #f9fafb;
+    padding: var(--spacing-section) 0;
+    }
+    
+    .testimonials-section .ui.header {
+    color: var(--color-text);
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    }
+    
+    .testimonial-card {
+    background-color: #ffffff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+    }
+    
+    .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .testimonial-card .header {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: var(--color-text);
+    }
+    
+    .testimonial-card .meta {
+    color: var(--color-muted);
+    margin-bottom: 1rem;
+    }
+    
+    .testimonial-card .description {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-top: 0.5rem;
+    }
+    
+    .testimonial-card .avatar.image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    }
+    
+    
+    
+
+
+
+
+
+
+    /*********CTA CSS *********/
+  
+  
+  .cta-section {
+    background: linear-gradient(135deg, #4a00e0, #8e2de2);
+    color: white;
+    padding: var(--spacing-section) 0;
+    text-align: center;
+    border-radius: var(--radius);
+    padding: 1rem 1rem;
+    padding-bottom: 1rem;
+
+    }
+    
+    .cta-section .ui.header {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    }
+    
+    .cta-subtext {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+
+    .ui.huge.primary.button{
+        margin-right: 1rem;
+        }
+        
+    
+    .cta-section .button-primary {
+    background-color: #ffffff;
+    color: #4a00e0 !important;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border-radius: var(--radius);
+    transition: background-color 0.3s ease;
+    
+    }
+    
+  
+    .cta-section .button-primary:hover {
+    background-color: #144dc0;
+    color: #4a00e0;
+    }
+    
+    
+    
+  .cta-final {
+    background-color: var(--color-accent);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+     /*********PLANES CSS *********/
+
+
+  
+    .plans-section {
+        background-color: var(--color-bg-light);
+        padding: var(--spacing-section) 0;
+        text-align: center;
+        margin-top: 4rem;
+        padding-top: 5rem;
+    }
+
+    .plans-section .ui.card{
+        width: auto !important;
+    }
+
+    
+    .plans-section .ui.header {
+    font-size: 2.2rem;
+    color: var(--color-text);
+    }
+    
+    .plans-subtext {
+    font-size: 1.2rem;
+    color: var(--color-muted);
+    margin-top: 0.5rem;
+    }
+    
+    .plan-box {
+        background-color: #ffffff;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 2rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: left;
+    }
+    
+    .plan-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .featured-plan {
+    border: 2px solid var(--color-accent);
+    }
+    
+    /*
+    .ui.card {
+        border-radius: var(--radius);
+
+    }*/
+        
+        
+    .header{
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: #333;
+        margin-bottom: 0.5rem; /* Espacio debajo de cada encabezado */
+        line-height: 1.4; /* Mejor legibilidad */
+        font-size: 1.3rem;
+    } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+     /*********CONTACTO CSS *********/
+
+
+
+
+    /* Sección de contacto */
+    .contacto-section {
+        background-color: var(--color-bg-light);
+        padding: var(--spacing-section) 0;
+        text-align: center;
+        width: 100%; /* Asegura que la sección ocupe todo el ancho */
+        margin: 0 auto;
+    }
+    
+    .contacto-section .ui.header {
+        font-size: 2.5rem;
+        color: var(--color-text);
+        margin-bottom: 1.5rem;
+    }
+    
+    .contacto-subtext {
+        font-size: 1.2rem;
+        color: var(--color-muted);
+        margin-bottom: 3rem;
+    }
+    
+    .ui.container.center.aligned {
+        max-width: 1200px; /* Limita el ancho máximo para mayor control */
+        margin: 0 auto;
+    }
+    
+    /* Estilos para el formulario de contacto */
+    .ui.form {
+        background-color: white;
+        padding: 2rem;
+        border-radius: var(--radius);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .ui.form .field label {
+        font-size: 1rem;
+        color: var(--color-text);
+        font-weight: bold;
+    }
+    
+    .ui.form .field input, .ui.form .field textarea {
+        font-size: 1rem;
+        padding: 0.75rem;
+        border-radius: var(--radius);
+        border: 1px solid #ddd;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .ui.form .field input:focus, .ui.form .field textarea:focus {
+        border-color: var(--color-accent);
+        outline: none;
+    }
+    
+    .ui.primary.button {
+        background-color: var(--color-primary);
+        color: white;
+        font-weight: bold;
+        border-radius: var(--radius);
+        text-transform: uppercase;
+        padding: 1rem;
+        transition: background-color 0.3s ease;
+    }
+    
+    .ui.primary.button:hover {
+        background-color: var(--color-accent);
+    }
+    
+    /* Estilos para la columna con la información de contacto */
+    .ui.segment {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: var(--radius);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .ui.segment .ui.header {
+        font-size: 1.5rem;
+        color: var(--color-text);
+        margin-bottom: 1rem;
+    }
+    
+    .ui.segment p {
+        font-size: 1rem;
+        color: var(--color-muted);
+    }
+    
+    .ui.segment p i {
+        margin-right: 10px;
+    }
+    
+    .ui.two.column.stackable.grid {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .column {
+        flex: 1;
+        margin: 0 1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .ui.two.column.stackable.grid {
+        flex-direction: column;
+        align-items: center;
+        }
+    
+        .column {
+        width: 100%;
+        text-align: center;
+        }
+    
+        .ui.form {
+        margin-bottom: 2rem;
+        }
+    }
+    .ui.form .field textarea {
+        height: 150px; /* Ajusta la altura del textarea */
+    }  
+
+
+
+
+
+
+    /* Estilos personalizados para la sección */
+  #video {
+    background-color: #f9f9f9; /* Fondo suave */
+    padding: 4rem 0; /* Padding para que no se vea tan apretado */
+  }
+
+  /* Animación de aparición suave */
+  .animate-fade-in {
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  /* Animación para el fade-in */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .ui.embed iframe {
+    border-radius: 8px; /* Añade bordes redondeados al iframe */
+  }
+
+  .ui.header.center.aligned {
+    font-size: 2.5rem;
+    color: var(--color-text);
+    margin-bottom: 2rem;
+  }
+
+
+
+
+
+
+
+       /*********TEMPLATE CSS *********/
+
+    /* Estilos generales para la sección de plantillas */
+.plantillas-section {
+    background-color: #f9f9f9;
+    padding: 4rem 0;
+    text-align: center;
+  }
+  
+  .plantillas-section .ui.header {
+    color: var(--color-text);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .plantillas-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-muted);
+    margin-bottom: 3rem;
+  }
+  
+  .plantillas-section .ui.segment {
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .plantillas-section .ui.segment img {
+    border-radius: var(--radius);
+  }
+  
+  .plantillas-section .ui.button {
+    margin-top: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .plantillas-section .ui.grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+
+
+/*
+
+
+
+
+
+
+
+
+*/
+

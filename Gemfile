@@ -79,3 +79,4 @@ gem "nokogiri"
 gem "addressable"
 
 gem "sprockets-rails"
+

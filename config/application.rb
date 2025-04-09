@@ -32,6 +32,7 @@ module Maileraction
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
     config.time_zone = "America/Santiago"
-    config.assets.paths << Rails.root.join("vendor", "assets", "stylesheets")
+    config.assets.paths << Rails.root.join("app", "assets", "stylesheets")
+    config.assets.paths << Rails.root.join("node_modules")
   end
 end

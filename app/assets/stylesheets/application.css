@@ -1,6 +1,13 @@
-/* application.css */
+
 
 /*
+ *= require_tree .
  *= require_self
- *= require tailwindcss
+*= require custom
+ *= require maileraction
+ *= require components/navbar
+
+
+
 */
+

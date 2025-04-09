@@ -1,92 +1,74 @@
-
-
-<%# 
-<nav class="ui top fixed menu navbar-wrapper">
-  <div class="ui container navbar-inner">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5">
+  <div class="container">
     <!-- Logo -->
-    <a class="header item logo-text" href="/">
-      Mailer<span class="highlight">Action</span>
+    <a class="navbar-brand" href="/">
+      Mailer<span style="color: var(--color-accent);">Action</span>
     </a>
 
-    <!-- Menú de navegación (Desktop) -->
-    <div class="navbar-links">
-      <!-- Dropdown Soluciones y servicios -->
-      <div class="ui dropdown item">
-        Soluciones y servicios <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="header">Funcionalidades</div>
-          <div class="item"><i class="envelope outline icon"></i> Marketing por correo electrónico</div>
-          <div class="item"><i class="globe icon"></i> Sitios web</div>
-          <div class="item"><i class="thumbs up outline icon"></i> Marketing en redes sociales</div>
-          <div class="item"><i class="clone outline icon"></i> Plantillas</div>
-          <div class="item"><i class="sync alternate icon"></i> Automatización de marketing</div>
-          <div class="item"><i class="chart bar icon"></i> Informes y análisis</div>
-          <div class="item"><i class="users icon"></i> Gestión de tu público</div>
+    <!-- Botón hamburguesa para móviles -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-          <div class="divider"></div>
-          <div class="header">Estas son las novedades</div>
-          <div class="item"><i class="robot icon"></i> Herramientas de marketing de IA</div>
-          <div class="item"><i class="edit icon"></i> Herramientas de creación de contenido</div>
-          <div class="item"><i class="magnet icon"></i> Generación de clientes potenciales</div>
-          <div class="item"><i class="th icon"></i> Ver todas las características</div>
-        </div>
-      </div>
+    <!-- Menú de navegación -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto"> <!-- Alinea las opciones al principio con me-auto -->
+        
+        <!-- Soluciones Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSolutions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Soluciones
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownSolutions">
+            <li><a class="dropdown-item" href="#">Email Marketing</a></li>
+            <li><a class="dropdown-item" href="#">Automatización</a></li>
+            <li><a class="dropdown-item" href="#">Análisis de Datos</a></li>
+            <li><a class="dropdown-item" href="#">Segmentación Inteligente</a></li>
+          </ul>
+        </li>
 
-      <!-- Enlaces adicionales -->
-      <a href="#precios" class="item">Precios</a>
-      <a href="#planes" class="item">Planes</a>
-    </div>
+        <!-- Planes -->
+        <li class="nav-item">
+          <a class="nav-link" href="#">Planes</a>
+        </li>
 
-    <!-- Idioma, búsqueda y botones -->
-    <div class="navbar-actions">
-      <!-- Ícono de búsqueda -->
-      <div class="item">
-        <i class="search icon"></i>
-      </div>
+        <!-- Precios -->
+        <li class="nav-item">
+          <a class="nav-link" href="#">Precios</a>
+        </li>
+        
+      </ul>
 
-      <!-- Idioma -->
-      <div class="ui dropdown item language-selector">
-        <i class="globe icon"></i>
-        ES <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item">EN English</div>
-          <div class="item">ES Español</div>
-          <div class="item">FR Français</div>
-          <div class="item">BR Português</div>
-          <div class="item">DE Deutsch</div>
-          <div class="item">IT Italiano</div>
-        </div>
-      </div>
+      <ul class="navbar-nav"> <!-- Alinea el resto de las opciones a la derecha -->
+        <!-- Icono de Mundo con dropdown de idioma -->
+        <li class="nav-item dropdown d-flex align-items-center">
+          <lord-icon
+              src="https://cdn.lordicon.com/jgeruqwm.json"
+              trigger="hover"
+              style="width: 40px; height: 40px; margin-right: 10px;">
+          </lord-icon>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            ES
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">EN English</a></li>
+            <li><a class="dropdown-item" href="#">FR Français</a></li>
+            <li><a class="dropdown-item" href="#">BR Português</a></li>
+            <li><a class="dropdown-item" href="#">DE Deutsch</a></li>
+            <li><a class="dropdown-item" href="#">IT Italiano</a></li>
+          </ul>
+        </li>
 
-      <!-- Botones -->
-      <a href="/login" class="ui button outline">Inicia sesión</a>
-      <a href="/register" class="ui button primary ml-2">Regístrate</a>
-    </div>
+        <!-- Iniciar Button -->
+        <li class="nav-item">
+          <a href="/login" class="btn btn-outline-primary ms-3">Iniciar</a>
+        </li>
 
-    <!-- Botón Hamburguesa -->
-    <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-      <i class="bars icon"></i>
-    </div>
-  </div>
-
-  <!-- Menú móvil -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#precios" class="item">Precios</a>
-    <a href="#planes" class="item">Planes</a>
-    <a href="/login" class="ui button outline">Inicia sesión</a>
-    <a href="/register" class="ui button primary mt-2">Regístrate</a>
-
-    <div class="ui divider"></div>
-    <div class="ui simple dropdown item">
-      <i class="globe icon"></i> Idioma
-      <div class="menu">
-        <div class="item">EN English</div>
-        <div class="item">ES Español</div>
-        <div class="item">FR Français</div>
-        <div class="item">BR Português</div>
-        <div class="item">DE Deutsch</div>
-        <div class="item">IT Italiano</div>
-      </div>
+        <!-- Register Button -->
+        <li class="nav-item">
+          <a href="/register" class="btn btn-outline-primary ms-3">Registrarse</a>
+        </li>
+      </ul>
     </div>
   </div>
-</nav> %>
+</nav>

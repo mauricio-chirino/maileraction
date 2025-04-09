@@ -1,0 +1,10 @@
+/* Estilo general para el navbar */
+
+
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav {
+      flex-direction: row;
+      margin-left: 5rem;
+  }
+}
