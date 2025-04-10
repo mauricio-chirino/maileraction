@@ -2,7 +2,7 @@
     --color-accent: #8e2de2;
     --color-primary: #4a00e0;
     --color-text: #1f2937;
-    --bg-section: rgba(255, 255, 255, 0.95);
+   /* --bg-section: rgba(255, 255, 255, 0.95);*/
     --radius: 0.75rem;
     
     }
@@ -11,7 +11,7 @@
     body {
         font-family: 'Open Sans', sans-serif;
         color: #1a1a1a;
-        background-color: #ffffff;
+       /* background-color: #ffffff;*/
         font-size: 1rem;
         line-height: 1.6;
         margin: 0;
@@ -146,10 +146,10 @@
 
     /* Funcionalidades Sección */
     .funcionalidades-section {
-        background-color: var(--color-bg-light);
-        padding: var(--spacing-section) 0;
+       /* background-color: var(--color-bg-light);*/
+        /*padding: var(--spacing-section) 0;*/
         text-align: center;
-        width: 100% !important;
+
         margin-top: 1rem;
     }
 
@@ -184,9 +184,10 @@
 
     /* Feature Section */
     .feature-section {
-        background: linear-gradient(180deg, #ffffff, #dfe0e4);
-        padding: 5rem 0rem;
         
+        padding: 5rem 0;
+        border-radius: 1rem;
+
     }
 
     /* Ajustar columnas para alinearlas horizontalmente en pantallas grandes */
@@ -537,6 +538,7 @@
     .column {
         flex: 1;
         margin: 0 1rem;
+        
     }
     
     @media (max-width: 768px) {
@@ -651,68 +653,203 @@
 
 /********************* FAQ ************************/
 
-  
 .faq-section {
     background-color: var(--color-bg-light);
     padding: var(--spacing-section) 0;
-    }
-    
-    .faq-section .ui.header {
+  }
+  
+  .faq-section .ui.header {
     font-size: 2.2rem;
     color: var(--color-text);
-    }
-    
-    .ui.accordion .title {
-    background-color: #f4f4f4;
-    padding: 1.25rem;
+  }
+  
+  .accordion-button {
     font-size: 1.15rem;
     color: var(--color-text);
+    background-color: #f4f4f4;
+    padding: 1.25rem;
     border: 1px solid #ddd;
     border-radius: var(--radius);
     cursor: pointer;
-    }
-    
-    .ui.accordion .content {
-    padding: 1rem;
+  }
+  
+  .accordion-button:not(.collapsed) {
+    background-color: var(--color-accent);
+    color: white;
+  }
+  
+  .accordion-body {
     font-size: 1rem;
     color: var(--color-muted);
     background-color: #f9fafb;
     border-top: 1px solid #ddd;
+    padding: 1rem;
     border-radius: var(--radius);
-    }
-    
-    .ui.accordion .active.title {
-    background-color: var(--color-accent);
-    color: #fff;
-    }
-    
-    .ui.accordion .active.content {
-    background-color: #fff;
-    }
-    
-    .ui.accordion .icon {
+  }
+  
+  .accordion-button i {
     color: var(--color-accent);
-    }
-    
-    .ui.accordion .icon.down {
+  }
+  
+  .accordion-button:not(.collapsed) i {
     transform: rotate(180deg);
     transition: transform 0.3s ease;
+  }
+  
+
+
+
+
+
+
+
+  /***************************FUcionamiento ***********************************/
+
+
+  
+  
+  .funcionalidades-section {
+    background-color: var(--color-bg-light);
+    padding: var(--spacing-section) 0;
+    text-align: center;
     }
     
-    .ui.accordion .icon.up {
-    transform: rotate(0deg);
-    transition: transform 0.3s ease;
+    .funcionalidades-section .ui.header {
+    color: var(--color-text);
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     }
     
-    .ui.styled.accordion{
-    background-color: #f9fafb;
-    border-radius: var(--radius);
-    box-shadow: none !important;
+    .funcionalidades-section .icon-accent {
+    font-size: 2.5rem;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
     }
     
-    .ui.styled.accordion .title {
-    
-    margin-bottom: 1rem !important
+    .funcionalidades-section .ui.icon.header {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 1rem;
     }
     
+    .funcionalidades-section p {
+    color: var(--color-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    }
     
+ 
+    
+
+
+
+
+    /******************************CTA CSS **********************************/
+
+  
+
+
+
+  .cta-final {
+        background-color: var(--color-accent);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+    }
+    
+    .cta-final .ui.header {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    
+    .cta-final .sub-header {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        color: rgba(255, 255, 255, 0.85);
+    }
+    
+    .cta-final .ui.large.primary.button {
+        background-color: white;
+        color: var(--color-accent);
+        font-weight: bold;
+        padding: 1.2rem 2.5rem;
+        border-radius: var(--radius);
+        font-size: 1.2rem;
+        
+        transition: all 0.3s ease;
+    }
+    
+    .cta-final .ui.large.primary.button:hover {
+        background-color: rgba(255, 255, 255, 0.9);
+        color: var(--color-accent);
+        transform: scale(1.05);
+    }
+    
+
+
+
+
+
+
+    /****************************FOOTER CSS **********************************/
+
+
+
+
+
+
+
+
+      .aline-tex-left {
+        text-align: left;
+      }
+      .aline-tex-right {
+        text-align: right;
+      }
+      .aline-tex-center {
+        text-align: center;
+      }
+      .aline-tex-justify {
+        text-align: justify;
+      }
+      .aline-tex-start {
+        text-align: start;
+      }
+      .aline-tex-end {
+        text-align: end;
+      }
+      .aline-tex-inherit {
+        text-align: inherit;
+      }
+      .aline-tex-initial {
+        text-align: initial;
+      }
+      .aline-content-center{
+        display: flex;
+        justify-content: center;
+        align-items: center;    
+      }
+      .aline-content-down{
+        display: flex;
+        align-items: flex-end;    
+      }
+      .aline-content-up{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;    
+      }
+
+
+      .fondo{
+        /*background: linear-gradient(180deg, #f9f9fc, #f3f4f6);*/
+        background:transparent !important;
+
+      }
+
+      .base{
+        background: linear-gradient(180deg, #ffffff, #e7e8eb);
+      }

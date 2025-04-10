@@ -1,58 +1,43 @@
 class SessionsController < ApplicationController
-  allow_unauthenticated_access only: %i[ new create ]
-  # rate_limit to: 10, within: 3.minutes, only: :create, with: -> { head :too_many_requests }
+  before_action :allow_unauthenticated_access, only: %i[new create]
 
+  # Método para mostrar la página de inicio de sesión (si fuera necesario, en la vista)
   def new
   end
 
+  # Método para crear una nueva sesión (inicio de sesión)
   def create
+    # Aquí buscamos al usuario por el campo `email_address` en lugar de `email`
     user = User.find_by(email_address: params[:email_address])
 
-    if user&.authenticate(params[:password])
-      start_new_session_for user
+    if user&.authenticate(params[:password])  # Verifica que la contraseña sea correcta
+      start_new_session_for user  # Aquí puedes implementar el inicio de sesión, como por ejemplo usando cookies o el sistema que prefieras
       render json: { message: "Sesión iniciada", user: user.email_address }, status: :ok
     else
       render json: { error: "Email o contraseña inválidos" }, status: :unauthorized
     end
   end
 
-  # def destroy
-  #   terminate_session
-  #   redirect_to new_session_path
-  # end
-  #
+  # Método para destruir la sesión (cerrar sesión)
   def destroy
-    terminate_session
+    terminate_session # Implementa este método para eliminar la sesión, por ejemplo, eliminando cookies
     render json: { message: "Sesión cerrada correctamente" }, status: :ok
   end
 
-  # private
+  private
 
-  # def generate_token(user)
-  #   payload = { user_id: user.id, exp: 24.hours.from_now.to_i }
-  #   JWT.encode(payload, Rails.application.secrets.secret_key_base)
-  # end
+  # Permitimos acceso sin autenticación solo para las acciones `new` y `create`
+  def allow_unauthenticated_access
+    allow_unauthenticated_access only: %i[new create]
+  end
 
+  # Método para iniciar sesión del usuario (puedes implementar cómo gestionas la sesión)
+  def start_new_session_for(user)
+    session[:user_id] = user.id  # Usando Rails session para almacenar el ID del usuario
+  end
 
-
-  # def create
-  #   user = User.find_by(email: params[:email])
-
-  #   if user&.authenticate(params[:password])
-  #     render json: { token: generate_token(user), user: user }, status: :ok
-  #   else
-  #     render json: { error: 'Credenciales inválidas' }, status: :unauthorized
-  #   end
-  # end
-
-  # def destroy
-  #   render json: { message: "Sesión cerrada correctamente" }, status: :ok
-  # end
-
-  # private
-
-  # def generate_token(user)
-  #   payload = { user_id: user.id, exp: 24.hours.from_now.to_i }
-  #   JWT.encode(payload, Rails.application.secrets.secret_key_base)
-  # end
+  # Método para terminar la sesión del usuario
+  def terminate_session
+    reset_session  # Esta es una forma de eliminar la sesión en Rails
+  end
 end

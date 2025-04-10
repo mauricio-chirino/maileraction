@@ -1,8 +1,3 @@
-.ui.vertical.segment {
-  background-color: #f9f9fb;
-  border: none;
-}
-
 .new-footer {
   padding: 1rem 0;
   background-color: #f9f9fb;
@@ -30,6 +25,7 @@ p.conforme {
 
 .ui.container.stackable.doubling.grid {
   text-align: left !important;
+  margin-top: 2rem; /* Add space between content and footer */
 }
 
 #legal {
@@ -50,10 +46,11 @@ p.conforme {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 20px;
+  border-top: 1px solid #ddd;
 }
 
-#derecho {
+#derechos {
   order: -1;
 }
 
@@ -67,4 +64,12 @@ p.conforme {
 #conformidad i {
   font-size: 24px;
   justify-content: flex-end !important;
+}
+
+
+
+
+.item{
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
 }
