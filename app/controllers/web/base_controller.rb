@@ -1,7 +1,9 @@
 module Web
   class BaseController < ActionController::Base
-    protect_from_forgery with: :exception
+    skip_forgery_protection if: -> { request.format.json? }
+
     include ActionController::Cookies
     include ActionController::Helpers
+    include ActionController::Flash
   end
 end

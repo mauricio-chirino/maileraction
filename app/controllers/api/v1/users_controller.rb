@@ -25,7 +25,7 @@ class Api::V1::UsersController < ApplicationController
 
   # Strong parameters para proteger los datos del usuario
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 
   # Para evitar métodos no permitidos

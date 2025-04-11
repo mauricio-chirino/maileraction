@@ -43,13 +43,15 @@ Rails.application.routes.draw do
   # API Version 1
   namespace :api do
     namespace :v1 do
-      # Rutas de sesión (login y logout)
-      resources :sessions, only: [ :new, :create, :destroy ]
+      #
+      #
+      # # Rutas para la gestión de la sesión en la API
+      post "sessions", to: "sessions#create"  # Login
+      delete "sessions", to: "sessions#destroy"  # Logout
 
 
-      # Esta ruta es para obtener la información del usuario autenticado
+      # Rutas para obtener información del usuario autenticado
       get "me", to: "users#me"
-
 
 
       # Rutas de administración
@@ -102,8 +104,6 @@ Rails.application.routes.draw do
       post "credit_accounts/assign_initial", to: "credit_accounts#assign_initial"
       post "credit_accounts/consume", to: "credit_accounts#consume"
       post "credit_accounts/consume_campaign", to: "credit_accounts#consume_campaign"
-
-
 
       # Webhooks de Stripe
       # Webhooks de AWS SES
@@ -184,16 +184,22 @@ Rails.application.routes.draw do
 
 
   namespace :web do
-    get "/login", to: "sessions#new"
-    post "/login", to: "sessions#create"
-    delete "/logout", to: "sessions#destroy"
+    # Rutas de administración
+    get "/login", to: "sessions#new" # Página de inicio de sesión
+    post "/login", to: "sessions#create" # Procesar inicio de sesión
+    delete "/logout", to: "sessions#destroy" # Procesar cierre de sesión
 
+    # registro de usuarios nuevos
     get "/signup", to: "registrations#new"
     post "/signup", to: "registrations#create"
 
 
-    root "home#index"
+    root "home#index" # Página principal de la aplicación web
   end
+
+
+
+
  # Página principal
  # root to: "web/home#index"
  root to: "web/home#index"

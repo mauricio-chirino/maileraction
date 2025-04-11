@@ -1,0 +1,54 @@
+<!-- app/views/web/sessions/new.html.erb -->
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <h2 class="text-center mb-4">Iniciar sesión</h2>
+
+      <%= form_with(url: "/web/login", method: :post, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+        <!-- Mensajes flash -->
+        <% if flash[:alert] %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= flash[:alert] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% end %>
+
+        <% if flash[:notice] %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= flash[:notice] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% end %>
+
+        <!-- Correo electrónico -->
+        <div class="mb-3">
+          <%= form.label :email_address, "Correo electrónico", class: "form-label" %>
+          <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Ingresa tu correo electrónico" %>
+          <div class="invalid-feedback">
+            Por favor, ingresa un correo electrónico válido.
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="mb-3">
+          <%= form.label :password, "Contraseña", class: "form-label" %>
+          <%= form.password_field :password, required: true, class: "form-control", placeholder: "Ingresa tu contraseña" %>
+          <div class="invalid-feedback">
+            La contraseña es obligatoria.
+          </div>
+        </div>
+
+        <!-- Botón de iniciar sesión -->
+        <div class="d-grid">
+          <%= form.submit "Iniciar sesión", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+      <!-- Enlace para registro -->
+      <p class="text-center mt-3">
+        <%= link_to "¿No tienes una cuenta? Regístrate", "/web/signup", class: "text-decoration-none" %>
+      </p>
+    </div>
+  </div>
+</div>
