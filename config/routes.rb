@@ -185,16 +185,14 @@ Rails.application.routes.draw do
 
   namespace :web do
     # Rutas de administración
-    get "/login", to: "sessions#new" # Página de inicio de sesión
-    post "/login", to: "sessions#create" # Procesar inicio de sesión
-    delete "/logout", to: "sessions#destroy" # Procesar cierre de sesión
+    get "/login", to: "sessions#new"
+    post "/login", to: "sessions#create"
+    delete "/logout", to: "sessions#destroy"
 
-    # registro de usuarios nuevos
     get "/signup", to: "registrations#new"
     post "/signup", to: "registrations#create"
 
-
-    root "home#index" # Página principal de la aplicación web
+    root "home#index"
   end
 
 

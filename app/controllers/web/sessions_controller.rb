@@ -1,6 +1,7 @@
 # app/controllers/web/sessions_controller.rb
 module Web
   class SessionsController < BaseController
+    layout "application"  # Asegúrate de que se esté usando el layout correcto
     def new
       # Acción para mostrar el formulario de inicio de sesión
     end
@@ -9,19 +10,26 @@ module Web
       user = User.find_by(email_address: params[:email_address])
 
       if user&.authenticate(params[:password])
-        session[:user_id] = user.id
-        flash[:notice] = "Sesión iniciada correctamente."
-        redirect_to root_path
+        session[:user_id] = user.id  # Guarda al usuario en la sesión
+
+        # Recordar al usuario si la opción "Recordarme" está seleccionada
+        if params[:remember_me] == "1"
+          cookies.permanent[:user_id] = user.id
+          cookies.permanent[:remember_token] = user.remember_token
+        end
+
+        redirect_to root_path, notice: "Sesión iniciada correctamente"
       else
-        flash[:alert] = "Email o contraseña inválidos."
+        flash.now[:alert] = "Email o contraseña incorrectos"
         render :new
       end
     end
 
     def destroy
       session[:user_id] = nil
-      flash[:notice] = "Sesión cerrada correctamente."
-      redirect_to root_path
+      cookies.delete(:user_id)
+      cookies.delete(:remember_token)
+      redirect_to root_path, notice: "Sesión cerrada correctamente"
     end
   end
 end

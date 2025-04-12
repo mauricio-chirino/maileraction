@@ -23,6 +23,19 @@
 # - email_address: Strips and downcases the email address before saving.
 class User < ApplicationRecord
   has_secure_password
+
+
+
+
+  # Método público solo para el controlador de registro
+  def generate_remember_token_value
+    self.remember_token = User.generate_remember_token
+  end
+
+
+
+
+
   has_many :sessions, dependent: :destroy
 
 
@@ -65,4 +78,10 @@ class User < ApplicationRecord
   end
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+
+  # Método para generar el remember_token
+  def self.generate_remember_token
+    SecureRandom.urlsafe_base64(16)
+  end
 end
