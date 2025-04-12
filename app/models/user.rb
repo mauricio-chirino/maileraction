@@ -70,9 +70,8 @@ class User < ApplicationRecord
   ], default: :user
 
 
-  validates :name, presence: true
-  validates :company, presence: true
-
+  validates :name, presence: true, unless: -> { password_reset_token.present? }
+  validates :company, presence: true, unless: -> { password_reset_token.present? }
 
   def can?(action)
     Permissions.allowed?(role, action)

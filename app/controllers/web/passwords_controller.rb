@@ -25,14 +25,19 @@ module Web
 
     def edit
       @user = User.find_by(password_reset_token: params[:token])
+
+
       if @user.nil? || @user.password_reset_sent_at < 2.hours.ago
+        # Manejo de error si el token no es válido
         flash[:alert] = "El enlace de restablecimiento de contraseña ha caducado."
-        redirect_to web_forgot_password_path
+        # redirect_to web_forgot_password_path
+        redirect_to root_path
       end
     end
 
     def update
       @user = User.find_by(password_reset_token: params[:token])
+
       if @user.update(password_params)
         flash[:notice] = "Tu contraseña ha sido actualizada con éxito."
         redirect_to web_login_path

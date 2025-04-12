@@ -40,6 +40,9 @@ Rails.application.routes.draw do
   # Ruta de estado para health check
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # Ruta para restablecer la contraseña
+  get "web/password_reset/:token", to: "web/passwords#edit", as: "edit_web_password_reset"
+
   # API Version 1
   namespace :api do
     namespace :v1 do

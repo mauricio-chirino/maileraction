@@ -38,5 +38,23 @@ module Maileraction
     config.time_zone = "America/Santiago"
     config.assets.paths << Rails.root.join("app", "assets", "stylesheets")
     config.assets.paths << Rails.root.join("node_modules")
+
+
+
+    # configuracion envuio de email
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.delivery_method = :smtp
+
+    config.action_mailer.smtp_settings = {
+      address: "maileraction.com",              # Servidor de correo saliente
+      port: 587,                               # Puerto SMTP
+      domain: "maileraction.com",               # Dominio
+      user_name: "support@maileraction.com",    # Nombre de usuario
+      password: "528Kum9~l",                # Contraseña del correo (reemplaza 'your_password' con la contraseña real)
+      authentication: "plain",                  # Tipo de autenticación
+      enable_starttls_auto: true,               # Habilitar STARTTLS para cifrado
+      ssl: true,                                # Usar SSL para seguridad
+      tls: true                                 # Usar TLS para seguridad
+    }
   end
 end
