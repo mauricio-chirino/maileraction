@@ -9,7 +9,8 @@ class ApplicationController < ActionController::API
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  before_action :authenticate_user!, except: [ :new, :create ]  # Asegura que no se requiera autenticación en el login
+  # Aplica la autenticación globalmente, excepto para el login y la recuperación de contraseñas
+  before_action :authenticate_user!, except: [ :new, :create, :forgot_password, :reset_password ]
 
 
   private

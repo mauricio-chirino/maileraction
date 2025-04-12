@@ -193,6 +193,16 @@ Rails.application.routes.draw do
     post "/signup", to: "registrations#create"
 
     root "home#index"
+
+
+
+    # Rutas de administración
+    # olvide contraseña
+    # Rutas para la gestión de contraseñas
+    get "/forgot_password", to: "passwords#new", as: "forgot_password"
+    post "/forgot_password", to: "passwords#create", as: "password_reset"
+    get "/password_reset/:token", to: "passwords#edit", as: "reset_password"
+    patch "/password_reset/:token", to: "passwords#update"
   end
 
 

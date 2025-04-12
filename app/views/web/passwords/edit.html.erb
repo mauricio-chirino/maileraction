@@ -1,0 +1,43 @@
+<!-- app/views/web/passwords/edit.html.erb -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <h2 class="text-center mb-4">Restablecer tu contraseña</h2>
+
+      <%= form_with(model: @user, url: web_reset_password_path(@user.password_reset_token), method: :patch, local: true) do |form| %>
+        
+        <!-- Mensajes flash -->
+        <% if flash[:alert] %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= flash[:alert] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% end %>
+
+        <% if flash[:notice] %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= flash[:notice] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% end %>
+
+        <!-- Nueva Contraseña -->
+        <div class="mb-3">
+          <%= form.label :password, "Nueva Contraseña", class: "form-label" %>
+          <%= form.password_field :password, required: true, class: "form-control", placeholder: "Ingresa tu nueva contraseña" %>
+        </div>
+
+        <!-- Confirmar Contraseña -->
+        <div class="mb-3">
+          <%= form.label :password_confirmation, "Confirmar Contraseña", class: "form-label" %>
+          <%= form.password_field :password_confirmation, required: true, class: "form-control", placeholder: "Confirma tu nueva contraseña" %>
+        </div>
+
+        <!-- Botón para restablecer la contraseña -->
+        <div class="d-grid">
+          <%= form.submit "Restablecer contraseña", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

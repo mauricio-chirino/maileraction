@@ -27,7 +27,7 @@ module Web
 
     def user_params
       # Asegúrate de que los parámetros que estás permitiendo sean correctos
-      params.require(:user).permit(:email_address, :password, :password_confirmation)
+      params.require(:user).permit(:email_address, :password, :password_confirmation, :company, :name)
     end
   end
 end

@@ -62,7 +62,7 @@
           <%= link_to "¿No tienes una cuenta? Regístrate", "/web/signup", class: "text-decoration-none" %>
         </p>
         <p class="mb-0">
-          <%= link_to "¿Olvidaste tu contraseña?", "#", class: "text-decoration-none" %>
+          <%= link_to "¿Olvidaste tu contraseña?", "/web/forgot_password", class: "text-decoration-none" %>
         </p>
       </div>
 
@@ -70,9 +70,23 @@
       <div class="text-center mt-4">
         <p>O inicia sesión con:</p>
         <div class="d-flex justify-content-center">
-          <%= link_to "Google", "#", class: "btn btn-outline-primary ms-2" %>
-          <%= link_to "Apple", "#", class: "btn btn-outline-primary ms-2" %>
-          <%= link_to "Microsoft", "#", class: "btn btn-outline-primary ms-2" %>
+
+          <%= link_to "#", class: "btn btn-outline-primary ms-2" do %>
+            <i class="fab fa-google me-2"></i> <!-- Ícono de Google -->
+            Google
+          <% end %>
+
+          <%= link_to "#", class: "btn btn-outline-primary ms-2" do %>
+            <i class="fa-brands fa-apple"></i> <!-- Ícono de Google -->
+            Apple
+          <% end %>
+
+
+          <%= link_to "#", class: "btn btn-outline-primary ms-2" do %>
+            <i class="fa-brands fa-microsoft"></i><!-- Ícono de Google -->
+            Microsoft
+          <% end %>
+
         </div>
       </div>
 

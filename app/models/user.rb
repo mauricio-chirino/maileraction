@@ -70,7 +70,8 @@ class User < ApplicationRecord
   ], default: :user
 
 
-
+  validates :name, presence: true
+  validates :company, presence: true
 
 
   def can?(action)
@@ -84,4 +85,23 @@ class User < ApplicationRecord
   def self.generate_remember_token
     SecureRandom.urlsafe_base64(16)
   end
+
+
+
+  # Método para enviar un correo con el enlace de restablecimiento de contraseña
+  def send_password_reset_email
+    self.password_reset_token = generate_password_reset_token
+    self.password_reset_sent_at = Time.now
+    save!
+    UserMailer.password_reset(self).deliver_now
+  end
+
+
+
+  private
+
+    # Genera un token de restablecimiento de contraseña
+    def generate_password_reset_token
+      SecureRandom.urlsafe_base64
+    end
 end
