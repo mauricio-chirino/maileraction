@@ -1,44 +1,54 @@
+<!-- app/views/web/passwords/new.html.erb -->
+
 <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh; background-image: url('https://path_to_your_image.jpg'); background-size: cover;">
   <div class="row w-100 justify-content-center">
     <div class="col-lg-4 col-md-6 col-12 bg-white rounded shadow-lg p-4">
       
-      <!-- Título con la clase hero-title -->
-      <h2 class="text-center mb-4 hero-title">¿Olvidaste tu contraseña?</h2>
+      <!-- Spinner controlado por Stimulus -->
+      <div data-controller="spinner">
+        <div data-spinner-target="spinner" class="d-flex justify-content-center" style="display: none;">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
 
-      <%= form_with(url: "/web/forgot_password", method: :post, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
-        
-        <!-- Mensajes flash -->
-        <% if flash[:alert] %>
+        <!-- Título con la clase hero-title -->
+        <h2 class="text-center mb-4 hero-title">¿Olvidaste tu contraseña?</h2>
+
+        <%= form_with(url: "/web/forgot_password", method: :post, local: true, html: { class: "needs-validation", novalidate: true, data: { action: "submit->spinner#showSpinner" } }) do |form| %>
+          
+          <!-- Mensajes flash -->
+          <% if flash[:alert] %>
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <%= flash[:alert] %>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
-        <% end %>
+          <% end %>
 
-        <% if flash[:notice] %>
+          <% if flash[:notice] %>
           <div class="alert alert-success alert-dismissible fade show" role="alert">
             <%= flash[:notice] %>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
+          <% end %>
+
+          <!-- Correo electrónico -->
+          <div class="mb-3">
+            <%= form.label :email_address, "Correo electrónico", class: "form-label" %>
+            <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Ingresa tu correo electrónico" %>
+          </div>
+
+          <!-- Botón de enviar correo para restablecer la contraseña -->
+          <div class="d-grid">
+            <%= form.submit "Enviar correo para restablecer contraseña", class: "btn btn-primary" %>
+          </div>
         <% end %>
 
-        <!-- Correo electrónico -->
-        <div class="mb-3">
-          <%= form.label :email_address, "Correo electrónico", class: "form-label" %>
-          <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Ingresa tu correo electrónico" %>
+        <!-- Enlace para iniciar sesión -->
+        <div class="d-flex justify-content-center mt-3">
+          <%= link_to "Recuperaste tu contraseña, Inicia sesión", "/web/login", class: "text-decoration-none" %>
         </div>
-
-        <!-- Botón de enviar correo para resetear la contraseña -->
-        <div class="d-grid">
-          <%= form.submit "Enviar correo para restablecer contraseña", class: "btn btn-primary" %>
-        </div>
-      <% end %>
-
-      <!-- Enlace para iniciar sesión -->
-      <div class="d-flex justify-content-center mt-3">
-        <%= link_to "Recuperaste tu contraseña, Inicia sesión", "/web/login", class: "text-decoration-none" %>
       </div>
-
     </div>
   </div>
 </div>
