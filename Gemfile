@@ -80,3 +80,6 @@ gem "addressable"
 
 gem "sprockets-rails"
 
+gem "stimulus-rails"
+
+gem "importmap-rails"

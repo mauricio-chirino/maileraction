@@ -5,11 +5,12 @@
     <div class="col-lg-4 col-md-6 col-12 bg-white rounded shadow-lg p-4">
       
       <!-- Spinner controlado por Stimulus -->
-      <div data-controller="spinner">
-        <div data-spinner-target="spinner" class="d-flex justify-content-center" style="display: none;">
-          <div class="spinner-border text-primary" role="status">
+        <div data-controller="spinner">
+        <!-- El spinner estará oculto por defecto -->
+        <div data-spinner-target="spinner" style="display: none;" class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
-          </div>
+            </div>
         </div>
 
         <!-- Título con la clase hero-title -->

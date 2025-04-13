@@ -12,6 +12,7 @@
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <!--render "shared/favicon" -->
 
 
 
@@ -35,7 +36,9 @@
 
     <%= stylesheet_link_tag 'maileraction', media: 'all', 'data-turbo-track': 'reload' %>
 
-   
+
+    <!-- Cargar importmap.js -->
+    <%= javascript_importmap_tags %>
 
   </head>
 
