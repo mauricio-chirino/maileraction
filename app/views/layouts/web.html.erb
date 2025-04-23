@@ -20,11 +20,12 @@
   <%= stylesheet_link_tag "core", "theme-default", "demo", media: "all", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "perfect-scrollbar", media: "all" %>
 
-  <!-- Helpers -->
-  <%= javascript_include_tag "helpers", defer: true %>
-
+  <!-- Rails Helpers -->
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+
+  <!-- Stimulus via Importmap -->
+  <%= javascript_importmap_tags %>
 </head>
 
 <body>

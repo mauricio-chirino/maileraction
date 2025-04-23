@@ -2,90 +2,54 @@
 <html>
   <head>
     <title>MailerAction</title>
+
+    <!-- Metaetiquetas básicas -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Metaetiquetas de SEO -->
     <meta name="description" content="MailerAction: Campañas de email segmentadas por industria. Envíos inteligentes, estadísticas y automatización.">
     <meta property="og:title" content="MailerAction">
     <meta property="og:description" content="Envía correos solo a los rubros que te interesan. Prueba gratis con 30 créditos.">
     <meta property="og:image" content="URL_DE_TU_LOGO">
 
+    <!-- Seguridad -->
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-
-
-
-
-    <!-- Estilos personalizados con Sprockets -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <!-- Estilos -->
     <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "maileraction", media: "all", "data-turbo-track": "reload" %>
+
+    <!-- Tipografías y Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Frameworks y Librerías -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Scripts -->
+
+    <%= javascript_importmap_tags %>
 
     <!-- Íconos animados -->
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
-
-    <!-- Tipografías de Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    
-
-
-
-    <!-- Fonts -->
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet"
-      />
-
-    <!-- Fuente de Sneat -->
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    <!-- Estilos de FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
-    <!--awesome -->
     <script src="https://kit.fontawesome.com/4bb5b64b2c.js" crossorigin="anonymous"></script>
-
-    <%= stylesheet_link_tag 'maileraction', media: 'all', 'data-turbo-track': 'reload' %>
-
-   
-
   </head>
 
   <body>
     <!-- Fondo animado -->
     <div id="tsparticles" style="position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%;"></div>
 
-    <!-- Navbar -->
+    <!-- Barra de navegación -->
     <header>
-      <%= render 'layouts/shared/navbar' %>
+      <%= render "layouts/shared/navbar" %>
     </header>
 
-
-
-
     <!-- Contenido principal -->
-    <main">
-      <div class="">
-        <%= yield %>
-      </div>
+    <main>
+      <%= yield %>
     </main>
 
     <!-- Footer -->
@@ -93,10 +57,12 @@
       <%= render "shared/footer" %>
     </footer>
 
- 
 
-    <!-- Animaciones y comportamiento -->
+
+
+    <!-- Scripts de comportamiento -->
     <script>
+      // Animación de frases dinámicas
       document.addEventListener("DOMContentLoaded", () => {
         const phrases = <%= raw I18n.t('hero.phrases').to_json %>;
 
@@ -115,60 +81,27 @@
         }
       });
 
-      tsParticles.load("tsparticles", {
-        fullScreen: { enable: false },
-        background: { color: { value: "#f9fafb" } },
-        particles: {
-          number: { value: 50, density: { enable: true, area: 800 } },
-          color: { value: "#8e2de2" },
-          shape: { type: "circle" },
-          opacity: { value: 0.15 },
-          size: { value: 3 },
-          move: {
-            enable: true,
-            speed: 0.6,
-            direction: "none",
-            outModes: { default: "out" }
-          }
-        },
-        interactivity: {
-          events: {
-            onHover: { enable: false },
-            onClick: { enable: false }
-          }
-        },
-        detectRetina: true
+
+
+      // Script para alternar visibilidad de contraseña
+      document.addEventListener("DOMContentLoaded", function () {
+        const togglePassword = document.getElementById("toggle-password");
+        const passwordField = document.getElementById("password_field");
+        const icon = document.getElementById("eye-icon");
+
+        if (togglePassword && passwordField && icon) {
+          togglePassword.addEventListener("click", function () {
+            const isPassword = passwordField.type === "password";
+            passwordField.type = isPassword ? "text" : "password";
+
+            icon.classList.toggle("bx-hide", !isPassword);
+            icon.classList.toggle("bx-show", isPassword);
+          });
+        }
       });
     </script>
 
-
-
-
-
-
-
-
-
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-  
-  
-  <!-- Script para el toggle de la contraseña -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const togglePassword = document.getElementById("toggle-password");
-    const passwordField = document.getElementById("password_field");
-    const icon = document.getElementById("eye-icon");
-
-    togglePassword.addEventListener("click", function () {
-      const isPassword = passwordField.type === "password";
-      passwordField.type = isPassword ? "text" : "password";
-
-      icon.classList.toggle("bx-hide", !isPassword);
-      icon.classList.toggle("bx-show", isPassword);
-    });
-  });
-</script>
-
-  
   </body>
 </html>

@@ -1,4 +1,0 @@
-// config/manifest.js
-
-
-;
