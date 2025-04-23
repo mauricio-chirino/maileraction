@@ -28,4 +28,98 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  hello: "Hello"
+  
+  navbar:
+    solutions: "Solutions"
+    email_marketing: "Email Marketing"
+    automate: "Automate"
+    websites: "Websites"
+    transactional_email: "Transactional Email"
+    integrations: "Integrations"
+    compare_mailer_action: "Compare MailerAction"
+    developer_api: "Developer API"
+    news: "News"
+    templates: "Templates"
+    login: "Login"
+    signup: "Sign Up"
+    plans: "Plans"
+    prices: "Prices"
+
+
+
+
+
+
+  
+  solutions_dropdown:
+    email_marketing: "Email Marketing"
+    automate: "Automate"
+    data_analysis: "Data Analysis"
+    intelligent_segmentation: "Intelligent Segmentation"
+  
+
+
+
+  hero:
+    title: "MailerAction"
+    subtitle: "Take your email marketing campaigns to the next level with automation, analytics, and smart segmentation."
+    button_1: "Get Started"
+    button_2: "See How It Works"
+    phrases:
+      - "Segmented emails that turn into sales"
+      - "Easily automate your marketing with MailerAction"
+      - "Analyze your campaigns in real-time"
+      - "Design attractive emails effortlessly"
+      - "Send emails to the industries that matter to you"
+  
+
+
+
+
+  languages:
+    spanish: "Spanish"
+    english: "English"
+    french: "French"
+    portuguese: "Portuguese"
+    german: "German"
+    italian: "Italian"
+  
+
+
+
+  footer:
+    product: "Product"
+    email_marketing: "Email Marketing"
+    automate: "Automate"
+    websites: "Websites"
+    transactional_email: "Transactional Email"
+    integrations: "Integrations"
+    developer_api: "Developer API"
+    news: "News"
+    templates: "Templates"
+    support: "Support"
+    customer_support: "Customer Support"
+    tutorials: "Tutorials"
+    migrate_to_maileraction: "Migrate to MailerAction"
+    deliverability_diagnostics: "Deliverability Diagnostics"
+    report_spam: "Report Spam"
+    company: "Company"
+    about_us: "About Us"
+    why_maileraction: "Why MailerAction"
+    values: "Values"
+    partners: "Partners"
+    gdpr_compliance: "GDPR Compliance"
+    corporate_responsibility: "Corporate Responsibility"
+    contact_us: "Contact Us"
+    terms_of_service: "Terms of Service"
+    privacy_policy: "Privacy Policy"
+    cookies_settings: "Cookies Settings"
+    security: "Security"
+    brand_assets: "Brand Assets"
+    follow_us: "Follow Us"
+    subscribe: "Subscribe"
+    subscribe_text: "Subscribe to receive updates and tips"
+    app_store: "Download on the App Store"
+    google_play: "Get it on Google Play"
+    gdpr_compliance_text: "GDPR Compliance. Your data is safe with us."

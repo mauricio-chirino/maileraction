@@ -11,7 +11,7 @@ module Web
     def create
       @user = User.find_by(email_address: params[:email_address])
 
-      if @user
+      if @user.present?
         # Si el correo está registrado, genera el token y lo envía
         @user.send_password_reset_email
         flash[:notice] = "Si el correo está registrado, te hemos enviado un enlace para restablecer tu contraseña."

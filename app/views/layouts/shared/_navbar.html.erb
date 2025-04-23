@@ -17,24 +17,24 @@
         <!-- Soluciones Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSolutions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Soluciones
+            <%= t('navbar.solutions') %>
           </a>
-          <ul class="dropdown-menu shadow p-3" aria-labelledby="navbarDropdownSolutions">
-            <li><a class="dropdown-item" href="#">Email Marketing</a></li>
-            <li><a class="dropdown-item" href="#">Automatización</a></li>
-            <li><a class="dropdown-item" href="#">Análisis de Datos</a></li>
-            <li><a class="dropdown-item" href="#">Segmentación Inteligente</a></li>
-          </ul>
+            <ul class="dropdown-menu shadow p-3" aria-labelledby="navbarDropdownSolutions">
+              <li><a class="dropdown-item" href="#"><%= t('solutions_dropdown.email_marketing') %></a></li>
+              <li><a class="dropdown-item" href="#"><%= t('solutions_dropdown.automate') %></a></li>
+              <li><a class="dropdown-item" href="#"><%= t('solutions_dropdown.data_analysis') %></a></li>
+              <li><a class="dropdown-item" href="#"><%= t('solutions_dropdown.intelligent_segmentation') %></a></li>
+            </ul>
         </li>
 
         <!-- Planes -->
         <li class="nav-item">
-          <a class="nav-link" href="#">Planes</a>
+          <a class="nav-link" href="#"><%= t('navbar.plans') %></a>
         </li>
 
         <!-- Precios -->
         <li class="nav-item">
-          <a class="nav-link" href="#">Precios</a>
+          <a class="nav-link" href="#"><%= t('navbar.prices') %></a>
         </li>
         
       </ul>
@@ -48,27 +48,28 @@
               style="width: 40px; height: 40px; margin-right: 10px;">
           </lord-icon>
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ES
+            <%= I18n.locale.to_s.upcase %> <!-- Muestra el idioma actual -->
           </a>
-          <ul class="dropdown-menu shadow p-3" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">EN English</a></li>
-            <li><a class="dropdown-item" href="#">FR Français</a></li>
-            <li><a class="dropdown-item" href="#">BR Português</a></li>
-            <li><a class="dropdown-item" href="#">DE Deutsch</a></li>
-            <li><a class="dropdown-item" href="#">IT Italiano</a></li>
+          <ul id="languaje" class="dropdown-menu shadow p-3" aria-labelledby="navbarDropdown">
+            <li class="nav-item"><%= link_to t('navbar.languages.es Espanol '), url_for(locale: 'es'), class: "dropdown-item" %></li>
+            <li class="nav-item"><%= link_to t('navbar.languages.en English'), url_for(locale: 'en'), class: "dropdown-item" %></li>
+            <li class="nav-item"><%= link_to t('navbar.languages.fr Français'), url_for(locale: 'fr'), class: "dropdown-item" %></li>
+            <li class="nav-item"><%= link_to t('navbar.languages.br Português'), url_for(locale: 'br'), class: "dropdown-item" %></li>
+            <li class="nav-item"><%= link_to t('navbar.languages.de Deutsch'), url_for(locale: 'de'), class: "dropdown-item" %></li>
+            <li class="nav-item"><%= link_to t('navbar.languages.it Italiano'), url_for(locale: 'it'), class: "dropdown-item" %></li>
           </ul>
+
+          
         </li>
 
         <!-- Iniciar Button -->
-        <li class="nav-item ">
-          <%= link_to "Iniciar", "/web/login", class: "btn btn-outline-primary ms-3" %>
-
-
+        <li class="nav-item">
+          <%= link_to t('navbar.login'), "/web/login", class: "btn btn-outline-primary ms-3" %>
         </li>
 
         <!-- Register Button -->
         <li class="nav-item">
-          <%= link_to "Regístrate", "/web/signup", class: "btn btn-outline-primary ms-3" %>
+          <%= link_to t('navbar.signup'), "/web/signup", class: "btn btn-outline-primary ms-3" %>
         </li>
       </ul>
     </div>

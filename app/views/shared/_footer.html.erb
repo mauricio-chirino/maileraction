@@ -2,50 +2,52 @@
   <div class="ui container">
     <div class="row">
         <div class="col-12 col-md-3 aline-tex-left">
-            <h4 class="ui header">Productos</h4>
+            <h4 class="ui header"><%= t('footer.product') %></h4>
             <ul class="list-unstyled">
-            <li><a href="#">Email marketing</a></li>
-            <li><a href="#">Automatizaciones</a></li>
-            <li><a href="#">Sitios web</a></li>
-            <li><a href="#">Integraciones</a></li>
-            <li><a href="#">Comparar MailerAction</a></li>
-            <li><a href="#">API para desarrolladores</a></li>
-            <li><a href="#">Novedades</a></li>
-            <li><a href="#">Estado</a></li>
+                <li><%= link_to t('footer.email_marketing'), web_product_email_marketing_path %></li>
+                <li><%= link_to t('footer.automate'), web_product_automate_path %></li>
+                <li><%= link_to t('footer.websites'), web_product_websites_path %></li>
+                <li><%= link_to t('footer.transactional_email'), web_product_transactional_email_path %></li>
+                <li><%= link_to t('footer.integrations'), web_product_integrations_path %></li>
+                <li><%= link_to t('footer.developer_api'), web_product_developer_api_path %></li>
+                <li><%= link_to t('footer.news'), web_product_news_path %></li>
+                <li><%= link_to t('footer.templates'), web_product_templates_path %></li>
             </ul>
         </div>
 
         <div class="col-12 col-md-3 aline-tex-left">
-            <h4 class="ui header">Atención al cliente</h4>
+            <h4 class="ui header"><%= t('footer.support') %></h4>
             <ul class="list-unstyled">
-            <li><a href="#">Academia</a></li>
-            <li><a href="#">Contratar a un experto</a></li>
-            <li><a href="#">Migrar a MailerAction</a></li>
-            <li><a href="#">Atención al cliente</a></li>
-            <li><a href="#">Denunciar spam</a></li>
+                <li><%= link_to t('footer.customer_support'), web_support_customer_support_path %></li>
+                <li><%= link_to t('footer.tutorials'), web_support_tutorials_path %></li>
+                <li><%= link_to t('footer.migrate_to_maileraction'), web_support_migrate_to_maileraction_path %></li>
+                <li><%= link_to t('footer.deliverability_diagnostics'), web_support_deliverability_diagnostics_path %></li>
+                <li><%= link_to t('footer.report_spam'), web_support_report_spam_path %></li>
             </ul>
         </div>
 
         <div class="col-12 col-md-3 aline-tex-left">
-            <h4 class="ui header">Empresa</h4>
+            <h4 class="ui header"><%= t('footer.company') %></h4>
             <ul class="list-unstyled">
-            <li><a href="#">Acerca de nosotros</a></li>
-            <li><a href="#">Por qué MailerAction</a></li>
-            <li><a href="#">Valores</a></li>
-            <li><a href="#">Partners</a></li>
-            <li><a href="#">Contáctanos</a></li>
+                <li><%= link_to t('footer.about_us'), web_company_about_us_path %></li>
+                <li><%= link_to t('footer.why_maileraction'), web_company_why_maileraction_path %></li>
+                <li><%= link_to t('footer.values'), web_company_values_path %></li>
+                <li><%= link_to t('footer.partners'), web_company_partners_path %></li>
+                <li><%= link_to t('footer.gdpr_compliance'), web_company_gdpr_compliance_path %></li>
+                <li><%= link_to t('footer.corporate_responsibility'), web_company_corporate_responsibility_path %></li>
+                <li><%= link_to t('footer.contact_us'), web_company_contact_us_path %></li>
             </ul>
         </div>
 
         <div class="col-12 col-md-3 aline-tex-left">
-            <h4 class="ui header">Sigamos en contacto</h4>
-            <p>Suscríbete para recibir novedades y consejos.</p>
+            <h4 class="ui header"><%= t('footer.follow_us') %></h4>
+            <p><%= t('footer.subscribe_text') %></p>
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Ingresa tu email" aria-label="Search">
-                <button class="btn btn-outline-primary btn-sm" type="submit">Inscribete</button>
+                <input class="form-control me-2" type="search" >
+                <button class="btn btn-outline-primary btn-sm" type="submit"><%= t('footer.subscribe') %></button>
             </form>
             <div class="ui horizontal list social-icons" style="margin-top: 1rem ;">
-                <a class="item" href="#"><script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <a class="item" href="#">
                     <lord-icon
                         src="https://cdn.lordicon.com/mfgntcqv.json"
                         trigger="loop"
@@ -53,7 +55,7 @@
                         style="width:30px;height:30px">
                     </lord-icon>
                 </a>
-                <a class="item" href="#"><script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <a class="item" href="#">
                     <lord-icon
                         src="https://cdn.lordicon.com/jxntwvib.json"
                         trigger="loop"
@@ -61,15 +63,15 @@
                         style="width:30px;height:30px">
                     </lord-icon>
                 </a>
-                <a class="item" href="#"><script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <a class="item" href="#">
                     <lord-icon
                         src="https://cdn.lordicon.com/bnzbstbp.json"
                         trigger="loop"
-                        state="loop-roll
+                        state="loop-roll"
                         style="width:30px;height:30px">
                     </lord-icon>
                 </a>
-                <a class="item" href="#"><script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <a class="item" href="#">
                     <lord-icon
                         src="https://cdn.lordicon.com/vcgyhoyv.json"
                         trigger="loop"
@@ -80,8 +82,8 @@
             </div>
             
             <div class="aline-tex-right" style="margin-top: 2rem;">
-            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" style="height: 40px;">
-            <img src="https://play.google.com/intl/en_us/badges/images/generic/es_badge_web_generic.png" alt="Google Play" style="height: 40px; margin-left: 1rem;">
+                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" style="height: 40px;">
+                <img src="https://play.google.com/intl/en_us/badges/images/generic/es_badge_web_generic.png" alt="Google Play" style="height: 40px; margin-left: 1rem;">
             </div>
         </div>
     </div>
@@ -93,17 +95,18 @@
   <div id="legal" class="ui container">
     <div class="row">
       <div class="col-12 col-md-9 aline-tex-left ">
-        <p>© <%= Time.current.year %> MailerAction. Todos los derechos reservados.</p>
+        <p>© <%= Time.current.year %> MailerAction. <%= t('footer.all_rights_reserved') %></p>
         <p>
-          <a href="#">Condiciones del servicio</a> ·
-          <a href="#">Política de privacidad</a> ·
-          <a href="#">Configuración de cookies</a> ·
-          <a href="#">Activos de marca</a>
+          <%= link_to t('footer.terms_of_service'), web_legal_terms_of_service_path %> ·
+          <%= link_to t('footer.privacy_policy'), web_legal_privacy_policy_path %> ·
+          <%= link_to t('footer.cookies_settings'), web_legal_cookie_settings_path %> ·
+          <%= link_to t('footer.security'), web_legal_security_path %> ·
+          <%= link_to t('footer.brand_assets'), web_legal_brand_assets_path %>
         </p>
       </div>
       <div class="col-12 col-md-3 aline-tex-right aline-content-down">
         <i class="shield alternate icon large"></i>
-        <p class="conforme">Conformidad con el RGPD. <br>Tus datos están seguros con nosotros.</p>
+        <p class="conforme"><%= t('footer.gdpr_compliance_text').html_safe %></p>
       </div>
     </div>
   </div>

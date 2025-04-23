@@ -1,23 +1,38 @@
-// app/javascript/controllers/spinner_controller.js
-import { Controller } from "stimulus"
+import { Controller } from "stimulus";
 
 export default class extends Controller {
-  static targets = ["spinner"]
+  static targets = ["spinner"];
 
   connect() {
-    this.spinnerTarget.style.display = "none"; // Asegura que el spinner esté oculto al cargar
+    console.log("Spinner Controller conectado"); // Confirma que Stimulus cargó
+    if (this.hasSpinnerTarget) {
+      console.log("Spinner encontrado en DOM, ocultándolo...");
+      this.spinnerTarget.classList.add("spinner-hidden");
+    }
   }
 
   showSpinner(event) {
-    // Previene el envío del formulario de inmediato
-    event.preventDefault()
+    event.preventDefault();
+    console.log("showSpinner activado");
 
-    // Muestra el spinner
-    this.spinnerTarget.style.display = "flex"
+    if (this.hasSpinnerTarget) {
+      console.log("Antes de mostrar el spinner:", this.spinnerTarget.style.display);
+      this.spinnerTarget.classList.remove("spinner-hidden");
+      console.log("Después de mostrar el spinner:", this.spinnerTarget.style.display);
+    } else {
+      console.error("spinnerTarget no encontrado");
+    }
 
-    // Enviar el formulario después de unos segundos (simula carga)
-    setTimeout(() => {
-      event.target.submit()  // Enviar el formulario
-    }, 1000) // Ajusta el retraso si es necesario
+    requestAnimationFrame(() => {
+      event.target.submit();
+      setTimeout(() => this.hideSpinner(), 1000);
+    });
+  }
+
+  hideSpinner() {
+    if (this.hasSpinnerTarget) {
+      console.log("Ocultando el spinner...");
+      this.spinnerTarget.classList.add("spinner-hidden");
+    }
   }
 }

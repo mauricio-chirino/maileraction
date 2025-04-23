@@ -1,54 +1,63 @@
 <!-- app/views/web/passwords/new.html.erb -->
 
-<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh; background-image: url('https://path_to_your_image.jpg'); background-size: cover;">
-  <div class="row w-100 justify-content-center">
-    <div class="col-lg-4 col-md-6 col-12 bg-white rounded shadow-lg p-4">
-      
-      <!-- Spinner controlado por Stimulus -->
-      <div data-controller="spinner">
-        <div data-spinner-target="spinner" class="d-flex justify-content-center" style="display: none;">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+
+ <!-- Content -->
+
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner py-4">
+          <!-- Forgot Password -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="index.html" class="app-brand-link gap-2">
+                  <span class="app-brand-logo demo">
+                    <%= image_tag("logo3.svg", alt: "MailerAction Logo", height: "32") %>
+                  </span>
+                  <span class="app-brand-text demo text-body fw-bolder">MailerAction</span>
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-1">Forgot Password? </h4>
+              <p class="mb-6">Enter your email and we'll send you instructions to reset your password</p>
+              <%= form_with(url: "/web/forgot_password", method: :post, local: true, html: { class: "mb-3", novalidate: true, data: { controller: "spinner", action: "submit->spinner#showSpinner" } }) do |form| %>
+
+
+              <!-- Mensajes flash -->
+              <% if flash[:alert] %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <%= flash[:alert] %>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <% end %>
+
+              <% if flash[:notice] %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <%= flash[:notice] %>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <% end %>
+              <div class="mb-3">
+                <%= form.label :email, "Email", class: "form-label" %>
+                <%= form.text_field :email, required: true, class: "form-control", placeholder: "Enter your email" %>
+              </div>
+              <%= form.submit "Send Reset Link", class: "btn btn-primary d-grid w-100" %>
+              <% end %>
+
+
+
+              <div class="text-center">
+                <%= link_to web_login_path, class: "d-flex align-items-center justify-content-center" do %>
+                  <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
+                  <span >Back to login</span>
+                <% end %>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <!-- Título con la clase hero-title -->
-        <h2 class="text-center mb-4 hero-title">¿Olvidaste tu contraseña?</h2>
-
-        <%= form_with(url: "/web/forgot_password", method: :post, local: true, html: { class: "needs-validation", novalidate: true, data: { action: "submit->spinner#showSpinner" } }) do |form| %>
-          
-          <!-- Mensajes flash -->
-          <% if flash[:alert] %>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <%= flash[:alert] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          <% end %>
-
-          <% if flash[:notice] %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= flash[:notice] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          <% end %>
-
-          <!-- Correo electrónico -->
-          <div class="mb-3">
-            <%= form.label :email_address, "Correo electrónico", class: "form-label" %>
-            <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Ingresa tu correo electrónico" %>
-          </div>
-
-          <!-- Botón de enviar correo para restablecer la contraseña -->
-          <div class="d-grid">
-            <%= form.submit "Enviar correo para restablecer contraseña", class: "btn btn-primary" %>
-          </div>
-        <% end %>
-
-        <!-- Enlace para iniciar sesión -->
-        <div class="d-flex justify-content-center mt-3">
-          <%= link_to "Recuperaste tu contraseña, Inicia sesión", "/web/login", class: "text-decoration-none" %>
+          <!-- /Forgot Password -->
         </div>
       </div>
     </div>
-  </div>
-</div>
+
+    <!-- / Content -->

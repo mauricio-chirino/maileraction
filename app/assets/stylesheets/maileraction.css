@@ -8,16 +8,16 @@
     }
 
 
-    body {
+    /* body {
         font-family: 'Open Sans', sans-serif;
         color: #1a1a1a;
-       /* background-color: #ffffff;*/
+
         font-size: 1rem;
         line-height: 1.6;
         margin: 0;
         padding: 0;
-        box-sizing: border-box; /* Esto asegura que el padding y border no afecten el tamaño de los elementos */
-    }
+        box-sizing: border-box; 
+    } */
     
     
     h1, h2, h3, .ui.header {
@@ -852,4 +852,10 @@
 
       .base{
         background: linear-gradient(180deg, #ffffff, #e7e8eb);
+      }
+
+
+
+      .spinner-hidden {
+        display: none;
       }

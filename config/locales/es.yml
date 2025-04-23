@@ -6,3 +6,90 @@ es:
           attributes:
             status:
               inclusion: "El estado %{value} no es válido"
+
+
+  navbar:
+    solutions: "Soluciones"
+    email_marketing: "Marketing por correo electrónico"
+    automate: "Automatizar"
+    websites: "Sitios web"
+    transactional_email: "Correo transaccional"
+    integrations: "Integraciones"
+    compare_mailer_action: "Comparar MailerAction"
+    developer_api: "API para desarrolladores"
+    news: "Noticias"
+    templates: "Plantillas"
+    login: "Iniciar"
+    signup: "Registrarme"
+    navbar.plans: "Planes"
+    navbar.prices: "Precios"
+
+
+
+  solutions_dropdown:
+    email_marketing: "Email Marketing"
+    automate: "Automatizar"
+    data_analysis: "Análisis de Datos"
+    intelligent_segmentation: "Segmentación Inteligente"
+
+  languages:
+    spanish: "Español"
+    english: "Inglés"
+    french: "Francés"
+    portuguese: "Portugués"
+    german: "Alemán"
+    italian: "Italiano"
+
+
+  hero:
+    title: "MailerAction"
+    subtitle: "Lleva tus campañas de email marketing al siguiente nivel con automatización, análisis y segmentación inteligente."
+    button_1: "Comenzar ahora"
+    button_2: "Ver cómo funciona"
+    phrases:
+      - "Emails segmentados que se convierten en ventas"
+      - "Automatiza tu marketing fácilmente con MailerAction"
+      - "Analiza tus campañas en tiempo real"
+      - "Diseña correos atractivos sin esfuerzo"
+      - "Envía correos a las industrias que te interesan"
+
+
+
+
+
+
+footer:
+    product: "Producto"
+    email_marketing: "Marketing por correo electrónico"
+    automate: "Automatizar"
+    websites: "Sitios web"
+    transactional_email: "Correo transaccional"
+    integrations: "Integraciones"
+    developer_api: "API para desarrolladores"
+    news: "Noticias"
+    templates: "Plantillas"
+    support: "Soporte"
+    customer_support: "Soporte al cliente"
+    tutorials: "Tutoriales"
+    migrate_to_maileraction: "Migrar a MailerAction"
+    deliverability_diagnostics: "Diagnóstico de entregabilidad"
+    report_spam: "Reportar Spam"
+    company: "Compañía"
+    about_us: "Acerca de nosotros"
+    why_maileraction: "Por qué MailerAction"
+    values: "Valores"
+    partners: "Socios"
+    gdpr_compliance: "Cumplimiento del RGPD"
+    corporate_responsibility: "Responsabilidad Corporativa"
+    contact_us: "Contáctanos"
+    terms_of_service: "Términos de servicio"
+    privacy_policy: "Política de privacidad"
+    cookies_settings: "Configuración de cookies"
+    security: "Seguridad"
+    brand_assets: "Recursos de marca"
+    follow_us: "Síguenos en"
+    subscribe: "Suscríbete"
+    subscribe_text: "Suscríbete para recibir novedades y consejos"
+    app_store: "Disponible en la App Store"
+    google_play: "Disponible en Google Play"
+    gdpr_compliance_text: "Conformidad con el RGPD. Tus datos están seguros con nosotros."

@@ -1,75 +1,109 @@
-<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh; background-image: url('https://path_to_your_image.jpg'); background-size: cover;">
-  <div class="row w-100 justify-content-center">
-    <div class="col-lg-4 col-md-6 col-12 bg-white rounded shadow-lg p-4">
-      
-      <h2 class="text-center mb-4 hero-title">Crea tu cuenta en MailerAction</h2>
 
-      <%= form_with(model: @user, url: "/web/signup", method: :post, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
-        
-        <!-- Mensajes flash -->
-        <% if flash[:alert] %>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <%= flash[:alert] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+<!-- Content -->
+
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register Card -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="index.html" class="app-brand-link gap-2">
+                  <span class="app-brand-logo demo">
+                    <%= image_tag("logo3.svg", alt: "MailerAction Logo", height: "32") %>
+                  </span>
+                  <span class="app-brand-text demo text-body fw-bolder">MailerAction</span>
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-2">Adventure starts here </h4>
+              <p class="mb-4">Make your app management easy and fun!</p>
+
+
+              <%= form_with(model: @user, url: "/web/signup", method: :post, local: true, html: { class: "mb-3", novalidate: true }) do |form| %>  
+                
+                
+                <!-- Mensajes flash -->
+                <% if flash[:alert] %>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= flash[:alert] %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                <% end %>
+
+                <% if flash[:notice] %>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <%= flash[:notice] %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                <% end %>
+                
+                <!-- Compañía -->
+                <div class="mb-3">
+                  <%= form.label :company, "Username", class: "form-label" %>
+                  <%= form.text_field :company, required: true, class: "form-control", placeholder: "Enter your username" %>
+                </div>
+
+                <!-- Nombre -->
+                <div class="mb-3">
+                  <%= form.label :name, "Nombre", class: "form-label" %>
+                  <%= form.text_field :name, required: true, class: "form-control", placeholder: "Enter your Name" %>
+                </div>
+
+                <!-- Correo electrónico -->
+                <div class="mb-3">
+                  <%= form.label :email_address, "Email", class: "form-label" %>
+                  <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Enter your email" %>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="mb-3">
+                  <%= form.label :password, "Password", class: "form-label" %>
+                  <div class="input-group input-group-merge">
+                    <%= form.password_field :assword_confirmation, required: true, class: "form-control", placeholder: "************" %>
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+
+                <!-- Confirmar Contraseña -->
+                <div class="mb-3">
+                  <%= form.label :password_confirmation, "Confirm Password", class: "form-label" %>
+                  <div class="input-group input-group-merge">
+                    <%= form.password_field :password_confirmation, required: true, class: "form-control", placeholder: "************" %>
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+
+                <!-- Recordarme -->
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+                    <label class="form-check-label" for="terms-conditions">
+                      I agree to
+                      <a href="javascript:void(0);">privacy policy & terms</a>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Botón de registro -->
+                 <%= form.submit "Sign up", class: "btn btn-primary d-grid w-100" %>
+              <% end %>
+
+              <!-- Enlace para iniciar sesión si ya tienes cuenta -->
+              <p class="text-center">
+                <span>Already have an account?</span>
+                  <%= link_to content_tag(:small, "Sign in instead?"), "/web/login", class: "text-decoration-none" %>
+              </p>
+            </div>
           </div>
-        <% end %>
-
-        <% if flash[:notice] %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= flash[:notice] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% end %>
-
-
-
-        <!-- Compañía -->
-        <div class="mb-3">
-          <%# Ensure the @user model has a 'company' attribute or remove this field if not needed %>
-          <%= form.label :company, "Compañía o Organización", class: "form-label" %>
-          <%= form.text_field :company, required: true, class: "form-control", placeholder: "Ingresa tu compañía" %>
+        <!-- /Register Card -->
         </div>
-
-
-        <!-- Nombre -->
-        <div class="mb-3">
-          <%= form.label :name, "Nombre", class: "form-label" %>
-          <%= form.text_field :name, required: true, class: "form-control", placeholder: "Ingresa tu nombre" %>
-        </div>
-
-
-
-        <!-- Correo electrónico -->
-        <div class="mb-3">
-          <%= form.label :email_address, "Correo electrónico", class: "form-label" %>
-          <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Ingresa tu correo electrónico" %>
-        </div>
-
-        <!-- Contraseña -->
-        <div class="mb-3">
-          <%= form.label :password, "Contraseña", class: "form-label" %>
-          <%= form.password_field :password, required: true, class: "form-control", placeholder: "Ingresa tu contraseña" %>
-        </div>
-
-        <!-- Confirmar Contraseña -->
-        <div class="mb-3">
-          <%= form.label :password_confirmation, "Confirmar Contraseña", class: "form-label" %>
-          <%= form.password_field :password_confirmation, required: true, class: "form-control", placeholder: "Confirma tu contraseña" %>
-        </div>
-
-        <!-- Botón de registro -->
-        <div class="d-grid">
-          <%= form.submit "Crear cuenta", class: "btn btn-primary" %>
-        </div>
-      <% end %>
-
-      <!-- Enlace para iniciar sesión si ya tienes cuenta -->
-      <div class="d-flex justify-content-center mt-3">
-        <%= link_to "¿Ya tienes una cuenta? Inicia sesión", "/web/login", class: "text-decoration-none" %>
       </div>
-
-
-
     </div>
-  </div>
-</div>
+
+    <!-- / Content -->
+
+
+

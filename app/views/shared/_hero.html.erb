@@ -3,19 +3,19 @@
     <!-- Texto -->
     <div class="col-md-6">
       <h1 class="hero-title">
-        <span>MailerAction</span>
+        <span><%= t('mailer_action') %></span>
       </h1>
       <h2 id="dynamic-heading" class="hero-dynamic-text">
-        Campañas inteligentes que crecen contigo
+        <%= t('hero.phrases').sample %>
       </h2>
 
       <p class="hero-subtitle">
-        Llevá tus campañas de email marketing al siguiente nivel con automatización, análisis y segmentación inteligente.
+        <%= t('hero.subtitle') %>
       </p>
 
       <div class="hero-buttons">
-        <a href="/login" class="btn btn-outline-primary" aria-label="Comenzar ahora">Comenzar ahora</a>
-        <a href="#video" class="btn btn-outline-primary" aria-label="Ver cómo funciona">Ver cómo funciona</a>
+        <a href="/login" class="btn btn-outline-primary" aria-label="Comenzar ahora"><%= t('hero.button_1') %></a>
+        <a href="#video" class="btn btn-outline-primary" aria-label="Ver cómo funciona"><%= t('hero.button_2') %></a>
       </div>
     </div>
 
@@ -25,7 +25,6 @@
     </div>
   </div>
 </section>
-
 
 
 

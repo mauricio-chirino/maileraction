@@ -56,5 +56,19 @@ module Maileraction
       ssl: true,                                # Usar SSL para seguridad
       tls: true                                 # Usar TLS para seguridad
     }
+
+
+
+    # Cargar configuraciones predeterminadas
+    config.load_defaults 6.0
+
+    # Configuración de idiomas disponibles
+    config.i18n.available_locales = [ :es, :en, :fr, :br, :de, :it ]
+
+    # Configurar idioma por defecto
+    config.i18n.default_locale = :es
+
+    # Configuración para manejar locales en las rutas
+    config.i18n.fallbacks = true
   end
 end

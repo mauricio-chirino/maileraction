@@ -1,6 +1,7 @@
 # app/controllers/web/registrations_controller.rb
 module Web
   class RegistrationsController < BaseController
+    skip_before_action :authenticate_user!, only: [ :new, :create ]
     layout "application"  # Asegúrate de que se esté usando el layout correcto
     # Muestra el formulario de registro
     def new

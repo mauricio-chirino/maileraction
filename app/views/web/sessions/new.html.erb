@@ -1,119 +1,112 @@
 <!-- app/views/web/sessions/new.html.erb -->
+    <!-- Content -->
 
-<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh; background-image: url('https://path_to_your_image.jpg'); background-size: cover;">
-  <div class="row w-100 justify-content-center">
-    <div class="col-lg-4 col-md-6 col-12 bg-white rounded shadow-lg p-4">
-      
-      <!-- Título con la clase hero-title -->
-      <h2 class="text-center mb-4 hero-title">Inicia sesión en tu cuenta MailerAction</h2>
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="index.html" class="app-brand-link gap-2">
+                  <span class="app-brand-logo demo">
+                    <%= image_tag("logo3.svg", alt: "MailerAction Logo", height: "32") %>
+                  </span>
+                  <span class="app-brand-text demo text-body fw-bolder">MailerAction</span>
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-2">Welcome to MailerAction!</h4>
+              <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-      <%= form_with(url: "/web/login", method: :post, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
-        
-        <!-- Flash messages -->
-        <% if flash[:alert] %>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <%= flash[:alert] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              <%= form_with(url: "/web/login", method: :post, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+
+
+                                <!-- Flash messages -->
+                <% if flash[:alert] %>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= flash[:alert] %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                <% end %>
+
+                <% if flash[:notice] %>
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <%= flash[:notice] %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                <% end %>
+
+
+                <!-- Correo electrónico -->
+                <div class="mb-3">
+                  <%= form.label :email_address, "Email or Username", class: "form-label" %>
+                  <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Enter your email or username" %>
+                </div>
+
+
+                <!-- Contraseña con ícono de ojo -->
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <%= form.label :password, "Password", class: "form-label" %>
+                    <%= link_to content_tag(:small, "Forgot Password?"), "/web/forgot_password" %>
+                  </div>
+
+                  <div class="input-group input-group-merge">
+                    <%= form.password_field :password, required: true, class: "form-control", placeholder: "************", id: "password_field" %>
+                    <span class="input-group-text cursor-pointer" id="eye-icon">
+                      <i class="bx bx-hide" id="eye-toggle-icon"></i>
+                    </span>
+                  </div>
+                  <div class="invalid-feedback">
+                    La contraseña es obligatoria.
+                  </div>
+                </div>
+
+
+
+                <!-- Recordarme -->
+                <div class="mb-3">
+                  <div class="form-check">
+                    <%= form.check_box :remember_me, { class: "form-check-input" } %>
+                    <%= form.label :remember_me, " Remember Me ", class: "form-check-label" %>
+                  </div>
+                </div>
+
+                <!-- Botón de iniciar sesión -->
+                <div class="mb-3">
+
+                  <%= form.submit "Sign in", class: "btn btn-primary d-grid w-100" %>
+                </div>
+              <% end %>
+
+
+              <p class="text-center">
+                <%= link_to content_tag(:small, "New on our platform?"), "/web/signup", class: "text-decoration-none" %>
+                <span>Create an account</span>
+              </p>
+            </div>
           </div>
-        <% end %>
-
-        <% if flash[:notice] %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= flash[:notice] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% end %>
-
-        <!-- Correo electrónico -->
-        <div class="mb-3">
-          <%= form.label :email_address, "Correo electrónico", class: "form-label" %>
-          <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Ingresa tu correo electrónico" %>
+          <!-- /Register -->
         </div>
-
-        <!-- Contraseña con ícono de ojo -->
-        <div class="mb-3 position-relative">
-          <%= form.label :password, "Contraseña", class: "form-label" %>
-          <div class="input-group">
-            <%= form.password_field :password, required: true, class: "form-control", placeholder: "Ingresa tu contraseña", id: "password_field" %>
-            <span class="input-group-text" id="toggle-password">
-              <i class="fas fa-eye" style="backgroud: #8e2de2" id="eye-icon"></i>
-            </span>
-          </div>
-          <div class="invalid-feedback">
-            La contraseña es obligatoria.
-          </div>
-        </div>
-
-        <!-- Recordarme -->
-        <div class="form-check mb-3">
-          <%= form.check_box :remember_me, { class: "form-check-input" } %>
-          <%= form.label :remember_me, "Recordarme", class: "form-check-label" %>
-        </div>
-
-        <!-- Botón de iniciar sesión -->
-        <div class="d-grid">
-          <%= form.submit "Iniciar sesión", class: "btn btn-primary" %>
-        </div>
-      <% end %>
-
-      <!-- Enlaces para registro y contraseña, en una sola línea -->
-      <div class="d-flex justify-content-between mt-3">
-        <p class="mb-0">
-          <%= link_to "¿No tienes una cuenta? Regístrate", "/web/signup", class: "text-decoration-none" %>
-        </p>
-        <p class="mb-0">
-          <%= link_to "¿Olvidaste tu contraseña?", "/web/forgot_password", class: "text-decoration-none" %>
-        </p>
       </div>
-
-      <!-- Opciones de inicio de sesión con terceros en una sola línea con botones pequeños y margen entre ellos -->
-      <div class="text-center mt-4">
-        <p>O inicia sesión con:</p>
-        <div class="d-flex justify-content-center">
-
-          <%= link_to "#", class: "btn btn-outline-primary ms-2" do %>
-            <i class="fab fa-google me-2"></i> <!-- Ícono de Google -->
-            Google
-          <% end %>
-
-          <%= link_to "#", class: "btn btn-outline-primary ms-2" do %>
-            <i class="fa-brands fa-apple"></i> <!-- Ícono de Google -->
-            Apple
-          <% end %>
-
-
-          <%= link_to "#", class: "btn btn-outline-primary ms-2" do %>
-            <i class="fa-brands fa-microsoft"></i><!-- Ícono de Google -->
-            Microsoft
-          <% end %>
-
-        </div>
-      </div>
-
-      <!-- Enlace adicional para "No puedo iniciar sesión" -->
-      <div class="d-flex justify-content-center mt-3">
-        <%= link_to "No puedo iniciar sesión en mi cuenta", "#", class: "text-decoration-none" %>
-      </div>
-
     </div>
-  </div>
-</div>
 
-<!-- Script para mostrar/ocultar la contraseña -->
-<script>
-  document.getElementById("eye-icon").addEventListener("click", function() {
-    var passwordField = document.getElementById("password_field");
-    var icon = document.getElementById("eye-icon");
+    <!-- / Content -->
 
-    // Cambiar tipo de campo de contraseña
-    if (passwordField.type === "password") {
-      passwordField.type = "text";
-      icon.classList.remove("fa-eye");
-      icon.classList.add("fa-eye-slash");
-    } else {
-      passwordField.type = "password";
-      icon.classList.remove("fa-eye-slash");
-      icon.classList.add("fa-eye");
-    }
-  });
-</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

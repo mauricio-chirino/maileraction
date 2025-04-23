@@ -1,0 +1,84 @@
+de:
+  hello: "Hallo"
+  navbar:
+    solutions: "Lösungen"
+    email_marketing: "E-Mail-Marketing"
+    automate: "Automatisieren"
+    websites: "Websites"
+    transactional_email: "Transaktions-E-Mail"
+    integrations: "Integrationen"
+    compare_mailer_action: "Vergleichen Sie MailerAction"
+    developer_api: "Entwickler-API"
+    news: "Nachrichten"
+    templates: "Vorlagen"
+    login: "Einloggen"
+    signup: "Anmelden"
+    plans: "Pläne"
+    prices: "Preise"
+
+
+
+
+  solutions_dropdown:
+    email_marketing: "E-Mail-Marketing"
+    automate: "Automatisieren"
+    data_analysis: "Datenanalyse"
+    intelligent_segmentation: "Intelligente Segmentierung"
+
+
+
+
+
+  hero:
+    title: "MailerAction"
+    subtitle: "Bringen Sie Ihre E-Mail-Marketingkampagnen auf die nächste Stufe mit Automatisierung, Analyse und intelligenter Segmentierung."
+    button_1: "Jetzt starten"
+    button_2: "Sehen Sie, wie es funktioniert"
+    phrases:
+      - "Segmentierte E-Mails, die in Verkäufe umgewandelt werden"
+      - "Automatisieren Sie Ihr Marketing einfach mit MailerAction"
+      - "Analysieren Sie Ihre Kampagnen in Echtzeit"
+      - "Erstellen Sie mühelos ansprechende E-Mails"
+      - "Senden Sie E-Mails an die Branchen, die für Sie wichtig sind"
+
+
+
+
+
+
+
+  footer:
+    product: "Produkt"
+    email_marketing: "E-Mail-Marketing"
+    automate: "Automatisieren"
+    websites: "Websites"
+    transactional_email: "Transaktions-E-Mail"
+    integrations: "Integrationen"
+    developer_api: "Entwickler-API"
+    news: "Nachrichten"
+    templates: "Vorlagen"
+    support: "Unterstützung"
+    customer_support: "Kundensupport"
+    tutorials: "Tutorials"
+    migrate_to_maileraction: "Wechseln zu MailerAction"
+    deliverability_diagnostics: "Zustellbarkeitsdiagnose"
+    report_spam: "Spam melden"
+    company: "Unternehmen"
+    about_us: "Über uns"
+    why_maileraction: "Warum MailerAction"
+    values: "Werte"
+    partners: "Partner"
+    gdpr_compliance: "GDPR-Konformität"
+    corporate_responsibility: "Unternehmensverantwortung"
+    contact_us: "Kontaktieren Sie uns"
+    terms_of_service: "Nutzungsbedingungen"
+    privacy_policy: "Datenschutzerklärung"
+    cookies_settings: "Cookie-Einstellungen"
+    security: "Sicherheit"
+    brand_assets: "Markenressourcen"
+    follow_us: "Folgen Sie uns"
+    subscribe: "Abonnieren"
+    subscribe_text: "Abonnieren Sie, um Updates und Tipps zu erhalten"
+    app_store: "Im App Store herunterladen"
+    google_play: "Im Google Play Store erhalten"
+    gdpr_compliance_text: "GDPR-Konformität. Ihre Daten sind bei uns sicher."

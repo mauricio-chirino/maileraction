@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MailerAction</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+  <body>
+    <%= render 'shared/sidebar', current_user: current_user %>
+    <%= render 'shared/navbar', current_user: current_user %>
+    <main class="container-xxl p-4">
+      <%= yield %>
+    </main>
+  </body>
+</html>
