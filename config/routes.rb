@@ -202,6 +202,10 @@ Rails.application.routes.draw do
     scope "(:locale)", locale: /es|en|fr|br|de|it/ do
       # Web Routes
       namespace :web do
+        resources :users, only: [ :index, :edit, :show, :update ]
+
+
+
         # Producto
         namespace :product do
           get :index

@@ -19,6 +19,15 @@ module Web
 
 
 
+
+    # Método para obtener el usuario actual
+    def current_user
+      @current_user ||= User.find_by(id: session[:user_id])
+    end
+
+
+
+
     private
 
     # Método de autenticación para verificar si el usuario está autenticado
@@ -29,10 +38,7 @@ module Web
       end
     end
 
-    # Método para obtener el usuario actual
-    def current_user
-      @current_user ||= User.find_by(id: session[:user_id])
-    end
+
 
 
     # seleccionar el idioma por defecto

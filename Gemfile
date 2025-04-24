@@ -81,7 +81,7 @@ gem "addressable"
 gem "sprockets-rails"
 
 
-gem "importmap-rails"
+gem "importmap-rails", "~> 2.1"
 
 
 gem "stimulus-rails"

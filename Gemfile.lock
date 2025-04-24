@@ -420,7 +420,7 @@ DEPENDENCIES
   faker
   foreman
   httparty
-  importmap-rails
+  importmap-rails (~> 2.1)
   jwt
   kamal
   nokogiri

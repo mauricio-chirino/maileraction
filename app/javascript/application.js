@@ -1,9 +1,10 @@
-// app/javascript/application.js
+// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import { Application } from "@hotwired/stimulus"
-
-window.Stimulus = Application.start()
+import "@hotwired/turbo-rails"
 
 import HelloController from "./controllers/hello_controller.js"
 
-Stimulus.register("hello", HelloController)
+window.Stimulus = Application.start()
 
+
+Stimulus.register("hello", HelloController)

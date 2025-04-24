@@ -13,12 +13,14 @@
             <img src="<%= asset_path('avatars/1.png') %>" alt class="w-px-40 h-auto rounded-circle" />
           </div>
         </a>
+
+
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
             <a class="dropdown-item" href="#">
               <div class="d-flex">
                 <div class="flex-grow-1">
-                  <span class="fw-semibold d-block"><%= current_user.name || current_user.email %></span>
+                  <span class="fw-semibold d-block"><%= current_user.name || current_user.email_address %></span>
                   <small class="text-muted"><%= current_user.role %></small>
                 </div>
               </div>
@@ -26,12 +28,13 @@
           </li>
           <li><div class="dropdown-divider"></div></li>
           <li>
-            <%= link_to "Perfil", edit_user_path(current_user), class: "dropdown-item" do %>
+            <%= link_to edit_web_user_path(current_user, locale: I18n.locale), class: "dropdown-item" do %>
               <i class="bx bx-user me-2"></i> <span class="align-middle">Mi Perfil</span>
             <% end %>
+
           </li>
           <li>
-            <%= link_to "Cerrar sesión", web_logout_path, method: :delete, class: "dropdown-item" do %>
+            <%= link_to web_logout_path, data: { turbo_method: :delete }, class: "dropdown-item" do %>
               <i class="bx bx-power-off me-2"></i> <span class="align-middle">Cerrar sesión</span>
             <% end %>
           </li>
