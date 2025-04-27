@@ -42,3 +42,9 @@ body {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
+
+
+/* Color iconos panel */
+.menu-icon {
+  color: #696cff;
+}
