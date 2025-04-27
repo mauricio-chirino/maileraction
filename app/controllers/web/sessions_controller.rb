@@ -2,7 +2,7 @@
 module Web
   class SessionsController < BaseController
     skip_before_action :authenticate_user!, only: [ :new, :create ]
-    layout "application"  # Asegúrate de que se esté usando el layout correcto
+
     def new
       # Acción para mostrar el formulario de inicio de sesión
     end
@@ -30,7 +30,8 @@ module Web
       session[:user_id] = nil
       cookies.delete(:user_id)
       cookies.delete(:remember_token)
-      redirect_to root_path, notice: "Sesión cerrada correctamente"
+
+      redirect_to root_path(locale: I18n.locale), status: :see_other
     end
 
 

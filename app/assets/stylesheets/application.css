@@ -1,21 +1,16 @@
 /*
  *= require clear
- *= require core
- *= require demo
- *= require interface
- *= require page-account-settings
- *= require page-auth
- *= require page-icons
- *= require page-misc
- *= require perfect-scrollbar
- *= require theme-default
- *= require utility
+
 
 
  *= require custom
  *= require maileraction
  *= require components/login
  *= require components/navbar
+
+
+
+
 
  *= require_tree .
  *= require_self

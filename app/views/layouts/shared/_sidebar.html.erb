@@ -1,3 +1,5 @@
+        <!-- Layout wrapper -->
+
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <%= link_to web_dashboard_dashboard_path, class: "app-brand-link" do %>
@@ -34,18 +36,301 @@
     <% end %>
 
     <% if current_user.admin? %>
+
+
+
+
+
+
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-dock-top"></i>
+        <div data-i18n="Account Settings">Account Settings</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="pages-account-settings-account.html" class="menu-link">
+            <div data-i18n="Account">Account</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="pages-account-settings-notifications.html" class="menu-link">
+            <div data-i18n="Notifications">Notifications</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="pages-account-settings-connections.html" class="menu-link">
+            <div data-i18n="Connections">Connections</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+
       <li class="menu-header small text-uppercase"><span>Administración</span></li>
-      <li class="menu-item"><%= link_to "Usuarios", "#", class: "menu-link" %></li>
-      <li class="menu-item"><%= link_to "Planes", "#", class: "menu-link" %></li>
+      <!-- Users -->
+      <li class="menu-item" style="">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon icon-base bx bx-user"></i>
+          <div data-i18n="Users">Users</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="pages-account-settings-account.html" class="menu-link">
+              <div data-i18n="List">List</div>
+            </a>
+          </li>
+
+          <li class="menu-item open" style="">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <div data-i18n="View">View</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="app-user-view-account.html" class="menu-link">
+                  <div data-i18n="Account">Account</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="app-user-view-security.html" class="menu-link">
+                  <div data-i18n="Security">Security</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="app-user-view-billing.html" class="menu-link">
+                  <div data-i18n="Billing &amp; Plans">Billing &amp; Plans</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="app-user-view-notifications.html" class="menu-link">
+                  <div data-i18n="Notifications">Notifications</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="app-user-view-connections.html" class="menu-link">
+                  <div data-i18n="Connections">Connections</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Roles & Permissions -->
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon icon-base bx bx-check-shield"></i>
+          <div data-i18n="Roles &amp; Permissions">Roles &amp; Permissions</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="app-access-roles.html" class="menu-link">
+              <div data-i18n="Roles">Roles</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="app-access-permission.html" class="menu-link">
+              <div data-i18n="Permission">Permission</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Autentication -->
+      <li class="menu-item" style="">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon icon-base bx bx-lock-open-alt"></i>
+          <div data-i18n="Authentications">Authentications</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <div data-i18n="Login">Login</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="auth-login-basic.html" class="menu-link" target="_blank">
+                  <div data-i18n="Basic">Basic</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="auth-login-cover.html" class="menu-link" target="_blank">
+                  <div data-i18n="Cover">Cover</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <div data-i18n="Register">Register</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="auth-register-basic.html" class="menu-link" target="_blank">
+                  <div data-i18n="Basic">Basic</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="auth-register-cover.html" class="menu-link" target="_blank">
+                  <div data-i18n="Cover">Cover</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="auth-register-multisteps.html" class="menu-link" target="_blank">
+                  <div data-i18n="Multi-steps">Multi-steps</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <div data-i18n="Verify Email">Verify Email</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="auth-verify-email-basic.html" class="menu-link" target="_blank">
+                  <div data-i18n="Basic">Basic</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="auth-verify-email-cover.html" class="menu-link" target="_blank">
+                  <div data-i18n="Cover">Cover</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <div data-i18n="Reset Password">Reset Password</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="auth-reset-password-basic.html" class="menu-link" target="_blank">
+                  <div data-i18n="Basic">Basic</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="auth-reset-password-cover.html" class="menu-link" target="_blank">
+                  <div data-i18n="Cover">Cover</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <div data-i18n="Forgot Password">Forgot Password</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="auth-forgot-password-basic.html" class="menu-link" target="_blank">
+                  <div data-i18n="Basic">Basic</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="auth-forgot-password-cover.html" class="menu-link" target="_blank">
+                  <div data-i18n="Cover">Cover</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <div data-i18n="Two Steps">Two Steps</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="auth-two-steps-basic.html" class="menu-link" target="_blank">
+                  <div data-i18n="Basic">Basic</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="auth-two-steps-cover.html" class="menu-link" target="_blank">
+                  <div data-i18n="Cover">Cover</div>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Invoice -->
+      <li class="menu-item active" style="">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon icon-base bx bx-food-menu"></i>
+          <div data-i18n="Invoice">Invoice</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item active">
+            <a href="app-invoice-list.html" class="menu-link">
+              <div data-i18n="List">List</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="app-invoice-preview.html" class="menu-link">
+              <div data-i18n="Preview">Preview</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="app-invoice-edit.html" class="menu-link">
+              <div data-i18n="Edit">Edit</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="app-invoice-add.html" class="menu-link">
+              <div data-i18n="Add">Add</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+
+
+
+
+
+
+
+
+
+
+
+      <li class="menu-item"><%= link_to "Billing & Plans", "#", class: "menu-link" %></li>
+      <li class="menu-item"><%= link_to "Authentications", "#", class: "menu-link" %></li>
+      <li class="menu-item"><%= link_to "Plan", "#", class: "menu-link" %></li>
       <li class="menu-item"><%= link_to "Feedbacks", "#", class: "menu-link" %></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <% end %>
+
+
+
+
+
+
 
     <li class="menu-header small text-uppercase"><span>Cuenta</span></li>
     <li class="menu-item">
       <%= link_to "Mi perfil", "#", class: "menu-link" %>
     </li>
     <li class="menu-item">
-      <%= link_to "Cerrar sesión", web_logout_path, method: :delete, class: "menu-link" %>
+      <%= link_to "Cerrar sesión4", web_logout_path(locale: I18n.locale), 
+            method: :delete, 
+            data: { turbo_method: :delete }, 
+            rel: "nofollow", 
+            class: "dropdown-item" %>
     </li>
 
   </ul>

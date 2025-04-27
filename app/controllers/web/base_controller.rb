@@ -1,6 +1,7 @@
 # app/controllers/web/base_controller.rb
 module Web
   class BaseController < ActionController::Base
+    layout "application"  # Asegúrate de que se esté usando el layout correcto
     before_action :set_locale
 
     # Asegura que el usuario esté autenticado antes de ejecutar las acciones (excepto en acciones específicas como el login)

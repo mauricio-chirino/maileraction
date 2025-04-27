@@ -1,1 +1,0 @@
-// Archivo helpers.js para funciones personalizadas

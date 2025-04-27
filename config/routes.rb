@@ -204,7 +204,7 @@ Rails.application.routes.draw do
       namespace :web do
         resources :users, only: [ :index, :edit, :show, :update ]
 
-
+        get "/account/settings", to: "accounts#settings", as: :account_settings
 
         # Producto
         namespace :product do

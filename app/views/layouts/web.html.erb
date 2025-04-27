@@ -6,26 +6,28 @@
   <title><%= content_for?(:title) ? yield(:title) : "MailerAction Dashboard" %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="<%= asset_path 'favicon.ico' %>" />
 
-  <!-- Fonts -->
+  <!-- Tipografías -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
 
-  <!-- Boxicons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+  <!-- Estilos de la app -->
+  <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
 
-  <!-- Core CSS -->
-  <%= stylesheet_link_tag "core", "theme-default", "demo", media: "all", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag "perfect-scrollbar", media: "all" %>
-
-  <!-- Rails Helpers -->
+  <!-- Meta de seguridad -->
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <!-- Stimulus via Importmap -->
-  <%= javascript_importmap_tags %>
+  <!-- Sneat CSS desde CDN -->
+  <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/css/core.css">
+  <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/css/theme-default.css">
+  <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/css/demo.css">
+  <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" integrity="sha512-pVCM5+SN2+qwj36KonHToF2p1oIvoU3bsqxphdOIWMYmgr4ZqD3t5DjKvvetKhXGc/ZG5REYTT6ltKfExEei/Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -40,7 +42,8 @@
           <main class="container-xxl flex-grow-1 container-p-y">
             <%= yield %>
           </main>
-          <%= render "layouts/shared/footer" %>
+
+          <%= render "shared/footer" %>
         </div>
       </div>
     </div>
@@ -48,11 +51,27 @@
     <div class="layout-overlay layout-menu-toggle"></div>
   </div>
 
-  <!-- Core JS -->
-  <%= javascript_include_tag "jquery", "popper", "bootstrap", "perfect-scrollbar", "menu", defer: true %>
-  <%= javascript_include_tag "main", defer: true %>
-
-  <!-- Optional Page JS -->
+  <!-- Scripts de comportamiento -->
   <%= yield :javascript %>
+
+  <!-- Stimulus y Turbo -->
+  <%= javascript_importmap_tags %>
+
+  <!-- Sneat Vendor JS desde CDN -->
+  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/jquery/jquery.js" defer></script>
+  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/popper/popper.js" defer></script>
+  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/bootstrap.js" defer></script>
+  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" defer></script>
+
+  <!-- Sneat Core JS -->
+
+
+  
+  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/helpers.js" defer></script>
+  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/js/config.js" defer></script>
+  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/menu.js" defer></script>
+
+  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/js/main.js" defer></script>
+
 </body>
 </html>
