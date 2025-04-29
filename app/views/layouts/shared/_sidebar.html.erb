@@ -22,11 +22,12 @@
       <% end %>
     </li>
 
+<!--
     <% if current_user.admin? || current_user.campaign_manager? || current_user.usuario_prepago? %>
       <li class="menu-header small text-uppercase"><span>Campañas</span></li>
       <li class="menu-item"><%= link_to "Crear", "#", class: "menu-link", data: { controller: "campaigns", action: "click->campaigns#new" } %></li>
     <% end %>
-
+-->
     <% if current_user.designer? %>
       <li class="menu-header small text-uppercase"><span>Diseño</span></li>
       <li class="menu-item"><%= link_to "Plantillas", "#", class: "menu-link", data: { controller: "templates", action: "click->templates#list" } %></li>

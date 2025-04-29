@@ -1,24 +1,28 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Este controlador maneja mostrar/ocultar elementos según el tamaño de pantalla
 export default class extends Controller {
-  static targets = ["toggleButton"]
+  static targets = ["column"]
 
   connect() {
-    this.updateButtonVisibility()
-    window.addEventListener("resize", this.updateButtonVisibility.bind(this))
+    this.updateColumns()
+    window.addEventListener("resize", this.updateColumns.bind(this))
   }
 
   disconnect() {
-    window.removeEventListener("resize", this.updateButtonVisibility.bind(this))
+    window.removeEventListener("resize", this.updateColumns.bind(this))
   }
 
-  updateButtonVisibility() {
-    const isMobile = window.innerWidth < 768 // Aquí defines qué es "pantalla pequeña"
-    if (isMobile) {
-      this.toggleButtonTarget.classList.remove("d-none")
-    } else {
-      this.toggleButtonTarget.classList.add("d-none")
-    }
+  updateColumns() {
+    const isLargeScreen = window.innerWidth >= 1200
+
+    this.columnTargets.forEach((column) => {
+      if (isLargeScreen) {
+        column.classList.remove("dtr-hidden")
+        column.style.display = ""
+      } else {
+        column.classList.add("dtr-hidden")
+        column.style.display = "none"
+      }
+    })
   }
 }
