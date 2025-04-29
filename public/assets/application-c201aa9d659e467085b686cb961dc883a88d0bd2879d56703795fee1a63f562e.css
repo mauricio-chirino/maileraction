@@ -299,6 +299,10 @@ body {
   color: #696cff;
 }
 
+
+.table-responsive {
+  overflow-x: auto;
+}
 :root {
     --color-accent: #8e2de2;
     --color-primary: #4a00e0;

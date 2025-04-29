@@ -245,7 +245,42 @@
                   </div>
                 </div>
                 <div class="card-datatable">
-                  <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer"><div class="row mx-3 my-0 justify-content-between"><div class="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0"><div class="dt-length mb-md-6 mb-0"><select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select ms-0" id="dt-length-0"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select><label for="dt-length-0"></label></div></div><div class="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0"><div class="dt-search mb-md-6 mb-2"><input type="search" class="form-control" id="dt-search-0" placeholder="Search User" aria-controls="DataTables_Table_0"><label for="dt-search-0"></label></div><div class="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6"> <div class="btn-group"><button class="btn buttons-collection btn-label-secondary dropdown-toggle" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false"><span><span class="d-flex align-items-center gap-2"><i class="icon-base bx bx-export icon-sm"></i> <span class="d-none d-sm-inline-block">Export</span></span></span></button></div> <button class="btn add-new btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span><i class="icon-base bx bx-plus icon-sm me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New User</span></span></button> </div></div></div><div class="justify-content-between dt-layout-table"><div class="d-md-flex justify-content-between align-items-center dt-layout-full table-responsive"><table class="datatables-users table border-top dataTable dtr-column collapsed" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 100%;"><colgroup><col data-dt-column="0" style="width: 52.3125px;"><col data-dt-column="1" style="width: 63.2188px;"><col data-dt-column="2" style="width: 302.828px;"><col data-dt-column="3" style="width: 155.438px;"><col data-dt-column="4" style="width: 122.203px;"></colgroup>
+                  <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
+                    <div class="row mx-3 my-0 justify-content-between">
+                      <div class="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
+                        <div class="dt-length mb-md-6 mb-0">
+                          <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select ms-0" id="dt-length-0">
+                            <option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option>
+                          </select><label for="dt-length-0"></label>
+                        </div>
+                      </div>
+                    <div class="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
+                      <div class="dt-search mb-md-6 mb-2">
+                        <input type="search" class="form-control" id="dt-search-0" placeholder="Search User" aria-controls="DataTables_Table_0">
+                        <label for="dt-search-0"></label>
+                      </div>
+                      <div class="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6" data-controller="responsive"> 
+                        <div class="btn-group">
+                          <button class="btn buttons-collection btn-label-secondary dropdown-toggle" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false">
+                            <span>
+                              <span class="d-flex align-items-center gap-2">
+                                <i class="icon-base bx bx-export icon-sm"></i> 
+                                <span class="d-none d-sm-inline-block">Export</span>
+                              </span>
+                            </span>
+                          </button>
+                        </div> 
+                        <button data-responsive-target="toggleButton" class="btn add-new btn-primary d-none" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
+                          <span>
+                            <i class="icon-base bx bx-plus icon-sm me-0 me-sm-2"></i>
+                            <span class="d-none d-sm-inline-block">Add New User</span>
+                          </span>
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="justify-content-between dt-layout-table"><div class="d-md-flex justify-content-between align-items-center dt-layout-full table-responsive"><table class="datatables-users table border-top dataTable dtr-column collapsed" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 100%;"><colgroup><col data-dt-column="0" style="width: 52.3125px;"><col data-dt-column="1" style="width: 63.2188px;"><col data-dt-column="2" style="width: 302.828px;"><col data-dt-column="3" style="width: 155.438px;"><col data-dt-column="4" style="width: 122.203px;"></colgroup>
                     <thead>
                       <tr><th data-dt-column="0" class="control dt-orderable-none" rowspan="1" colspan="1" aria-label="" style=""><span class="dt-column-title"></span><span class="dt-column-order"></span></th><th data-dt-column="1" rowspan="1" colspan="1" class="dt-select dt-orderable-none" aria-label=""><span class="dt-column-title"></span><span class="dt-column-order"></span><input class="form-check-input" type="checkbox" aria-label="Select all rows"></th><th data-dt-column="2" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc dt-ordering-desc" aria-sort="descending" aria-label="User: Activate to remove sorting" tabindex="0"><span class="dt-column-title" role="button">User</span><span class="dt-column-order"></span></th><th data-dt-column="3" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc" aria-label="Role: Activate to sort" tabindex="0"><span class="dt-column-title" role="button">Role</span><span class="dt-column-order"></span></th><th data-dt-column="4" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc" aria-label="Plan: Activate to sort" tabindex="0"><span class="dt-column-title" role="button">Plan</span><span class="dt-column-order"></span></th><th data-dt-column="5" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc " aria-label="Billing: Activate to sort" tabindex="0" ><span class="dt-column-title" role="button">Billing</span><span class="dt-column-order"></span></th><th data-dt-column="6" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc " aria-label="Status: Activate to sort" tabindex="0"><span class="dt-column-title" role="button">Status</span><span class="dt-column-order"></span></th><th data-dt-column="7" rowspan="1" colspan="1" class="dt-orderable-none" aria-label="Actions"><span class="dt-column-title">Actions</span><span class="dt-column-order"></span></th></tr>
                     </thead><tbody><tr class=""><td class="control" tabindex="0" style=""></td><td class="dt-select"><input aria-label="Select row" class="form-check-input" type="checkbox"></td><td class="sorting_1"><div class="d-flex justify-content-start align-items-center user-name"><div class="avatar-wrapper"><div class="avatar avatar-sm me-4"><img src="../../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle"></div></div><div class="d-flex flex-column"><a href="app-user-view-account.html" class="text-heading text-truncate"><span class="fw-medium">Zsazsa McCleverty</span></a><small>zmcclevertye@soundcloud.com</small></div></div></td><td><span class="text-truncate d-flex align-items-center text-heading"><i class="icon-base bx bx-user text-success me-2"></i>Maintainer</span></td><td><span class="text-heading">Enterprise</span></td><td >Auto Debit</td><td ><span class="badge bg-label-success" text-capitalized="">Active</span></td><td >

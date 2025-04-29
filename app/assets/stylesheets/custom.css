@@ -52,3 +52,7 @@ body {
   color: #696cff;
 }
 
+
+.table-responsive {
+  overflow-x: auto;
+}
