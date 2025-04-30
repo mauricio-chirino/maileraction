@@ -42,15 +42,49 @@
           <div data-i18n="Campañas">Campaign</div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item"><a href="#" class="menu-link"><div data-i18n="Create Campaign">Create</div></a></li>
-          <li class="menu-item"><a href="#" class="menu-link"><div data-i18n="Schedule Campaign">Schedule</div></a></li>
-          <li class="menu-item"><a href="#" class="menu-link"><div data-i18n="Scheduled Campaigns">Scheduled</div></a></li>
-          <li class="menu-item"><a href="#" class="menu-link"><div data-i18n="Sent Campaigns">Sent</div></a></li>
-          <li class="menu-item"><a href="#" class="menu-link"><div data-i18n="Campaign Statistics">Statistics</div></a></li>
-          <li class="menu-item"><a href="#" class="menu-link"><div data-i18n="Flow Automation">Flow Automation</div></a></li>
-          <li class="menu-item"><a href="#" class="menu-link"><div data-i18n="Intelligent Recommendations">Recommendations (AI)</div></a></li>
-          <li class="menu-item"><a href="#" class="menu-link"><div data-i18n="Interactive Map">Interactive Map</div></a></li>
+<li class="menu-item">
+  <%= link_to web_dashboard_dashboard_path(section: "campaign_create"), class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+    <div data-i18n="Create Campaign">Create</div>
+  <% end %>
+</li>
+
+          <li class="menu-item">
+            <%= link_to "?section=campaign_schedule", class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+              <div data-i18n="Schedule Campaign">Schedule</div>
+            <% end %>
+          </li>
+          <li class="menu-item">
+            <%= link_to "?section=campaign_scheduled", class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+              <div data-i18n="Scheduled Campaigns">Scheduled</div>
+            <% end %>
+          </li>
+          <li class="menu-item">
+            <%= link_to "?section=campaign_sent", class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+              <div data-i18n="Sent Campaigns">Sent</div>
+            <% end %>
+          </li>
+          <li class="menu-item">
+            <%= link_to "?section=campaign_statistics", class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+              <div data-i18n="Campaign Statistics">Statistics</div>
+            <% end %>
+          </li>
+          <li class="menu-item">
+            <%= link_to "?section=campaign_flow_automation", class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+              <div data-i18n="Flow Automation">Flow Automation</div>
+            <% end %>
+          </li>
+          <li class="menu-item">
+            <%= link_to "?section=campaign_recommendations_ai", class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+              <div data-i18n="Recommendations (AI)">Recommendations (AI)</div>
+            <% end %>
+          </li>
+          <li class="menu-item">
+            <%= link_to "?section=campaign_interactive_map", class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+              <div data-i18n="Interactive Map">Interactive Map</div>
+            <% end %>
+          </li>
         </ul>
+
       </li>
 
       <!-- 📬 Emails Transaccionales -->

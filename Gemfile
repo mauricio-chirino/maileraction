@@ -85,3 +85,6 @@ gem "importmap-rails", "~> 2.1"
 
 
 gem "stimulus-rails"
+
+
+gem "turbo-rails"
