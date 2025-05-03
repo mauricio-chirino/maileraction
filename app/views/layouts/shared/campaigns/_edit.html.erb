@@ -1,0 +1,25 @@
+<%= form_with model: @campaign, url: campaign_path(@campaign), method: :patch, data: { turbo_frame: "_top" }, class: "card" do |f| %>
+  <div class="card-header">
+    <h5 class="card-title mb-0">✏️ Reprogramar Campaña</h5>
+    <small class="text-muted">Cambia la fecha y zona horaria de envío</small>
+  </div>
+
+  <div class="card-body">
+    <div class="mb-3">
+      <%= f.label :send_at, "Nueva Fecha de Envío", class: "form-label" %>
+      <%= f.datetime_local_field :send_at, value: @campaign.send_at&.strftime("%Y-%m-%dT%H:%M"), class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :time_zone, "Zona Horaria", class: "form-label" %>
+      <%= f.select :time_zone, ActiveSupport::TimeZone.all.map { |tz| [tz.to_s, tz.name] },
+                   { prompt: "Selecciona una zona horaria" },
+                   class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="card-footer text-end">
+    <%= f.submit "Guardar cambios", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", dashboard_path(section: "campaign_scheduled"), class: "btn btn-outline-secondary ms-2" %>
+  </div>
+<% end %>

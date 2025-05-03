@@ -1,0 +1,59 @@
+<turbo-frame id="scheduled_campaigns">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">📆 Campañas Programadas</h5>
+      <small class="text-muted">Listado de campañas con envío pendiente</small>
+    </div>
+
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th>Fecha de envío</th>
+            <th>Zona horaria</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @scheduled_campaigns.present? %>
+            <% @scheduled_campaigns.each do |campaign| %>
+              <tr>
+                <td><strong><%= campaign.subject %></strong></td>
+                <td><span class="badge bg-warning text-dark">Programada</span></td>
+                <td><%= l(campaign.send_at, format: :long) if campaign.respond_to?(:send_at) %></td>
+                <td><%= campaign.time_zone %></td>
+                <td class="text-end">
+                  <%= link_to "Editar", web_dashboard_campaign_edit_modal_path(campaign), data: { turbo_frame: "modal" }, class: "btn btn-sm btn-outline-primary me-2" %>
+
+                  <%= link_to 'Cancelar', cancel_campaign_path(campaign), method: :delete,
+                        data: { turbo_frame: "scheduled_campaigns", confirm: "¿Cancelar esta campaña?" },
+                        class: "btn btn-sm btn-outline-danger me-2" %>
+
+                  <%= link_to "Reprogramar",
+                    web_dashboard_dashboard_path(section: "campaign_scheduled", edit_campaign_id: campaign.id),
+                    data: { turbo_frame: "scheduled_campaigns" },
+                    class: "btn btn-sm btn-outline-secondary" %>
+
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="5" class="text-center">
+                <em>No hay campañas programadas</em>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%# Turbo Frame para insertar el formulario de edición debajo %>
+      <% if params[:edit_campaign_id].present? %>
+        <% campaign = Campaign.find_by(id: params[:edit_campaign_id]) %>
+        <%= render "layouts/shared/campaigns/form", campaign: campaign if campaign.present? %>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

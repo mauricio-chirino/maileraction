@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "scheduled_campaigns" do %>
+  <%= render partial: "layouts/shared/campaigns/scheduled", locals: { scheduled_campaigns: Campaign.where(status: "scheduled").order(:send_at) } %>
+<% end %>
+
+<%= turbo_stream.replace "campaign_form", "" %> <!-- Limpia el frame del formulario -->

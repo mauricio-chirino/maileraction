@@ -1,0 +1,63 @@
+<turbo-frame id="campaign_statistics">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">📊 Estadísticas de Campañas</h5>
+      <small class="text-muted">Resumen general del desempeño</small>
+    </div>
+
+    <div class="card-body">
+      <% if @campaign_stats.present? %>
+        <div class="row text-center">
+          <div class="col-md-4 mb-4">
+            <div class="card bg-light shadow-sm">
+              <div class="card-body">
+                <h6 class="text-muted">Total Enviados</h6>
+                <h3 class="mb-0"><%= @campaign_stats[:sent_count] %></h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-4">
+            <div class="card bg-light shadow-sm">
+              <div class="card-body">
+                <h6 class="text-muted">Aperturas</h6>
+                <h3 class="mb-0"><%= @campaign_stats[:opens_count] %></h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-4">
+            <div class="card bg-light shadow-sm">
+              <div class="card-body">
+                <h6 class="text-muted">Clics</h6>
+                <h3 class="mb-0"><%= @campaign_stats[:clicks_count] %></h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-4">
+            <div class="card bg-light shadow-sm">
+              <div class="card-body">
+                <h6 class="text-muted">Rebotes</h6>
+                <h3 class="mb-0"><%= @campaign_stats[:bounces_count] %></h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-4">
+            <div class="card bg-light shadow-sm">
+              <div class="card-body">
+                <h6 class="text-muted">Canceladas</h6>
+                <h3 class="mb-0"><%= @campaign_stats[:cancelled_count] %></h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <em>No hay datos de estadísticas disponibles por ahora.</em>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

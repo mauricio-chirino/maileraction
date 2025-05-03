@@ -7,20 +7,22 @@
 <%= turbo_frame_tag "dashboard_section" do %>
   <% case params[:section] %>
   <% when "campaign_create" %>
-    <%= render "layouts/shared/campaign/create" %>
+    <%= render "layouts/shared/campaigns/create" %>
   <% when "campaign_schedule" %>
-    <%= render "layouts/shared/campaign/schedule" %>
+    <%= render "layouts/shared/campaigns/schedule" %>
+  <% when "campaign_scheduled" %>
+    <%= render "layouts/shared/campaigns/scheduled" %>  
   <% when "campaign_sent" %>
-    <%= render "layouts/shared/campaign/sent" %>
+    <%= render "layouts/shared/campaigns/sent" %>
   <% when "campaign_statistics" %>
-    <%= render "layouts/shared/campaign/statistics" %>
+    <%= render "layouts/shared/campaigns/statistics" %>
   <% when "campaign_flow_automation" %>
-    <%= render "layouts/shared/campaign/flow_automation" %>
+    <%= render "layouts/shared/campaigns/flow_automation" %>
   <% when "campaign_recommendations_ai" %>
-    <%= render "layouts/shared/campaign/recommendations_ai" %>
+    <%= render "layouts/shared/campaigns/recommendations_ai" %>
   <% when "campaign_interactive_map" %>
-    <%= render "layouts/shared/campaign/interactive_map" %>
+    <%= render "layouts/shared/campaigns/interactive_map" %>
   <% else %>
-    <%= render "layouts/shared/campaign/welcome" %>
+    <%= render "layouts/shared/campaigns/welcome" %>
   <% end %>
 <% end %>

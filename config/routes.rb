@@ -206,6 +206,12 @@ Rails.application.routes.draw do
 
         get "/account/settings", to: "accounts#settings", as: :account_settings
 
+
+
+
+
+
+
         # Producto
         namespace :product do
           get :index
@@ -276,7 +282,32 @@ Rails.application.routes.draw do
           get "campaigns_dashboard", to: "dashboards#campaigns", as: :campaigns_dashboard
           get "prepaid_dashboard",   to: "dashboards#prepaid",   as: :prepaid_dashboard
           get "dashboard",           to: "dashboards#default",   as: :dashboard
+
+          # Ruta para obtener la vista previa de la campaña
+          get "campaign_preview", to: "dashboards#campaign_preview"
+          get "web/dashboard/scheduled_campaigns", to: "web/dashboard/dashboards#scheduled"
+
+          get "campaigns/:id/edit_modal", to: "dashboards#edit_modal", as: :campaign_edit_modal
+          patch "campaigns/:id", to: "dashboards#update", as: :campaign
+
+
+
+          get "sent_campaigns", to: "dashboards#sent"
         end
+
+
+          # patch "update_campaign/:id", to: "dashboards#update_campaign", as: :update_campaign
+
+
+
+
+          # Campañas (frontend)
+          resources :campaigns, only: [ :edit, :update ], controller: "dashboard/campaigns" do
+            member do
+              delete :cancel
+            end
+          end
+
 
 
         # Rutas de administración de sesión

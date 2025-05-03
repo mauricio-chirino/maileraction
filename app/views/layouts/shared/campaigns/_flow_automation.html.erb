@@ -1,0 +1,45 @@
+<turbo-frame id="campaign_automation">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">🤖 Automatización de Campañas</h5>
+      <%= link_to "Crear flujo", "#", class: "btn btn-primary" %>
+    </div>
+
+    <div class="card-body">
+      <% if @automations.present? %>
+        <div class="row">
+          <% @automations.each do |automation| %>
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100 border shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title"><%= automation.name %></h5>
+                  <p class="text-muted mb-2">
+                    Activador: <strong><%= automation.trigger_type.humanize %></strong><br>
+                    Última edición: <%= l(automation.updated_at, format: :short) %>
+                  </p>
+                  <span class="badge bg-info"><%= automation.status.capitalize %></span>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                  <%= link_to "Editar", edit_automation_path(automation), class: "btn btn-sm btn-outline-primary" %>
+                  <%= link_to "Desactivar", deactivate_automation_path(automation), method: :patch, data: { confirm: "¿Desactivar este flujo?" }, class: "btn btn-sm btn-outline-danger" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-5">
+          <lord-icon
+            src="https://cdn.lordicon.com/kfzfxczd.json"
+            trigger="loop"
+            delay="2000"
+            colors="primary:#6c757d,secondary:#dee2e6"
+            style="width:100px;height:100px">
+          </lord-icon>
+          <p class="mt-3">Aún no has creado flujos de automatización.</p>
+          <%= link_to "Crear tu primer flujo", "#", class: "btn btn-outline-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

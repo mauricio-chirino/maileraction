@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "scheduled_campaigns" do %>
+  <%= render partial: "layouts/shared/campaigns/scheduled", locals: { scheduled_campaigns: @scheduled_campaigns } %>
+<% end %>

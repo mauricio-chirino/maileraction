@@ -34,9 +34,16 @@
   
 
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="..." crossorigin="anonymous"></script>
 
 
-    
+    <!-- Animaciones y Efectos -->
+    <%= stylesheet_link_tag "https://unpkg.com/leaflet/dist/leaflet.css" %>
+    <%= javascript_include_tag "https://unpkg.com/leaflet/dist/leaflet.js", defer: true %>
+
+
+
+    <%= javascript_importmap_tags %>
   </head>
 
   <body>
@@ -52,6 +59,12 @@
     <main>
       <%= yield %>
     </main>
+
+
+
+    <!-- Turbo modal container (SIEMPRE DISPONIBLE) -->
+    <turbo-frame id="modal"></turbo-frame>
+
 
     <!-- Footer -->
     <footer class="bg-light text-center text-muted py-4 mt-5">

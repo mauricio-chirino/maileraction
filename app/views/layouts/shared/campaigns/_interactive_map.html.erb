@@ -1,0 +1,68 @@
+<turbo-frame id="campaign_interactive_map">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <h5 class="mb-0">🗺️ Segmentación Geográfica Interactiva</h5>
+        <small class="text-muted">Selecciona regiones o empresas directamente desde el mapa</small>
+      </div>
+      <div>
+        <%= button_to "Aplicar Segmentación", "#", class: "btn btn-primary" %>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row g-4">
+        <!-- Filtros laterales -->
+        <div class="col-lg-4">
+          <div class="card h-100 border shadow-sm">
+            <div class="card-header pb-2">
+              <h6 class="mb-1">Filtros</h6>
+              <small class="text-muted">Personaliza la selección en el mapa</small>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label class="form-label fw-bold">Región</label>
+                <select class="form-select" id="regionSelect">
+                  <option value="">Todas</option>
+                  <option>Región Metropolitana</option>
+                  <option>Valparaíso</option>
+                  <option>Biobío</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-bold">Ciudad</label>
+                <input type="text" class="form-control" placeholder="Buscar ciudad...">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-bold">Tipo de Empresa</label>
+                <select class="form-select" multiple>
+                  <option>Educación</option>
+                  <option>Salud</option>
+                  <option>Tecnología</option>
+                  <option>Retail</option>
+                </select>
+              </div>
+
+              <%= button_to "Filtrar", "#", class: "btn btn-outline-secondary w-100" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mapa -->
+        <div class="col-lg-8">
+          <div class="card h-100 border shadow-sm">
+            <div class="card-body">
+              <div id="interactiveMap" data-controller="map" style="height: 500px;"></div>
+
+              <p class="mt-3 text-muted small">
+                🔍 Haz clic sobre las zonas del mapa para segmentar tu audiencia. Puedes combinar filtros para una mayor precisión.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</turbo-frame>
