@@ -3,6 +3,9 @@
 module Web
   module Dashboard
     class DashboardsController < Web::BaseController
+      require "ostruct"
+
+
       def admin
         render layout: "web"
       end
@@ -64,6 +67,13 @@ module Web
 
 
       def default
+        @campaign_stats = OpenStruct.new(
+          total_campaigns: 24,
+          total_conversions: 1050,
+          total_revenue: "$12,340"
+        )
+
+
         @scheduled_campaigns = Campaign.where(status: "scheduled").order(send_at: :asc)
         render layout: "web"
       end

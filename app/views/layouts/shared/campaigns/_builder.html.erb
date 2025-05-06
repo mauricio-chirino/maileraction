@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar izquierdo: bloques -->
+    <div class="col-md-2 bg-light border-end p-3" style="height: 100vh; overflow-y: auto;">
+      <h5 class="mb-3">🧹 Bloques</h5>
+      <ul class="list-group" data-controller="drag">
+        <li class="list-group-item" draggable="true" data-drag-target="block" data-block-type="heading">🅰️ Encabezado</li>
+        <li class="list-group-item" draggable="true" data-drag-target="block" data-block-type="image">🖼 Imagen</li>
+        <li class="list-group-item" draggable="true" data-drag-target="block" data-block-type="text">📝 Texto</li>
+        <li class="list-group-item" draggable="true" data-drag-target="block" data-block-type="button">🔗 Botón</li>
+        <li class="list-group-item" draggable="true" data-drag-target="block" data-block-type="divider">🧱 Separador</li>
+      </ul>
+    </div>
+
+    <!-- Vista previa / Lienzo -->
+    <div class="col-md-7 d-flex justify-content-center align-items-start bg-white pt-4" style="height: 100vh; overflow-y: auto;">
+      <div class="card w-100 shadow-sm" style="max-width: 600px;">
+        <div class="card-body">
+          <h6 class="text-center text-muted mb-3">👁 Vista previa de tu campaña</h6>
+          <div class="border p-4 bg-light rounded" data-controller="drop" data-drop-target="canvas">
+            <p class="text-muted text-center">Arrastra y suelta bloques aquí...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Propiedades del contenido -->
+    <div class="col-md-3 bg-light border-start p-3" style="height: 100vh; overflow-y: auto;">
+      <h5 class="mb-3">⚙️ Propiedades</h5>
+      <div class="mb-3">
+        <label class="form-label">Fuente</label>
+        <select class="form-select">
+          <option selected>Inter</option>
+          <option>Roboto</option>
+          <option>Open Sans</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Tamaño de título</label>
+        <input type="range" class="form-range" min="16" max="48" step="1">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Color del botón</label>
+        <input type="color" class="form-control form-control-color" value="#28a745">
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="boldTitle">
+        <label class="form-check-label" for="boldTitle">Título en negrita</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stimulus controllers (drag_controller.js y drop_controller.js) deben estar configurados en importmap -->

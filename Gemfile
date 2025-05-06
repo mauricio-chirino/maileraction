@@ -88,3 +88,7 @@ gem "stimulus-rails"
 
 
 gem "turbo-rails"
+
+
+
+gem "openlayers-rails"
