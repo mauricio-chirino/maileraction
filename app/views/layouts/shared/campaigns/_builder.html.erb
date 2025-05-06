@@ -14,6 +14,20 @@
 
     <!-- Vista previa / Lienzo -->
     <div class="col-md-7 d-flex justify-content-center align-items-start bg-white pt-4" style="height: 100vh; overflow-y: auto;">
+      <!-- Hidden field to store HTML -->
+<%= form_with model: @campaign, url: campaigns_path, method: :post, local: true, id: "campaign-builder-form" do |f| %>
+  <%= f.hidden_field :html_content, id: "html_content_input" %>
+
+  <!-- Botón para guardar -->
+  <div class="text-center mt-4">
+    <%= f.submit "Guardar Campaña", class: "btn btn-primary" %>
+  </div>
+<% end %>
+      
+      
+      
+      
+      
       <div class="card w-100 shadow-sm" style="max-width: 600px;">
         <div class="card-body">
           <h6 class="text-center text-muted mb-3">👁 Vista previa de tu campaña</h6>
@@ -50,5 +64,17 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener("turbo:load", () => {
+    const form = document.getElementById("campaign-builder-form");
+    const contentInput = document.getElementById("html_content_input");
+    const canvas = document.querySelector("[data-drop-target='canvas']");
 
+    if (form && contentInput && canvas) {
+      form.addEventListener("submit", () => {
+        contentInput.value = canvas.innerHTML;
+      });
+    }
+  });
+</script>
 <!-- Stimulus controllers (drag_controller.js y drop_controller.js) deben estar configurados en importmap -->

@@ -31,7 +31,9 @@ module Web
         redirect_to web_dashboard_dashboard_path(section: "campaign_scheduled"), notice: "Campaña cancelada"
       end
 
-
+      def show
+        @campaign = Campaign.find(params[:id])
+      end
 
       def statistics
         @campaign_stats = {
@@ -48,7 +50,7 @@ module Web
       private
 
       def campaign_params
-        params.require(:campaign).permit(:send_at, :time_zone)
+        params.require(:campaign).permit(:send_at, :time_zone, :name, :subject, :sender, :html_content)
       end
     end
   end

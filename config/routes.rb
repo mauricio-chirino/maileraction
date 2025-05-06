@@ -302,7 +302,7 @@ Rails.application.routes.draw do
 
 
           # Campañas (frontend)
-          resources :campaigns, only: [ :edit, :update ], controller: "dashboard/campaigns" do
+          resources :campaigns, only: [ :edit, :update, :show ], controller: "dashboard/campaigns" do
             member do
               delete :cancel
             end

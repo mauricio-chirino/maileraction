@@ -1,0 +1,10 @@
+<div class="container py-4">
+  <h3 class="mb-4"><%= @campaign.name %></h3>
+
+  <div class="card">
+    <div class="card-body">
+      <%= sanitize(@campaign.html_content, tags: %w(h1 h2 h3 h4 h5 h6 p br strong em b i a button img hr div span ul ol li), attributes: %w(href src alt class style id)) %>
+
+    </div>
+  </div>
+</div>
