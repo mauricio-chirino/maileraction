@@ -12,6 +12,7 @@ module Web
 
       def edit
         @campaign = Campaign.find(params[:id])
+        render layout: "dashboard"
       end
 
       def update

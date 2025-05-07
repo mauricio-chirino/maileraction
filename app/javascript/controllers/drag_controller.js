@@ -6,12 +6,12 @@ export default class extends Controller {
 
   connect() {
     this.blockTargets.forEach(block => {
-      block.addEventListener("dragstart", this.startDrag)
+      block.addEventListener("dragstart", this.handleDragStart)
     })
   }
 
-  startDrag(event) {
-    const blockType = event.target.dataset.blockType
-    event.dataTransfer.setData("text/plain", blockType)
+  handleDragStart(e) {
+    const blockType = e.target.dataset.blockType
+    e.dataTransfer.setData("text/plain", blockType)
   }
 }

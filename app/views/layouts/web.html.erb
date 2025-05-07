@@ -45,13 +45,13 @@
   <link rel="stylesheet" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
 
   <!-- Select2 CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css">
 
 
   <link rel="stylesheet" href="https://cdn.datatables.net/select/1.6.2/css/select.bootstrap5.min.css" />
 
 
-
+<%= javascript_importmap_tags %>
 
 
 
@@ -70,7 +70,13 @@
             <%= yield %>
           </main>
 
-          <%= render "shared/footer" %>
+          <!-- Footer -->
+          <% unless request.path.start_with?("/web") %>
+            <footer class="bg-light text-center text-muted py-4 mt-5">
+                <%= render "shared/footer" %>
+            </footer>
+          <% end %>
+          
         </div>
       </div>
     </div>
@@ -95,12 +101,12 @@
 
 
   
-  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/template-customizer.js" defer></script>
+ <!-- <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/template-customizer.js" defer></script> -->
   <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/helpers.js" defer></script>
   <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/js/config.js" defer></script>
   <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/vendor/js/menu.js" defer></script>
 
-  <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/js/main.js" defer></script>
+ <script src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/js/main.js" defer></script>
 
 
 

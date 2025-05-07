@@ -5,41 +5,43 @@ export default class extends Controller {
   static targets = ["canvas"]
 
   connect() {
-    this.canvasTarget.addEventListener("dragover", this.allowDrop)
-    this.canvasTarget.addEventListener("drop", this.dropBlock)
+    this.element.addEventListener("dragover", e => e.preventDefault())
+    this.element.addEventListener("drop", this.handleDrop.bind(this))
   }
 
-  allowDrop(event) {
-    event.preventDefault()
+  handleDrop(e) {
+    e.preventDefault()
+    const blockType = e.dataTransfer.getData("text/plain")
+    const canvas = this.canvasTarget
+
+    const element = this.buildBlock(blockType)
+    if (element) canvas.appendChild(element)
   }
 
-  dropBlock(event) {
-    event.preventDefault()
-    const blockType = event.dataTransfer.getData("text/plain")
+  buildBlock(type) {
+    const div = document.createElement("div")
+    div.classList.add("mb-3")
 
-    const newElement = document.createElement("div")
-    newElement.classList.add("my-3")
-
-    switch (blockType) {
+    switch (type) {
       case "heading":
-        newElement.innerHTML = "<h2 class='text-center'>Nuevo Título</h2>"
-        break
-      case "text":
-        newElement.innerHTML = "<p class='text-center'>Nuevo párrafo de texto.</p>"
+        div.innerHTML = "<h2 class='text-center'>Título Aquí</h2>"
         break
       case "image":
-        newElement.innerHTML = "<img src='https://via.placeholder.com/600x200' class='img-fluid rounded mx-auto d-block' alt='Imagen' />"
+        div.innerHTML = "<img src='https://via.placeholder.com/600x200' class='img-fluid' alt='Imagen'>"
+        break
+      case "text":
+        div.innerHTML = "<p>Este es un párrafo de texto editable...</p>"
         break
       case "button":
-        newElement.innerHTML = "<div class='text-center'><button class='btn btn-success'>Botón</button></div>"
+        div.innerHTML = "<div class='text-center'><a href='#' class='btn btn-primary'>Llamar a la acción</a></div>"
         break
       case "divider":
-        newElement.innerHTML = "<hr />"
+        div.innerHTML = "<hr />"
         break
       default:
-        newElement.innerHTML = `<p class='text-center'>Bloque desconocido: ${blockType}</p>`
+        return null
     }
 
-    this.canvasTarget.appendChild(newElement)
+    return div
   }
 }

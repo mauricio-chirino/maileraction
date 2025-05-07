@@ -41,6 +41,7 @@
     <%= stylesheet_link_tag "https://unpkg.com/leaflet/dist/leaflet.css" %>
     <%= javascript_include_tag "https://unpkg.com/leaflet/dist/leaflet.js", defer: true %>
 
+
     <%= favicon_link_tag 'favicon.ico' %>
 
 
@@ -68,10 +69,11 @@
 
 
     <!-- Footer -->
-    <footer class="bg-light text-center text-muted py-4 mt-5">
-      <%= render "shared/footer" %>
-    </footer>
-
+    <% unless request.path.start_with?("/web") %>
+      <footer class="bg-light text-center text-muted py-4 mt-5">
+          <%= render "shared/footer" %>
+      </footer>
+    <% end %>
 
 
 

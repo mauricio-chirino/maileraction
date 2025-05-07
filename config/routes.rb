@@ -198,102 +198,96 @@ Rails.application.routes.draw do
 
 
 
-    # Configuración de rutas locales
-    scope "(:locale)", locale: /es|en|fr|br|de|it/ do
-      # Web Routes
-      namespace :web do
-        resources :users, only: [ :index, :edit, :show, :update ]
+      # Configuración de rutas locales
+      scope "(:locale)", locale: /es|en|fr|br|de|it/ do
+        # Web Routes
+        namespace :web do
+          resources :users, only: [ :index, :edit, :show, :update ]
 
-        get "/account/settings", to: "accounts#settings", as: :account_settings
+          get "/account/settings", to: "accounts#settings", as: :account_settings
 
+          # Producto
+          namespace :product do
+            get :index
+            get :email_marketing
+            get :automate
+            get :websites
+            get :transactional_email
+            get :integrations
+            get :compare_mailer_action
+            get :developer_api
+            get :news
+            get :templates
+          end
 
+          # Soporte
+          namespace :support do
+            get :index
+            get :customer_support
+            get :migrate_to_maileraction
+            get :report_spam
+            get :tutorials
+            get :deliverability_diagnostics
+          end
 
+          # Recursos
+          namespace :resources do
+            get :index
+            get :blog
+            get :success_stories
+            get :webinars_and_events
+            get :guides_and_tutorials
+          end
 
+          # Comunidad
+          namespace :community do
+            get :index
+            get :user_forum
+            get :referral_program
+            get :developer_community
+          end
 
+          # Empresa
+          namespace :company do
+            get :index
+            get :about_us
+            get :why_maileraction
+            get :values
+            get :partners
+            get :gdpr_compliance
+            get :corporate_responsibility
+            get :contact_us
+          end
 
-
-        # Producto
-        namespace :product do
-          get :index
-          get :email_marketing
-          get :automate
-          get :websites
-          get :transactional_email
-          get :integrations
-          get :compare_mailer_action
-          get :developer_api
-          get :news
-          get :templates
-        end
-
-        # Soporte
-        namespace :support do
-          get :index
-          get :customer_support
-          get :migrate_to_maileraction
-          get :report_spam
-          get :tutorials
-          get :deliverability_diagnostics
-        end
-
-        # Recursos
-        namespace :resources do
-          get :index
-          get :blog
-          get :success_stories
-          get :webinars_and_events
-          get :guides_and_tutorials
-        end
-
-        # Comunidad
-        namespace :community do
-          get :index
-          get :user_forum
-          get :referral_program
-          get :developer_community
-        end
-
-        # Empresa
-        namespace :company do
-          get :index
-          get :about_us
-          get :why_maileraction
-          get :values
-          get :partners
-          get :gdpr_compliance
-          get :corporate_responsibility
-          get :contact_us
-        end
-
-        # Legal
-        namespace :legal do
-          get :index
-          get :terms_of_service
-          get :privacy_policy
-          get :cookie_settings
-          get :security
-          get :brand_assets
-        end
+          # Legal
+          namespace :legal do
+            get :index
+            get :terms_of_service
+            get :privacy_policy
+            get :cookie_settings
+            get :security
+            get :brand_assets
+          end
 
 
-        # Dashboard
-        namespace :dashboard do
-          get "admin_dashboard",     to: "dashboards#admin",     as: :admin_dashboard
-          get "campaigns_dashboard", to: "dashboards#campaigns", as: :campaigns_dashboard
-          get "prepaid_dashboard",   to: "dashboards#prepaid",   as: :prepaid_dashboard
-          get "dashboard",           to: "dashboards#default",   as: :dashboard
+          # Dashboard
+          namespace :dashboard do
+            get "admin_dashboard",     to: "dashboards#admin",     as: :admin_dashboard
+            get "campaigns_dashboard", to: "dashboards#campaigns", as: :campaigns_dashboard
+            get "prepaid_dashboard",   to: "dashboards#prepaid",   as: :prepaid_dashboard
+            get "dashboard",           to: "dashboards#default",   as: :dashboard
 
-          # Ruta para obtener la vista previa de la campaña
-          get "campaign_preview", to: "dashboards#campaign_preview"
-          get "web/dashboard/scheduled_campaigns", to: "web/dashboard/dashboards#scheduled"
+            # Ruta para obtener la vista previa de la campaña
+            get "campaign_preview", to: "dashboards#campaign_preview"
+            get "web/dashboard/scheduled_campaigns", to: "web/dashboard/dashboards#scheduled"
 
-          get "campaigns/:id/edit_modal", to: "dashboards#edit_modal", as: :campaign_edit_modal
-          patch "campaigns/:id", to: "dashboards#update", as: :campaign
+            get "campaigns/:id/edit_modal", to: "dashboards#edit_modal", as: :campaign_edit_modal
+            patch "campaigns/:id", to: "dashboards#update", as: :campaign
 
 
 
-          get "sent_campaigns", to: "dashboards#sent"
-        end
+            get "sent_campaigns", to: "dashboards#sent"
+          end
 
 
           # patch "update_campaign/:id", to: "dashboards#update_campaign", as: :update_campaign
@@ -305,33 +299,34 @@ Rails.application.routes.draw do
           resources :campaigns, only: [ :edit, :update, :show ], controller: "dashboard/campaigns" do
             member do
               delete :cancel
+              get :editor # ← aquí se agrega la nueva ruta para el editor visual
             end
           end
 
 
 
-        # Rutas de administración de sesión
-        get "/login", to: "sessions#new"
-        post "/login", to: "sessions#create"
-        delete "/logout", to: "sessions#destroy"
+          # Rutas de administración de sesión
+          get "/login", to: "sessions#new"
+          post "/login", to: "sessions#create"
+          delete "/logout", to: "sessions#destroy"
 
-        # Rutas para registro
-        get "/signup", to: "registrations#new"
-        post "/signup", to: "registrations#create"
+          # Rutas para registro
+          get "/signup", to: "registrations#new"
+          post "/signup", to: "registrations#create"
 
-        # Rutas de contraseñas
-        get "/forgot_password", to: "passwords#new", as: "forgot_password"
-        post "/forgot_password", to: "passwords#create", as: "password_reset"
-        get "/password_reset/:token", to: "passwords#edit", as: "reset_password"
-        patch "/password_reset/:token", to: "passwords#update"
+          # Rutas de contraseñas
+          get "/forgot_password", to: "passwords#new", as: "forgot_password"
+          post "/forgot_password", to: "passwords#create", as: "password_reset"
+          get "/password_reset/:token", to: "passwords#edit", as: "reset_password"
+          patch "/password_reset/:token", to: "passwords#update"
 
-        # Página principal
-        root to: "home#index"
+          # Página principal
+          root to: "home#index"
+        end
       end
-    end
 
 
   # Página principal
   # root to: "web/home#index"
   root to: "web/home#index"
-  end
+end

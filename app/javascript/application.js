@@ -1,6 +1,9 @@
 // app/javascript/application.js
 import { Application } from "@hotwired/stimulus"
-import "@hotwired/turbo-rails"
+
+
+import { Turbo } from "@hotwired/turbo-rails"
+window.Turbo = Turbo
 
 import DatatableController from "./controllers/datatable_controller"
 

@@ -1,0 +1,54 @@
+<!-- Sneat-style Navbar -->
+<nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+  <div class="navbar-nav-left d-flex align-items-center" id="navbar-collapse">
+
+    <!-- Go Back Button -->
+    <%= link_to "← Go back", web_dashboard_campaigns_dashboard_path, class: "btn btn-label-secondary me-3" %>
+
+    <!-- Optional: Search -->
+    <div class="navbar-nav align-items-center">
+      <div class="nav-item navbar-search-wrapper mb-0">
+        <input type="text" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search..." />
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side -->
+  <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+    <!-- Undo Button -->
+    <li class="nav-item me-2">
+      <button class="btn btn-outline-secondary btn-icon">
+        <i class="bx bx-undo"></i>
+      </button>
+    </li>
+
+    <!-- Actions Dropdown -->
+    <li class="nav-item dropdown me-2">
+      <a class="nav-link dropdown-toggle hide-arrow" href="#" role="button" data-bs-toggle="dropdown">
+        <button class="btn btn-outline-secondary">Actions</button>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#">Save as draft</a></li>
+        <li><a class="dropdown-item" href="#">Duplicate</a></li>
+      </ul>
+    </li>
+
+    <!-- Preview & Test Dropdown -->
+    <li class="nav-item dropdown me-2">
+      <a class="nav-link dropdown-toggle hide-arrow" href="#" role="button" data-bs-toggle="dropdown">
+        <button class="btn btn-outline-secondary">Preview and test</button>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#">Preview mode</a></li>
+        <li><a class="dropdown-item" href="#">Send a test email</a></li>
+      </ul>
+    </li>
+
+    <!-- Done Editing -->
+    <li class="nav-item">
+      <%= link_to "Done editing", web_dashboard_campaigns_dashboard_path, class: "btn btn-success" %>
+    </li>
+  </ul>
+</nav>
+
