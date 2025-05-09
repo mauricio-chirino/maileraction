@@ -27,12 +27,18 @@ module Web
     end
 
     def destroy
-      session[:user_id] = nil
+      reset_session
       cookies.delete(:user_id)
       cookies.delete(:remember_token)
 
-      redirect_to root_path(locale: I18n.locale), status: :see_other
+      puts ">>> Se ejecutó destroy correctamente"
+      redirect_to root_path(locale: I18n.locale), notice: "Sesión cerrada correctamente", status: :see_other
     end
+
+
+
+
+
 
 
     private

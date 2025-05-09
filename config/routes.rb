@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     resource :session
     resources :passwords, param: :token
     post "/login", to: "sessions#create"
-    delete "/logout", to: "sessions#destroy"
+    # delete "/logout", to: "sessions#destroy"
 
     # Ruta de estado para health check
     get "up" => "rails/health#show", as: :rails_health_check
@@ -200,11 +200,18 @@ Rails.application.routes.draw do
 
       # Configuración de rutas locales
       scope "(:locale)", locale: /es|en|fr|br|de|it/ do
-        # Web Routes
+        delete "logout", to: "sessions#destroy", as: :web_logout
         namespace :web do
+          delete "logout", to: "sessions#destroy", as: :web_logout
+
           resources :users, only: [ :index, :edit, :show, :update ]
 
           get "/account/settings", to: "accounts#settings", as: :account_settings
+
+
+
+
+
 
           # Producto
           namespace :product do
@@ -298,7 +305,7 @@ Rails.application.routes.draw do
           # Campañas (frontend)
           resources :campaigns, only: [ :edit, :update, :show ], controller: "dashboard/campaigns" do
             member do
-              delete :cancel
+              # delete :cancel
               get :editor # ← aquí se agrega la nueva ruta para el editor visual
             end
           end
@@ -308,7 +315,7 @@ Rails.application.routes.draw do
           # Rutas de administración de sesión
           get "/login", to: "sessions#new"
           post "/login", to: "sessions#create"
-          delete "/logout", to: "sessions#destroy"
+          # delete "/logout", to: "sessions#destroy"
 
           # Rutas para registro
           get "/signup", to: "registrations#new"
@@ -319,6 +326,8 @@ Rails.application.routes.draw do
           post "/forgot_password", to: "passwords#create", as: "password_reset"
           get "/password_reset/:token", to: "passwords#edit", as: "reset_password"
           patch "/password_reset/:token", to: "passwords#update"
+
+
 
           # Página principal
           root to: "home#index"

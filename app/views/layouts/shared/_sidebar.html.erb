@@ -2,7 +2,7 @@
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
-    <%= link_to web_dashboard_dashboard_path, class: "app-brand-link" do %>
+    <%= link_to root_path, class: "app-brand-link" do %>
       <span class="app-brand-logo demo">
         <%= image_tag "logo3.svg", width: 25 %>
       </span>
@@ -520,16 +520,15 @@
 
 
 
-        <li class="menu-item active">
-          <%= link_to web_logout_path(locale: I18n.locale), 
-                method: :delete, 
-                data: { turbo_method: :delete }, 
-                rel: "nofollow", 
-                class: "menu-link" do %>
-            <i class="menu-icon tf-icons bx bx-power-off"></i>
-            <div>Log out</div>
-          <% end %>
-        </li>
+<li class="menu-item">
+
+<%= link_to "Sign Out", web_web_logout_path(locale: I18n.locale), data: { turbo: true, "turbo-method": :delete } %>
+
+
+
+</li>
+
+
   </ul>
 
 

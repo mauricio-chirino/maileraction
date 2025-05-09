@@ -54,6 +54,8 @@ group :development, :test do
   gem "foreman"
 
   gem "pundit-matchers"
+
+   gem "pry-rails"
 end
 
 
