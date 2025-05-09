@@ -200,7 +200,7 @@ Rails.application.routes.draw do
 
       # Configuración de rutas locales
       scope "(:locale)", locale: /es|en|fr|br|de|it/ do
-        delete "logout", to: "sessions#destroy", as: :web_logout
+        delete "logout", to: "sessions#destroy", as: :logout
         namespace :web do
           delete "logout", to: "sessions#destroy", as: :web_logout
 

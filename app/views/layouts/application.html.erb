@@ -47,13 +47,14 @@
     <%= stylesheet_link_tag "https://unpkg.com/leaflet/dist/leaflet.css" %>
     <%= javascript_include_tag "https://unpkg.com/leaflet/dist/leaflet.js", defer: true %>
 
+ 
 
     <%= favicon_link_tag 'favicon.ico' %>
 
 
   </head>
 
-  <body>
+  <body data-controller="layout" >
     <!-- Fondo animado -->
    <!-- <div id="tsparticles" style="position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%;"></div> -->
 
@@ -125,6 +126,13 @@
 <!-- Bootstrap JS Bundle (con Popper incluido) -->
 <%= render "layouts/shared/scripts" %>
 
+<script>
+  document.addEventListener("turbo:load", function() {
+    if (typeof Layout !== "undefined" && Layout.init) {
+      Layout.init();
+    }
+  });
+</script>
 
   </body>
 </html>

@@ -1,9 +1,8 @@
 // app/javascript/application.js
 // app/javascript/application.js
 
-import { Turbo } from "@hotwired/turbo-rails"
-window.Turbo = Turbo
-Turbo.session.drive = false
+import "@hotwired/turbo-rails"
+
 
 import { Application } from "@hotwired/stimulus"
 window.Stimulus = Application.start()

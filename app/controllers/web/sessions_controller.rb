@@ -32,7 +32,11 @@ module Web
       cookies.delete(:remember_token)
 
       puts ">>> Se ejecutó destroy correctamente"
-      redirect_to root_path(locale: I18n.locale), notice: "Sesión cerrada correctamente", status: :see_other
+      render html: <<-HTML.html_safe
+  <script>
+    window.location.href = "#{root_path(locale: I18n.locale)}";
+  </script>
+HTML
     end
 
 
