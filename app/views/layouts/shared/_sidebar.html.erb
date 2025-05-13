@@ -518,18 +518,14 @@
           </ul>
         </li>
 
-<li class="menu-item">
-  <form action="<%= web_web_logout_path(locale: I18n.locale) %>" method="post" class="d-inline">
-    <input type="hidden" name="_method" value="delete">
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-    <button type="submit" class="menu-link">
-      <i class="bx bx-power-off me-2"></i>
-      <span class="align-middle">Cerrar sesión</span>
-    </button>
-  </form>
-</li>
-
-
+   
+<%= link_to web_web_logout_path(locale: I18n.locale),
+            data: { turbo_method: :delete, turbo_frame: "_top" },
+            class: "menu-link" do %>
+  <i class="bx bx-power-off me-2"></i>
+  <span class="align-middle">Cerrar sesión</span>
+<% end %>
+     
 
 
 

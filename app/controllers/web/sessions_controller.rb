@@ -26,18 +26,18 @@ module Web
       end
     end
 
+
+
+
     def destroy
       reset_session
       cookies.delete(:user_id)
       cookies.delete(:remember_token)
 
-      puts ">>> Se ejecutó destroy correctamente"
-      render html: <<-HTML.html_safe
-  <script>
-    window.location.href = "#{root_path(locale: I18n.locale)}";
-  </script>
-HTML
+      redirect_to root_path(locale: I18n.locale), notice: "Sesión cerrada correctamente", status: :see_other
     end
+
+
 
 
 
