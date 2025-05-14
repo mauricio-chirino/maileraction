@@ -27,4 +27,4 @@ import { application } from "application"
 // application.register("datatable", DatatableController)
 // application.register("responsive", ResponsiveController)
 // application.register("map", MapController)
-// application.register("bootstrap", BootstrapController)
+// application.register("bootstrap", BootstrapController);
