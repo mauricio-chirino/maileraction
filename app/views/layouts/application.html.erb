@@ -49,9 +49,9 @@
  
 
     <%= favicon_link_tag 'favicon.ico' %>
-    <%= javascript_importmap_tags %>
+    
 
-
+<%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
   </head>
 
    <body  data-controller="bootstrap" >
@@ -60,7 +60,6 @@
 
     <!-- Barra de navegación -->
     <header id="navbar" >
-      <!--<%= render "layouts/shared/scripts" %> -->
       <%= render "layouts/shared/navbar" %>
     </header>
 
@@ -129,7 +128,7 @@
 
 
 
-
+<%= javascript_importmap_tags %>
 
   </body>
 </html>
