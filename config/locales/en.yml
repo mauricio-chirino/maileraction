@@ -88,6 +88,47 @@ en:
 
 
 
+
+
+
+
+  sessions:
+    title: "Welcome to MailerAction!"
+    subtitle: "Please sign in to your account and start the adventure"
+    email_or_username: "Email or Username"
+    email_placeholder: "Enter your email or username"
+    password: "Password"
+    forgot_password: "Forgot Password?"
+    password_required: "Password is required."
+    remember_me: "Remember Me"
+    sign_in: "Sign In"
+    new_user: "New on our platform?"
+    create_account: "Create an account"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   footer:
     product: "Product"
     email_marketing: "Email Marketing"

@@ -1,112 +1,91 @@
 <!-- app/views/web/sessions/new.html.erb -->
     <!-- Content -->
 
-    <div class="container-xxl">
-      <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner">
-          <!-- Register -->
-          <div class="card">
-            <div class="card-body">
-              <!-- Logo -->
-              <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-logo demo">
-                    <%= image_tag("logo3.svg", alt: "MailerAction Logo", height: "32") %>
-                  </span>
-                  <span class="app-brand-text demo text-body fw-bolder">MailerAction</span>
-                </a>
-              </div>
-              <!-- /Logo -->
-              <h4 class="mb-2">Welcome to MailerAction!</h4>
-              <p class="mb-4">Please sign-in to your account and start the adventure</p>
-
-              <%= form_with(url: "/web/login", method: :post, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
-
-
-                                <!-- Flash messages -->
-                <% if flash[:alert] %>
-                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <%= flash[:alert] %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                <% end %>
-
-                <% if flash[:notice] %>
-                  <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <%= flash[:notice] %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                <% end %>
-
-
-                <!-- Correo electrónico -->
-                <div class="mb-3">
-                  <%= form.label :email_address, "Email or Username", class: "form-label" %>
-                  <%= form.text_field :email_address, required: true, class: "form-control", placeholder: "Enter your email or username" %>
-                </div>
-
-
-                <!-- Contraseña con ícono de ojo -->
-                <div class="mb-3 form-password-toggle">
-                  <div class="d-flex justify-content-between">
-                    <%= form.label :password, "Password", class: "form-label" %>
-                    <%= link_to content_tag(:small, "Forgot Password?"), "/web/forgot_password" %>
-                  </div>
-
-                  <div class="input-group input-group-merge">
-                    <%= form.password_field :password, required: true, class: "form-control", placeholder: "************", id: "password_field" %>
-                    <span class="input-group-text cursor-pointer" id="eye-icon">
-                      <i class="bx bx-hide" id="eye-toggle-icon"></i>
-                    </span>
-                  </div>
-                  <div class="invalid-feedback">
-                    La contraseña es obligatoria.
-                  </div>
-                </div>
-
-
-
-                <!-- Recordarme -->
-                <div class="mb-3">
-                  <div class="form-check">
-                    <%= form.check_box :remember_me, { class: "form-check-input" } %>
-                    <%= form.label :remember_me, " Remember Me ", class: "form-check-label" %>
-                  </div>
-                </div>
-
-                <!-- Botón de iniciar sesión -->
-                <div class="mb-3">
-
-                  <%= form.submit "Sign in", class: "btn btn-primary d-grid w-100" %>
-                </div>
-              <% end %>
-
-
-              <p class="text-center">
-                <%= link_to content_tag(:small, "New on our platform?"), "/web/signup", class: "text-decoration-none" %>
-                <span>Create an account</span>
-              </p>
-            </div>
+<div class="container-xxl">
+  <div class="authentication-wrapper authentication-basic container-p-y">
+    <div class="authentication-inner">
+      <!-- Register -->
+      <div class="card">
+        <div class="card-body">
+          <!-- Logo -->
+          <div class="app-brand justify-content-center">
+            <a href="/" class="app-brand-link gap-2">
+              <span class="app-brand-logo demo">
+                <%= image_tag("logo3.svg", alt: "MailerAction Logo", height: "32") %>
+              </span>
+              <span class="app-brand-text demo text-body fw-bolder">MailerAction</span>
+            </a>
           </div>
-          <!-- /Register -->
+          <!-- /Logo -->
+
+          <h4 class="mb-2"><%= t("sessions.title") %></h4>
+          <p class="mb-4"><%= t("sessions.subtitle") %></p>
+
+          <%= form_with(url: "/web/login", method: :post, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+
+            <!-- Flash messages -->
+            <% if flash[:alert] %>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= flash[:alert] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% end %>
+
+            <% if flash[:notice] %>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= flash[:notice] %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% end %>
+
+            <!-- Correo electrónico -->
+            <div class="mb-3">
+              <%= form.label :email_address, t("sessions.email_or_username"), class: "form-label" %>
+              <%= form.text_field :email_address, required: true, class: "form-control", placeholder: t("sessions.email_placeholder") %>
+            </div>
+
+            <!-- Contraseña con ícono de ojo -->
+            <div class="mb-3 form-password-toggle">
+              <div class="d-flex justify-content-between">
+                <%= form.label :password, t("sessions.password"), class: "form-label" %>
+                <%= link_to content_tag(:small, t("sessions.forgot_password")), "/web/forgot_password" %>
+              </div>
+
+              <div class="input-group input-group-merge">
+                <%= form.password_field :password, required: true, class: "form-control", placeholder: "************", id: "password_field" %>
+                <span class="input-group-text cursor-pointer" id="eye-icon">
+                  <i class="bx bx-hide" id="eye-toggle-icon"></i>
+                </span>
+              </div>
+
+              <div class="invalid-feedback">
+                <%= t("sessions.password_required") %>
+              </div>
+            </div>
+
+            <!-- Recordarme -->
+            <div class="mb-3">
+              <div class="form-check">
+                <%= form.check_box :remember_me, { class: "form-check-input" } %>
+                <%= form.label :remember_me, t("sessions.remember_me"), class: "form-check-label" %>
+              </div>
+            </div>
+
+            <!-- Botón de iniciar sesión -->
+            <div class="mb-3">
+              <%= form.submit t("sessions.sign_in"), class: "btn btn-primary d-grid w-100" %>
+            </div>
+          <% end %>
+
+          <p class="text-center">
+            <%= link_to content_tag(:small, t("sessions.new_user")), "/web/signup", class: "text-decoration-none" %>
+            <span><%= t("sessions.create_account") %></span>
+          </p>
         </div>
       </div>
+      <!-- /Register -->
     </div>
+  </div>
+</div>
 
-    <!-- / Content -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- / Content -->

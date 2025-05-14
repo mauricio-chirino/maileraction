@@ -50,6 +50,24 @@ fr:
 
 
 
+  sessions:
+    title: "Bienvenue sur MailerAction !"
+    subtitle: "Veuillez vous connecter à votre compte pour commencer l'aventure"
+    email_or_username: "Email ou nom d'utilisateur"
+    email_placeholder: "Entrez votre email ou nom d'utilisateur"
+    password: "Mot de passe"
+    forgot_password: "Mot de passe oublié ?"
+    password_required: "Le mot de passe est requis."
+    remember_me: "Se souvenir de moi"
+    sign_in: "Se connecter"
+    new_user: "Nouveau sur notre plateforme ?"
+    create_account: "Créer un compte"
+
+
+
+
+
+
 
   footer:
     product: "Produit"

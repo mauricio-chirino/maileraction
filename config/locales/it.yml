@@ -57,6 +57,22 @@ it:
 
 
 
+  sessions:
+    title: "Benvenuto su MailerAction!"
+    subtitle: "Accedi al tuo account e inizia l'avventura"
+    email_or_username: "Email o nome utente"
+    email_placeholder: "Inserisci la tua email o nome utente"
+    password: "Password"
+    forgot_password: "Hai dimenticato la password?"
+    password_required: "La password è obbligatoria."
+    remember_me: "Ricordami"
+    sign_in: "Accedi"
+    new_user: "Nuovo sulla nostra piattaforma?"
+    create_account: "Crea un account"
+
+
+
+
 
 
   footer:

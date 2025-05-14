@@ -75,9 +75,9 @@
 
 
     <!-- Footer -->
-    <% unless request.path.start_with?("/web") %>
+    <% unless request.path.match?(/^\/(en|es|fr|br|de|it)?\/?web\/login$/) %>
       <footer class="bg-light text-center text-muted py-4 mt-5">
-          <%= render "shared/footer" %>
+        <%= render "shared/footer" %>
       </footer>
     <% end %>
 
@@ -128,7 +128,7 @@
 
 
 
-<%= javascript_importmap_tags %>
+    <%= javascript_importmap_tags %>
 
   </body>
 </html>

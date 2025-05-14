@@ -44,6 +44,20 @@ de:
 
 
 
+  sessions:
+    title: "Willkommen bei MailerAction!"
+    subtitle: "Melden Sie sich bei Ihrem Konto an und starten Sie das Abenteuer"
+    email_or_username: "E-Mail oder Benutzername"
+    email_placeholder: "Geben Sie Ihre E-Mail-Adresse oder Ihren Benutzernamen ein"
+    password: "Passwort"
+    forgot_password: "Passwort vergessen?"
+    password_required: "Passwort ist erforderlich."
+    remember_me: "Angemeldet bleiben"
+    sign_in: "Anmelden"
+    new_user: "Neu auf unserer Plattform?"
+    create_account: "Konto erstellen"
+
+
 
 
 

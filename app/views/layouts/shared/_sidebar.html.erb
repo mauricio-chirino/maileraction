@@ -519,13 +519,13 @@
         </li>
 
    
-<%= button_to web_web_logout_path(locale: I18n.locale),
-              method: :delete,
-              form: { data: { turbo_frame: "_top" } },
-              class: "menu-link btn btn-link p-0 border-0 text-start" do %>
-  <i class="bx bx-power-off me-2"></i>
-  <span class="align-middle">Cerrar sesión</span>
-<% end %>
+        <%= button_to web_web_logout_path(locale: I18n.locale),
+                      method: :delete,
+                      form: { data: { turbo_frame: "_top" } },
+                      class: "menu-link btn btn-link p-0 border-0 text-start" do %>
+          <i class="bx bx-power-off me-2"></i>
+          <span class="align-middle">Cerrar sesión</span>
+        <% end %>
      
 
 
