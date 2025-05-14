@@ -1,9 +1,4 @@
-// import "@hotwired/turbo-rails"
-// import "controllers"
 
-
-
-// app/javascript/controllers/application.js
 
 import "@hotwired/turbo-rails"
 
