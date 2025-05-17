@@ -42,11 +42,11 @@
           <div data-i18n="Campañas">Campaign</div>
         </a>
         <ul class="menu-sub">
-<li class="menu-item">
-  <%= link_to web_dashboard_dashboard_path(section: "campaign_create"), class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
-    <div data-i18n="Create Campaign">Create</div>
-  <% end %>
-</li>
+        <li class="menu-item">
+          <%= link_to web_dashboard_dashboard_path(section: "campaign_create"), class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>
+            <div data-i18n="Create Campaign">Create</div>
+          <% end %>
+        </li>
 
           <li class="menu-item">
             <%= link_to "?section=campaign_schedule", class: "menu-link", data: { turbo_frame: "dashboard_section" } do %>

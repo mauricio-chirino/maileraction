@@ -33,13 +33,10 @@
           <button type="button" class="btn btn-outline-secondary">Use Template</button>
           <!-- <button type="button" class="btn btn-outline-primary">Open Drag & Drop Editor</button>-->
           <%= link_to "Open Drag & Drop Editor",
-            web_dashboard_dashboard_path(section: "campaign_create", force: 1, locale: I18n.locale),
+            web_dashboard_dashboard_path(section: "campaign_create", editor: "visual", locale: I18n.locale),
             data: { turbo_frame: "dashboard_section" },
             class: "btn btn-outline-primary"
           %>
-
-         
-
         </div>
         <small class="text-muted d-block mt-1">Choose a template or build your email with our visual editor.</small>
       </div>

@@ -1,0 +1,27 @@
+<!-- app/views/web/dashboard/campaigns/shared/_canvas_create_campaign.html.erb -->
+<div class="row">
+  <!-- Sidebar izquierdo -->
+  <div class="col-md-2">
+    <%= render "web/dashboard/campaigns/shared/sidebar_create_campaign" %>
+  </div>
+
+  <!-- Lienzo editable central -->
+  <div class="col-md-8">
+    <i class="fas fa-check-circle fa-2x text-success"></i>
+    <div id="email-canvas" class="p-4 bg-white border rounded h-full overflow-auto" data-controller="drag drop">
+      <div class="text-center text-muted" data-drag-target>
+        <p class="mb-0">Drag elements from the sidebar to build your email</p>
+        <small>You can reposition or remove blocks once placed</small>
+      </div>
+
+      <div class="canvas-area mt-4" id="canvas-area">
+        <%= render "web/dashboard/campaigns/shared/default_email_template" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar derecho -->
+  <div class="col-md-2">
+    <%= render "web/dashboard/campaigns/shared/canvas_right_sidebar" %>
+  </div>
+</div>

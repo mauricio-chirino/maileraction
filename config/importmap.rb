@@ -1,6 +1,7 @@
-{
-  "imports": {
-    "morphdom": "https://ga.jspm.io/npm:morphdom@2.6.1/dist/morphdom.js",
-    "cable_ready": "/assets/cable_ready.js"
-  }
-}
+# Pin npm packages by running ./bin/importmap
+
+
+pin "application"
+pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
+pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
+pin_all_from "app/javascript/controllers", under: "controllers"

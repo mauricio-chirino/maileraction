@@ -15,14 +15,14 @@
     <!-- Vista previa / Lienzo -->
     <div class="col-md-7 d-flex justify-content-center align-items-start bg-white pt-4" style="height: 100vh; overflow-y: auto;">
       <!-- Hidden field to store HTML -->
-<%= form_with model: @campaign, url: campaigns_path, method: :post, local: true, id: "campaign-builder-form" do |f| %>
-  <%= f.hidden_field :html_content, id: "html_content_input" %>
+      <%= form_with model: @campaign, url: campaigns_path, method: :post, local: true, id: "campaign-builder-form" do |f| %>
+        <%= f.hidden_field :html_content, id: "html_content_input" %>
 
-  <!-- Botón para guardar -->
-  <div class="text-center mt-4">
-    <%= f.submit "Guardar Campaña", class: "btn btn-primary" %>
-  </div>
-<% end %>
+        <!-- Botón para guardar -->
+        <div class="text-center mt-4">
+          <%= f.submit "Guardar Campaña", class: "btn btn-primary" %>
+        </div>
+      <% end %>
       
       
       

@@ -1,28 +1,35 @@
+<!-- app/views/layouts/shared/campaigns/default.html.erb -->
+
 <h1>Dashboard General</h1>
 <p>Hola <%= current_user.email_address %>. Este es el panel por defecto.</p>
 
-
-
-
 <%= turbo_frame_tag "dashboard_section" do %>
-  <% case params[:section] %>
-  <% when "campaign_create" %>
-    <%= render "layouts/shared/campaigns/create" %>
-  <% when "campaign_schedule" %>
-    <%= render "layouts/shared/campaigns/schedule" %>
-  <% when "campaign_scheduled" %>
-    <%= render "layouts/shared/campaigns/scheduled" %>  
-  <% when "campaign_sent" %>
-    <%= render "layouts/shared/campaigns/sent" %>
-  <% when "campaign_statistics" %>
-    <%= render "layouts/shared/campaigns/statistics" %>
-  <% when "campaign_flow_automation" %>
-    <%= render "layouts/shared/campaigns/flow_automation" %>
-  <% when "campaign_recommendations_ai" %>
-    <%= render "layouts/shared/campaigns/recommendations_ai" %>
-  <% when "campaign_interactive_map" %>
-    <%= render "layouts/shared/campaigns/interactive_map" %>
+  <% if params[:section] == "campaign_create" && params[:editor] == "visual" %>
+    <div class="d-flex">
+      <%= render "web/dashboard/campaigns/shared/sidebar_create_campaign" %>
+      <%= render "web/dashboard/campaigns/shared/canvas_create_campaign" %>
+      <%= render "web/dashboard/campaigns/shared/canvas_right_sidebar" %>
+    </div>
   <% else %>
-    <%= render "layouts/shared/campaigns/welcome" %>
+    <% case params[:section] %>
+    <% when "campaign_create" %>
+      <%= render "layouts/shared/campaigns/create" %>
+    <% when "campaign_schedule" %>
+      <%= render "layouts/shared/campaigns/schedule" %>
+    <% when "campaign_scheduled" %>
+      <%= render "layouts/shared/campaigns/scheduled" %>  
+    <% when "campaign_sent" %>
+      <%= render "layouts/shared/campaigns/sent" %>
+    <% when "campaign_statistics" %>
+      <%= render "layouts/shared/campaigns/statistics" %>
+    <% when "campaign_flow_automation" %>
+      <%= render "layouts/shared/campaigns/flow_automation" %>
+    <% when "campaign_recommendations_ai" %>
+      <%= render "layouts/shared/campaigns/recommendations_ai" %>
+    <% when "campaign_interactive_map" %>
+      <%= render "layouts/shared/campaigns/interactive_map" %>
+    <% else %>
+      <%= render "layouts/shared/campaigns/welcome" %>
+    <% end %>
   <% end %>
 <% end %>

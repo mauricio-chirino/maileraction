@@ -7,6 +7,8 @@ module Web
 
 
       def admin
+        @section = params[:section]
+        @editor = params[:editor]
         render layout: "web"
       end
 

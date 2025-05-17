@@ -30,13 +30,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Frameworks y Librerías BOOSTRAP 5-->
-    
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/64c81be5a8.js" crossorigin="anonymous"></script>
+
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"> 
     
-
-  
-
 
 
 
@@ -44,7 +41,7 @@
 
     <!-- Animaciones y Efectos -->
     <%= stylesheet_link_tag "https://unpkg.com/leaflet/dist/leaflet.css" %>
-    <%= javascript_include_tag "https://unpkg.com/leaflet/dist/leaflet.js", defer: true %>
+    
 
  
 
@@ -62,6 +59,14 @@
     <header id="navbar" >
       <%= render "layouts/shared/navbar" %>
     </header>
+
+
+
+<div data-controller="hello">
+  Hola Stimulus
+</div>
+
+
 
     <!-- Contenido principal -->
     <main id="main_content" >
