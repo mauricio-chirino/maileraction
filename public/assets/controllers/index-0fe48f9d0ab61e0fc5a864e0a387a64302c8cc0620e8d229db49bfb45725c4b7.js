@@ -11,4 +11,4 @@ application.register("hello", HelloController)
 application.register("drag", DragController)
 application.register("drop", DropController)
 application.register("inspector", InspectorController)
-application.register("bootstrap", BootstrapController)
+application.register("bootstrap", BootstrapController);

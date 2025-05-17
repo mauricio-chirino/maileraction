@@ -2,10 +2,6 @@
 import { Application } from "@hotwired/stimulus"
 
 const application = Application.start()
+export { application }
 
-// Carga automática de todos los controladores
-
-
-
-
-export { application };
+window.Stimulus = application

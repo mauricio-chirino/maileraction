@@ -3,4 +3,9 @@
 
 // app/javascript/application.js
 import "@hotwired/turbo-rails"
-import "./controllers"
+import "./stimulus_application" // <- Este importa y arranca Stimulus
+import "controllers"
+
+
+
+import "bootstrap"
