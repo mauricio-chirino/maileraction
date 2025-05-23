@@ -49,18 +49,34 @@
 
   <!-- Panel: Description / Text -->
   <div data-inspector-target="textSettings" class="d-none">
-    <h6 class="fw-bold mb-2">Text Block Settings</h6>
     <div class="mb-3">
-      <label class="form-label">Text</label>
-      <textarea class="form-control form-control-sm" rows="3" placeholder="Enter description..."></textarea>
+      <label class="form-label">Contenido</label>
+      <textarea class="form-control form-control-sm" rows="2" placeholder="Texto del bloque"></textarea>
     </div>
+
     <div class="mb-3">
-      <label class="form-label">Font Style</label>
+      <label class="form-label">Color</label>
+      <input type="color" class="form-control form-control-color" value="#333333" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Fuente</label>
       <select class="form-select form-select-sm">
-        <option selected>Normal</option>
-        <option>Italic</option>
-        <option>Bold</option>
+        <option value="Arial" selected>Arial</option>
+        <option value="Helvetica">Helvetica</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Roboto">Roboto</option>
       </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Estilo</label>
+      <div class="btn-group w-100 mb-2" role="group">
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-style="bold"><i class="fas fa-bold"></i></button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-style="italic"><i class="fas fa-italic"></i></button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-style="underline"><i class="fas fa-underline"></i></button>
+      </div>
     </div>
   </div>
 

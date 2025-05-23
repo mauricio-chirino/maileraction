@@ -87,7 +87,12 @@ export default class extends Controller {
 
     // Dispara el evento global
     const blockType = this.element.dataset.blockType;
-    window.dispatchEvent(new CustomEvent("block:selected", { detail: { blockType } }));
+    window.dispatchEvent(new CustomEvent("block:selected", { 
+      detail: { 
+        blockType: this.element.dataset.blockType,
+        blockId: this.element.dataset.blockId
+      } 
+    }));
 
     // Opcional: scroll al inspector si quieres en móviles
   }
