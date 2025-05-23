@@ -79,4 +79,16 @@ export default class extends Controller {
       canvasController.save()
     }
   }
+
+  select(event) {
+    // Opcional: resalta el bloque seleccionado
+    document.querySelectorAll(".email-block.selected").forEach(b => b.classList.remove("selected"));
+    this.element.classList.add("selected");
+
+    // Dispara el evento global
+    const blockType = this.element.dataset.blockType;
+    window.dispatchEvent(new CustomEvent("block:selected", { detail: { blockType } }));
+
+    // Opcional: scroll al inspector si quieres en móviles
+  }
 }

@@ -6,7 +6,7 @@
   data-block-type="hero"
   data-block-id="hero-1"
   draggable="true"
-  data-action="dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+  data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
   <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
   <img src="/assets/logo3.svg" alt="MailerAction" width="120" />
 </div>
@@ -16,7 +16,7 @@
      data-controller="block"
      data-block-type="heading"
      data-block-id="heading-1"
-      data-action="dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+      data-action="click->block#select  dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
   <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
   <h2 contenteditable="true"
       class="text-center fw-bold m-0"
@@ -30,7 +30,7 @@
      data-controller="block"
      data-block-type="text"
      data-block-id="text-1"
-      data-action="dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
       <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
   <p contenteditable="true"
     class="text-center fw-bold m-0"
@@ -44,7 +44,7 @@
      data-controller="block"
      data-block-type="button"
      data-block-id="cta-1"
-      data-action="dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
   <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
   <a href="#" contenteditable="true"
      class="btn btn-primary px-4 py-2"
@@ -58,7 +58,7 @@
      data-controller="block"
      data-block-type="badges"
      data-block-id="badges-1"
-      data-action="dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
   <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
   <span class="badge bg-success me-2">Easy to Use</span>
   <span class="badge bg-info me-2">Powerful Tools</span>
@@ -70,8 +70,9 @@
      data-controller="block"
      data-block-type="cards"
      data-block-id="cards-1"
-      data-action="dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
   <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  
   <div class="col-md-4">
     <div class="card h-100 text-center">
       <div class="card-body">
@@ -97,7 +98,7 @@
      data-controller="block"
      data-block-type="social"
      data-block-id="social-1"
-      data-action="dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
   <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
   <a href="#" class="text-secondary mx-2" contenteditable="true" data-controller="editable">
     <i class="bx bxl-facebook-circle bx-sm"></i>

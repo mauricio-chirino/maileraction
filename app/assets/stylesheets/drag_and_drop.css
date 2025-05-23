@@ -136,7 +136,10 @@
 
 
 
-
+.email-block.selected {
+  border-color: #5317A6;
+  box-shadow: 0 0 0 2px #8e2de277;
+}
 
 
 
