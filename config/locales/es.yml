@@ -73,7 +73,13 @@ es:
 
 
 
-
+  block_toolbar:
+    move: "Arrastra para mover"
+    move_up: "Mover arriba"
+    move_down: "Mover abajo"
+    edit: "Editar"
+    duplicate: "Duplicar"
+    delete: "Eliminar"
 
 
 

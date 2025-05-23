@@ -72,7 +72,13 @@ it:
 
 
 
-
+  block_toolbar:
+    move: "Trascina per spostare"
+    move_up: "Sposta su"
+    move_down: "Sposta giù"
+    edit: "Modifica"
+    duplicate: "Duplica"
+    delete: "Elimina"
 
 
   footer:

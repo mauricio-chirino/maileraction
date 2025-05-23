@@ -1,11 +1,13 @@
-// app/javascript/controllers/drop_controller.js
+// app/javascript/controllers/editable_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  removeBlock(event) {
-    event.target.closest('.email-block').remove()
-    
-    // Llama a save()
+  connect() {
+    // Guardar automáticamente cuando el usuario edite el texto
+    this.element.addEventListener("input", this.saveCanvas.bind(this))
+  }
+
+  saveCanvas() {
     const canvasController = this.application.getControllerForElementAndIdentifier(
       document.querySelector('[data-controller~="canvas"]'),
       "canvas"

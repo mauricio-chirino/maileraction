@@ -69,7 +69,13 @@ br:
 
 
 
-
+  block_toolbar:
+    move: "Arraste para mover"
+    move_up: "Mover para cima"
+    move_down: "Mover para baixo"
+    edit: "Editar"
+    duplicate: "Duplicar"
+    delete: "Excluir"
 
 
 

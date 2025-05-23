@@ -1,0 +1,39 @@
+<!-- app/views/web/dashboard/campaigns/shared/_block_toolbar.html.erb -->
+<div class="block-actions d-flex gap-1 position-absolute p-1" style="z-index:3;">
+  <!-- Arrastrar (sólo el handle activa el drag) -->
+  <button type="button"
+          class="btn btn-xs btn-light drag-handle"
+          title="<%= t('block_toolbar.move') %>"
+          data-action="mousedown->block#enableDrag mouseup->block#disableDrag mouseleave->block#disableDrag">
+    <i class="bx bx-move"></i>
+  </button>
+  <!-- Mover arriba -->
+  <button type="button"
+          class="btn btn-xs btn-light"
+          title="<%= t('block_toolbar.move_up') %>"
+          data-action="click->block#moveUp">
+    <i class="bx bx-chevron-up"></i>
+  </button>
+  <!-- Mover abajo -->
+  <button type="button"
+          class="btn btn-xs btn-light"
+          title="<%= t('block_toolbar.move_down') %>"
+          data-action="click->block#moveDown">
+    <i class="bx bx-chevron-down"></i>
+  </button>
+  <% if local_assigns[:show_edit] != false %>
+    <button type="button" class="btn btn-xs btn-light" title="<%= t('block_toolbar.edit') %>" data-action="click->block#startEdit">
+      <i class="bx bx-edit-alt"></i>
+    </button>
+  <% end %>
+  <% if local_assigns[:show_duplicate] != false %>
+    <button type="button" class="btn btn-xs btn-light" title="<%= t('block_toolbar.duplicate') %>" data-action="click->block#duplicate">
+      <i class="bx bx-duplicate"></i>
+    </button>
+  <% end %>
+  <% if local_assigns[:show_delete] != false %>
+    <button type="button" class="btn btn-xs btn-danger" title="<%= t('block_toolbar.delete') %>" data-action="click->block#remove">
+      <i class="bx bx-trash"></i>
+    </button>
+  <% end %>
+</div>

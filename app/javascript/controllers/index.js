@@ -2,13 +2,22 @@
 import { application } from "../stimulus_application"
 
 import HelloController from "./hello_controller"
-import DragController from "./drag_controller"
-import DropController from "./drop_controller"
+//import DragController from "./drag_controller"
+//import DropController from "./drop_controller"
 import InspectorController from "./inspector_controller"
 import BootstrapController from "./bootstrap_controller"
 
+
+import CanvasController from "./canvas_controller"
+import BlockController from "./block_controller"
+
 application.register("hello", HelloController)
-application.register("drag", DragController)
-application.register("drop", DropController)
+//application.register("drag", DragController)
+//application.register("drop", DropController)
 application.register("inspector", InspectorController)
 application.register("bootstrap", BootstrapController)
+
+
+
+application.register("canvas", CanvasController)
+application.register("block", BlockController)

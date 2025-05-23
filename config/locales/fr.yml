@@ -65,7 +65,13 @@ fr:
 
 
 
-
+  block_toolbar:
+    move: "Glisser pour déplacer"
+    move_up: "Déplacer vers le haut"
+    move_down: "Déplacer vers le bas"
+    edit: "Éditer"
+    duplicate: "Dupliquer"
+    delete: "Supprimer"
 
 
 

@@ -113,7 +113,13 @@ en:
 
 
 
-
+  block_toolbar:
+    move: "Drag to move"
+    move_up: "Move up"
+    move_down: "Move down"
+    edit: "Edit"
+    duplicate: "Duplicate"
+    delete: "Delete"
 
 
 
