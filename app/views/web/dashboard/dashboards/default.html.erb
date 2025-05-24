@@ -5,7 +5,11 @@
 
 <%= turbo_frame_tag "dashboard_section" do %>
   <% if params[:section] == "campaign_create" && params[:editor] == "visual" %>
+        <div class="text-center text-muted" >
+        <p class="mb-0">Visualizar en el Navegador</p>
+      </div>
     <div class="d-flex">
+      
       <%= render "web/dashboard/campaigns/shared/sidebar_create_campaign" %>
       <%= render "web/dashboard/campaigns/shared/canvas_create_campaign" %>
       <%= render "web/dashboard/campaigns/shared/canvas_right_sidebar" %>

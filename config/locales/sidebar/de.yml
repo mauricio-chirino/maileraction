@@ -36,7 +36,7 @@ de:
           icon_desc: "Icon und Text"
           overlay: "Hero Overlay"
           overlay_desc: "Mit Überlagerung"
-        section:
+        section: 
           basic: "Basisabschnitt"
           basic_desc: "Einzelne Spalte"
           two_col: "Zwei Spalten"
