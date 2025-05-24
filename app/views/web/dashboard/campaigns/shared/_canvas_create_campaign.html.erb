@@ -9,8 +9,11 @@
           <!-- Bloque vacío inicial o mensaje -->
 
     <div id="email-canvas"
-      class="p-4 bg-white border rounded h-full overflow-auto canvas-area">
-      <!-- Aquí se renderizan los bloques (en edición/carga) -->
+      class="p-4 bg-white border rounded h-full overflow-auto canvas-area"
+      data-controller="canvas"
+      data-action="drop->canvas#drop dragover->canvas#dragOver"
+      >
+
       <div id="canvas-area-blocks" data-controller="canvas" data-canvas-target="area">
         <%= render "web/dashboard/campaigns/shared/default_email_template" %>
       </div>

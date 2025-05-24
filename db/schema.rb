@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_06_015053) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "block_templates", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "html_content"
+    t.string "category"
+    t.jsonb "settings"
+    t.boolean "public"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_block_templates_on_user_id"
+  end
 
   create_table "bounces", force: :cascade do |t|
     t.string "reason"
@@ -58,6 +71,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_015053) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_credit_accounts_on_user_id"
+  end
+
+  create_table "email_blocks", force: :cascade do |t|
+    t.bigint "campaign_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "block_template_id", null: false
+    t.string "name"
+    t.string "block_type"
+    t.text "html_content"
+    t.jsonb "settings"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["block_template_id"], name: "index_email_blocks_on_block_template_id"
+    t.index ["campaign_id"], name: "index_email_blocks_on_campaign_id"
+    t.index ["user_id"], name: "index_email_blocks_on_user_id"
   end
 
   create_table "email_error_logs", force: :cascade do |t|
@@ -359,6 +388,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_015053) do
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
   end
 
+  add_foreign_key "block_templates", "users"
   add_foreign_key "bounces", "campaigns"
   add_foreign_key "bounces", "email_records"
   add_foreign_key "campaign_emails", "campaigns"
@@ -367,6 +397,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_015053) do
   add_foreign_key "campaigns", "templates"
   add_foreign_key "campaigns", "users"
   add_foreign_key "credit_accounts", "users"
+  add_foreign_key "email_blocks", "block_templates"
+  add_foreign_key "email_blocks", "campaigns"
+  add_foreign_key "email_blocks", "users"
   add_foreign_key "email_event_logs", "campaigns"
   add_foreign_key "email_logs", "campaigns"
   add_foreign_key "email_logs", "email_records"

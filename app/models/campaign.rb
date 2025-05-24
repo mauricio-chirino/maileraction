@@ -35,7 +35,11 @@ class Campaign < ApplicationRecord
 
   has_many :bounces
 
+  # modelos campanna
   belongs_to :template, optional: true
+  has_many :email_blocks, dependent: :destroy
+
+
 
   delegate :content, to: :template, allow_nil: true
 

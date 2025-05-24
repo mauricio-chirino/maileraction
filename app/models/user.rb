@@ -49,6 +49,9 @@ class User < ApplicationRecord
 
   has_many :support_requests
 
+  # modelos campannas
+  has_many :block_templates
+  has_many :email_blocks
 
   # belongs_to :role, optional: true
   belongs_to :plan, optional: true
