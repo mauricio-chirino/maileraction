@@ -81,6 +81,30 @@ it:
     delete: "Elimina"
 
 
+
+
+
+  sidebar:
+    create_campaign:
+      navigation: "Navigazione"
+      hero: "Hero"
+      section: "Sezione"
+      element: "Elemento"
+      content: "Contenuto"
+      special: "Speciale"
+      ecommerce: "E-commerce"
+      gallery: "Galleria"
+      footer: "Footer"
+      rss: "RSS/Blog"
+
+
+
+
+
+
+
+
+
   footer:
     product: "Prodotto"
     email_marketing: "Email Marketing"

@@ -1,0 +1,27 @@
+<% [
+  {type: "element-heading", label: t("sidebar.create_campaign.blocks.element.heading"), desc: t("sidebar.create_campaign.blocks.element.heading_desc")},
+  {type: "element-subheading", label: t("sidebar.create_campaign.blocks.element.subheading"), desc: t("sidebar.create_campaign.blocks.element.subheading_desc")},
+  {type: "element-text", label: t("sidebar.create_campaign.blocks.element.text"), desc: t("sidebar.create_campaign.blocks.element.text_desc")},
+  {type: "element-image", label: t("sidebar.create_campaign.blocks.element.image"), desc: t("sidebar.create_campaign.blocks.element.image_desc")},
+  {type: "element-divider", label: t("sidebar.create_campaign.blocks.element.divider"), desc: t("sidebar.create_campaign.blocks.element.divider_desc")},
+  {type: "element-icon", label: t("sidebar.create_campaign.blocks.element.icon"), desc: t("sidebar.create_campaign.blocks.element.icon_desc")},
+  {type: "element-list", label: t("sidebar.create_campaign.blocks.element.list"), desc: t("sidebar.create_campaign.blocks.element.list_desc")},
+  {type: "element-badge", label: t("sidebar.create_campaign.blocks.element.badge"), desc: t("sidebar.create_campaign.blocks.element.badge_desc")},
+  {type: "element-avatar", label: t("sidebar.create_campaign.blocks.element.avatar"), desc: t("sidebar.create_campaign.blocks.element.avatar_desc")},
+  {type: "element-label", label: t("sidebar.create_campaign.blocks.element.label"), desc: t("sidebar.create_campaign.blocks.element.label_desc")},
+  {type: "element-rating", label: t("sidebar.create_campaign.blocks.element.rating"), desc: t("sidebar.create_campaign.blocks.element.rating_desc")},
+  {type: "element-progress", label: t("sidebar.create_campaign.blocks.element.progress"), desc: t("sidebar.create_campaign.blocks.element.progress_desc")},
+  {type: "element-tag", label: t("sidebar.create_campaign.blocks.element.tag"), desc: t("sidebar.create_campaign.blocks.element.tag_desc")},
+  {type: "element-alert", label: t("sidebar.create_campaign.blocks.element.alert"), desc: t("sidebar.create_campaign.blocks.element.alert_desc")}
+].each do |block| %>
+  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+       draggable="true"
+       data-block-type="<%= block[:type] %>"
+       data-category="elements"
+       data-action="dragstart->sidebar#createBlockPreview">
+    <div>
+      <strong><%= block[:label] %></strong>
+      <small class="text-muted d-block"><%= block[:desc] %></small>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,21 @@
+<% [
+  {type: "nav-main", label: t("sidebar.create_campaign.blocks.navigation.main"), desc: t("sidebar.create_campaign.blocks.navigation.main_desc")},
+  {type: "nav-side", label: t("sidebar.create_campaign.blocks.navigation.side"), desc: t("sidebar.create_campaign.blocks.navigation.side_desc")},
+  {type: "nav-footer", label: t("sidebar.create_campaign.blocks.navigation.footer"), desc: t("sidebar.create_campaign.blocks.navigation.footer_desc")},
+  {type: "nav-social", label: t("sidebar.create_campaign.blocks.navigation.social"), desc: t("sidebar.create_campaign.blocks.navigation.social_desc")},
+  {type: "nav-tabs", label: t("sidebar.create_campaign.blocks.navigation.tabs"), desc: t("sidebar.create_campaign.blocks.navigation.tabs_desc")},
+  {type: "nav-breadcrumbs", label: t("sidebar.create_campaign.blocks.navigation.breadcrumbs"), desc: t("sidebar.create_campaign.blocks.navigation.breadcrumbs_desc")},
+  {type: "nav-dropdown", label: t("sidebar.create_campaign.blocks.navigation.dropdown"), desc: t("sidebar.create_campaign.blocks.navigation.dropdown_desc")},
+  {type: "nav-mobile", label: t("sidebar.create_campaign.blocks.navigation.mobile"), desc: t("sidebar.create_campaign.blocks.navigation.mobile_desc")}
+].each do |block| %>
+  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+       draggable="true"
+       data-block-type="<%= block[:type] %>"
+       data-category="navigation"
+       data-action="dragstart->sidebar#createBlockPreview">
+    <div>
+      <strong><%= block[:label] %></strong>
+      <small class="text-muted d-block"><%= block[:desc] %></small>
+    </div>
+  </div>
+<% end %>

@@ -81,6 +81,39 @@ br:
 
 
 
+
+
+
+  sidebar:
+    create_campaign:
+      navigation: "Navegação"
+      hero: "Hero"
+      section: "Seção"
+      element: "Elemento"
+      content: "Conteúdo"
+      special: "Especial"
+      ecommerce: "E-commerce"
+      gallery: "Galeria"
+      footer: "Footer"
+      rss: "RSS/Blog"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   footer:
     product: "Produto"
     email_marketing: "Marketing por E-mail"

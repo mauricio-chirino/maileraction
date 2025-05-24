@@ -82,6 +82,23 @@ es:
     delete: "Eliminar"
 
 
+  sidebar:
+      create_campaign:
+        navigation: "Navegación"
+        hero: "Hero"
+        section: "Sección"
+        element: "Elemento"
+        content: "Contenido"
+        special: "Especial"
+        ecommerce: "E-commerce"
+        gallery: "Galería"
+        footer: "Footer"
+        rss: "RSS/Blog"
+
+
+
+
+
 
 
 footer:

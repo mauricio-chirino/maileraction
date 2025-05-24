@@ -1,59 +1,262 @@
-<!-- app/views/layouts/shared/_sidebar_create_campaign.html.erb -->
+<aside id="sidebar-create-campaign" class="bg-light border-end p-0 h-100" style="min-width: 265px; max-width: 290px;">
+  <div class="accordion p-0" id="sidebarAccordion">
 
-<aside id="drag-sidebar" class="sidebar p-3 bg-dark text-white" data-controller="drag">
-  <div class="input-group mb-3">
-    <input type="text" class="form-control form-control-sm" placeholder="Search.." />
+    <!-- Navegación -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingNavigation">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseNavigation"
+                aria-expanded="false"
+                aria-controls="collapseNavigation">
+          <span class="menu-icon">
+            <!-- Navigation SVG -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#696cff">
+              <rect width="20" height="6" rx="2"></rect>
+              <rect y="9" width="20" height="11" rx="2" fill-opacity=".2"></rect>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.navigation") %></span>
+        </button>
+      </h2>
+      <div id="collapseNavigation" class="accordion-collapse collapse" aria-labelledby="headingNavigation" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/navigation" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingHero">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseHero"
+                aria-expanded="false"
+                aria-controls="collapseHero">
+          <span class="icon dark">
+            <!-- Hero SVG -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#696cff">
+              <rect y="14" width="20" height="6" rx="2" fill-opacity=".2"></rect>
+              <rect width="20" height="11" rx="2"></rect>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.hero") %></span>
+        </button>
+      </h2>
+      <div id="collapseHero" class="accordion-collapse collapse" aria-labelledby="headingHero" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/hero" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingSection">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseSection"
+                aria-expanded="false"
+                aria-controls="collapseSection">
+          <span class="icon dark">
+            <!-- Section SVG -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#696cff">
+              <rect x="9" width="20" height="9" rx="2" transform="rotate(90 9 0)" fill-opacity="1"></rect>
+              <rect x="11" width="9" height="20" rx="2" fill-opacity=".5"></rect>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.section") %></span>
+        </button>
+      </h2>
+      <div id="collapseSection" class="accordion-collapse collapse" aria-labelledby="headingSection" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/section" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Elemento -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingElement">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseElement"
+                aria-expanded="false"
+                aria-controls="collapseElement">
+          <span class="icon dark">
+            <!-- Element SVG -->
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="#696cff">
+              <path fill-rule="evenodd" d="M.107 1.006a.9.9 0 0 1 .9-.9H7.05h6.044a.9.9 0 0 1 .9.9v2.266a.9.9 0 1 1-1.8 0V1.906H7.95v10.287h1.366a.9.9 0 1 1 0 1.8H4.784a.9.9 0 0 1 0-1.8H6.15V1.906H1.907v1.366a.9.9 0 1 1-1.8 0V1.006z"></path>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.element") %></span>
+        </button>
+      </h2>
+      <div id="collapseElement" class="accordion-collapse collapse" aria-labelledby="headingElement" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/element" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingContent">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseContent"
+                aria-expanded="false"
+                aria-controls="collapseContent">
+          <span class="icon dark">
+            <!-- Content SVG -->
+            <svg width="20" height="20" viewBox="-1 0 16 16" fill="#696cff">
+              <path d="M10.699 15.834l1.371-1.114c.247-.206.296-.587.09-.86L9.207 9.915l3.362-.901c.229-.061.392-.264.42-.51.031-.237-.083-.485-.295-.608L1.134.805A.53.53 0 0 0 .69.735.56.56 0 0 0 .492.838c-.186.149-.27.401-.205.642l3.741 13.963c.065.241.263.417.499.453a.56.56 0 0 0 .224-.01c.15-.04.273-.143.349-.283l1.97-3.632 2.806 3.746c.203.264.568.325.824.117z"></path>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.content") %></span>
+        </button>
+      </h2>
+      <div id="collapseContent" class="accordion-collapse collapse" aria-labelledby="headingContent" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/content" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Especial -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingSpecial">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseSpecial"
+                aria-expanded="false"
+                aria-controls="collapseSpecial">
+          <span class="icon dark">
+            <!-- Special SVG -->
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="#696cff">
+              <rect x="5.294" width="12.706" height="12.706" rx="1.895"></rect>
+              <path fill-rule="evenodd" d="M4.235 5.295H1.895C.848 5.295 0 6.143 0 7.19v8.916c0 1.046.848 1.895 1.895 1.895h8.916c1.046 0 1.895-.848 1.895-1.895v-2.341H6.13c-1.046 0-1.895-.848-1.895-1.895V5.295z" fill-opacity=".3"></path>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.special") %></span>
+        </button>
+      </h2>
+      <div id="collapseSpecial" class="accordion-collapse collapse" aria-labelledby="headingSpecial" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/special" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- E-commerce -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingEcommerce">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseEcommerce"
+                aria-expanded="false"
+                aria-controls="collapseEcommerce">
+          <span class="icon dark">
+            <!-- Ecommerce SVG -->
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="#696cff">
+              <path fill-rule="evenodd" d="M.75 1.5A.75.75 0 0 1 1.5.75H9a.75.75 0 0 1 .53.22l6.444 6.444a2.25 2.25 0 0 1 0 3.173l-.532-.529.53.53-5.377 5.377a2.25 2.25 0 0 1-1.592.66 2.25 2.25 0 0 1-1.591-.659L.97 9.531A.75.75 0 0 1 .75 9V1.5zM5.25 4a1.25 1.25 0 1 0 0 2.5h.008a1.25 1.25 0 1 0 0-2.5H5.25z"></path>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.ecommerce") %></span>
+        </button>
+      </h2>
+      <div id="collapseEcommerce" class="accordion-collapse collapse" aria-labelledby="headingEcommerce" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/ecommerce" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Galería -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingGallery">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseGallery"
+                aria-expanded="false"
+                aria-controls="collapseGallery">
+          <span class="icon dark">
+            <!-- Gallery SVG -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#696cff">
+              <g>
+                <path d="M8.5 17.5a1 1 0 0 1-1-1v-4.086a1 1 0 0 1 .19-.587l4.405-6.078a1 1 0 0 1 1.676.087L19.635 16a1 1 0 0 1-.866 1.5H8.5zM5.118 9.488a1 1 0 0 1 1.645.081l3.96 6.405a1 1 0 0 1-.851 1.526H1.022a1 1 0 0 1-.795-1.607l4.891-6.405zm-.535-2.821c-.553 0-1.082-.22-1.473-.61s-.61-.921-.61-1.473.219-1.082.61-1.473.921-.61 1.473-.61 1.082.219 1.473.61.61.921.61 1.473-.22 1.082-.61 1.473-.921.61-1.473.61z"></path>
+              </g>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.gallery") %></span>
+        </button>
+      </h2>
+      <div id="collapseGallery" class="accordion-collapse collapse" aria-labelledby="headingGallery" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/gallery" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingFooter">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseFooter"
+                aria-expanded="false"
+                aria-controls="collapseFooter">
+          <span class="icon dark">
+            <!-- Footer SVG -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="#696cff">
+              <rect x="20" y="20" width="20" height="6" rx="2" transform="rotate(180 20 20)"></rect>
+              <rect x="20" y="11" width="20" height="11" rx="2" transform="rotate(180 20 11)" fill-opacity=".2"></rect>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.footer") %></span>
+        </button>
+      </h2>
+      <div id="collapseFooter" class="accordion-collapse collapse" aria-labelledby="headingFooter" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/footer" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- RSS/Blog -->
+    <div class="accordion-item border-0">
+      <h2 class="accordion-header" id="headingRss">
+        <button class="accordion-button d-flex align-items-center gap-2 bg-white collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseRss"
+                aria-expanded="false"
+                aria-controls="collapseRss">
+          <span class="icon dark">
+            <!-- RSS SVG -->
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="#696cff">
+              <path fill-rule="evenodd" d="M3 2.1a.9.9 0 1 0 0 1.8A11.1 11.1 0 0 1 14.1 15a.9.9 0 1 0 1.8 0A12.9 12.9 0 0 0 3 2.1zm0 5.25a.9.9 0 1 0 0 1.8A5.85 5.85 0 0 1 8.85 15a.9.9 0 0 0 1.8 0A7.65 7.65 0 0 0 3 7.35zm.75 5.25a1.65 1.65 0 1 0 0 3.3 1.65 1.65 0 1 0 0-3.3z"></path>
+            </svg>
+          </span>
+          <span><%= t("sidebar.create_campaign.rss") %></span>
+        </button>
+      </h2>
+      <div id="collapseRss" class="accordion-collapse collapse" aria-labelledby="headingRss" data-bs-parent="#sidebarAccordion">
+        <div class="accordion-body py-2 px-3">
+          <%= render partial: "web/dashboard/campaigns/shared/sidebar_blocks/rss" %>
+        </div>
+      </div>
+    </div>
+
   </div>
-
-  <ul class="list-unstyled">
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-bookmark me-2"></i>
-      <span>Saved blocks</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-menu-alt-left me-2"></i>
-      <span>Navigation</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-layout me-2"></i>
-      <span>Hero</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-columns me-2"></i>
-      <span>Sections</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-font me-2"></i>
-      <span>Elements</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-cursor me-2"></i>
-      <span>Content</span>
-    </li>
-    <hr class="bg-secondary">
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-cube me-2"></i>
-      <span>Special</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-purchase-tag-alt me-2"></i>
-      <span>E-commerce</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-image-alt me-2"></i>
-      <span>Gallery</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-rss me-2"></i>
-      <span>Blog and RSS</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bxl-twitter me-2"></i>
-      <span>Social and sharing</span>
-    </li>
-    <li class="mb-2 d-flex align-items-center">
-      <i class="bx bx-footer me-2"></i>
-      <span>Footer</span>
-    </li>
-  </ul>
 </aside>

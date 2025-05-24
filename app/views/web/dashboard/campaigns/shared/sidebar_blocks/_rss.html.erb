@@ -1,0 +1,18 @@
+<% [
+  {type: "rss-basic", label: t("sidebar.create_campaign.blocks.rss.basic"), desc: t("sidebar.create_campaign.blocks.rss.basic_desc")},
+  {type: "rss-list", label: t("sidebar.create_campaign.blocks.rss.list"), desc: t("sidebar.create_campaign.blocks.rss.list_desc")},
+  {type: "rss-card", label: t("sidebar.create_campaign.blocks.rss.card"), desc: t("sidebar.create_campaign.blocks.rss.card_desc")},
+  {type: "rss-highlight", label: t("sidebar.create_campaign.blocks.rss.highlight"), desc: t("sidebar.create_campaign.blocks.rss.highlight_desc")},
+  {type: "rss-feed", label: t("sidebar.create_campaign.blocks.rss.feed"), desc: t("sidebar.create_campaign.blocks.rss.feed_desc")}
+].each do |block| %>
+  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+       draggable="true"
+       data-block-type="<%= block[:type] %>"
+       data-category="rss"
+       data-action="dragstart->sidebar#createBlockPreview">
+    <div>
+      <strong><%= block[:label] %></strong>
+      <small class="text-muted d-block"><%= block[:desc] %></small>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,21 @@
+<% [
+  {type: "hero-basic", label: t("sidebar.create_campaign.blocks.hero.basic"), desc: t("sidebar.create_campaign.blocks.hero.basic_desc")},
+  {type: "hero-image", label: t("sidebar.create_campaign.blocks.hero.image"), desc: t("sidebar.create_campaign.blocks.hero.image_desc")},
+  {type: "hero-bg", label: t("sidebar.create_campaign.blocks.hero.bg"), desc: t("sidebar.create_campaign.blocks.hero.bg_desc")},
+  {type: "hero-center", label: t("sidebar.create_campaign.blocks.hero.center"), desc: t("sidebar.create_campaign.blocks.hero.center_desc")},
+  {type: "hero-video", label: t("sidebar.create_campaign.blocks.hero.video"), desc: t("sidebar.create_campaign.blocks.hero.video_desc")},
+  {type: "hero-multiline", label: t("sidebar.create_campaign.blocks.hero.multiline"), desc: t("sidebar.create_campaign.blocks.hero.multiline_desc")},
+  {type: "hero-icon", label: t("sidebar.create_campaign.blocks.hero.icon"), desc: t("sidebar.create_campaign.blocks.hero.icon_desc")},
+  {type: "hero-overlay", label: t("sidebar.create_campaign.blocks.hero.overlay"), desc: t("sidebar.create_campaign.blocks.hero.overlay_desc")}
+].each do |block| %>
+  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+       draggable="true"
+       data-block-type="<%= block[:type] %>"
+       data-category="hero"
+       data-action="dragstart->sidebar#createBlockPreview">
+    <div>
+      <strong><%= block[:label] %></strong>
+      <small class="text-muted d-block"><%= block[:desc] %></small>
+    </div>
+  </div>
+<% end %>
