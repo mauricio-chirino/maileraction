@@ -294,6 +294,9 @@ Rails.application.routes.draw do
 
 
             get "sent_campaigns", to: "dashboards#sent"
+
+            # los bloques drop
+            get "campaigns/block_html", to: "campaigns#block_html"
           end
 
 

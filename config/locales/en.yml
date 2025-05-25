@@ -122,7 +122,18 @@ en:
     delete: "Delete"
 
 
-
+  sidebar:
+    create_campaign:
+      navigation: "Navigation"
+      hero: "Hero"
+      section: "Section"
+      element: "Element"
+      content: "Content"
+      special: "Special"
+      ecommerce: "E-commerce"
+      gallery: "Gallery"
+      footer: "Footer"
+      rss: "RSS/Blog"
 
 
 

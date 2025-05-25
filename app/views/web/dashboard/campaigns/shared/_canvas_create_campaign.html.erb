@@ -1,20 +1,17 @@
 <!-- app/views/web/dashboard/campaigns/shared/_canvas_create_campaign.html.erb -->
 <div class="d-flex" style="height: 100vh;">
   <!-- Sidebar izquierdo -->
-
+  <!-- (Agrega aquí tu sidebar si tienes) -->
 
   <!-- Lienzo editable central -->
-   <div class="flex-grow-1 px-6"  style="min-width:0;">
-    <!-- Contenedor canvas principal, con Stimulus controller 'canvas' y target 'area' -->
-          <!-- Bloque vacío inicial o mensaje -->
-
+  <div class="flex-grow-1 px-6" style="min-width:0;">
+    <!-- Canvas principal -->
     <div id="email-canvas"
       class="p-4 bg-white border rounded h-full overflow-auto canvas-area"
       data-controller="canvas"
       data-action="drop->canvas#drop dragover->canvas#dragOver"
-      >
-
-      <div id="canvas-area-blocks" data-controller="canvas" data-canvas-target="area">
+    >
+      <div id="canvas-area-blocks" data-canvas-target="area">
         <%= render "web/dashboard/campaigns/shared/default_email_template" %>
       </div>
     </div>

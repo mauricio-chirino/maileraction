@@ -1,20 +1,8 @@
 <!-- app/views/web/dashboard/campaigns/shared/sidebar_blocks/navigation/_nav_main.html.erb -->
-<div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
-     draggable="true"
-     data-block-type="nav-main"
-     data-category="navigation"
-     data-action="dragstart->sidebar#createBlockPreview">
-  <div>
-    <strong><%= t('sidebar.blocks.navigation.nav_main.title') %></strong>
-    <small class="text-muted d-block"><%= t('sidebar.blocks.navigation.nav_main.desc') %></small>
-    <!-- Previsualización pequeña (opcional) -->
-    <nav class="navbar navbar-light bg-light mt-2 rounded px-2 py-1">
-      <a class="navbar-brand fw-bold" href="#">MailerAction</a>
-      <ul class="nav">
-        <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Campañas</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Plantillas</a></li>
-      </ul>
-    </nav>
-  </div>
-</div>
+<nav class="email-block-nav border rounded p-2" style="min-height:48px;">
+  <ul class="d-flex gap-4 list-unstyled mb-0 align-items-center justify-content-center">
+    <li><a href="#" class="text-muted text-decoration-none">About</a></li>
+    <li><a href="#" class="text-muted text-decoration-none">Work</a></li>
+    <li><a href="#" class="text-muted text-decoration-none">Blog</a></li>
+  </ul>
+</nav>

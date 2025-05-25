@@ -81,7 +81,7 @@ fr:
   sidebar:
     create_campaign:
       navigation: "Navigation"
-      hero: "Hero"
+      hero: "Bannière principale"
       section: "Section"
       element: "Élément"
       content: "Contenu"
@@ -90,7 +90,6 @@ fr:
       gallery: "Galerie"
       footer: "Pied de page"
       rss: "RSS/Blog"
-
 
 
 

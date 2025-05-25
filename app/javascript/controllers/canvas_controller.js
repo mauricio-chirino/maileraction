@@ -21,42 +21,42 @@ export default class extends Controller {
     }
   }
 
-drop(event) {
+
+    drop(event) {
     event.preventDefault()
-    // --- ¿VIENE DE SIDEBAR O ES REORDEN? ---
     const blockType = event.dataTransfer.getData("blockType")
-    const blockHtml = event.dataTransfer.getData("text/html")
     const dropBlock = event.target.closest(".email-block")
 
-    if (blockType && blockHtml) {
-      // --- VIENE DEL SIDEBAR, CREA BLOQUE NUEVO ---
-      // Puedes envolver blockHtml con clases y data-* si lo necesitas
-      const id = `block-${Date.now()}`
-      const html = `
-        <div class="email-block position-relative mb-3"
-             data-controller="block"
-             data-block-type="${blockType}"
-             data-block-id="${id}"
-             draggable="true"
-             data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd"
-        >
-          ${blockHtml}
-        </div>
-      `
-      if (dropBlock) {
-        dropBlock.insertAdjacentHTML("beforebegin", html)
-      } else {
-        // Si no hay bloque debajo, agrega al final del canvas
-        this.areaTarget.insertAdjacentHTML("beforeend", html)
-      }
-      this.save()
-    } else if (this.draggedBlock && dropBlock && dropBlock !== this.draggedBlock) {
-      // --- SOLO REORDENANDO ---
+    if (blockType) {
+      fetch(`/web/dashboard/campaigns/block_html?block_type=${blockType}`)
+        .then(response => response.text())
+        .then(html => {
+          const id = `block-${Date.now()}`
+          const blockWrapper = `
+            <div class="email-block position-relative mb-3"
+                 data-controller="block"
+                 data-block-type="${blockType}"
+                 data-block-id="${id}"
+                 draggable="true"
+                 data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+              ${html}
+            </div>`
+          if (dropBlock) {
+            dropBlock.insertAdjacentHTML("beforebegin", blockWrapper)
+          } else {
+            this.areaTarget.insertAdjacentHTML("beforeend", blockWrapper)
+          }
+          this.save()
+        })
+    }
+
+    if (this.draggedBlock && dropBlock && dropBlock !== this.draggedBlock) {
       this.areaTarget.insertBefore(this.draggedBlock, dropBlock)
       this.save()
     }
     this.cleanDragClasses()
   }
+
 
   dragEnd(event) {
     if (this.draggedBlock) {

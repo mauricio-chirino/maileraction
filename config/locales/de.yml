@@ -68,17 +68,17 @@ de:
 
 
   sidebar:
-      create_campaign:
-        navigation: "Navigation"
-        hero: "Hero"
-        section: "Abschnitt"
-        element: "Element"
-        content: "Inhalt"
-        special: "Spezial"
-        ecommerce: "E-Commerce"
-        gallery: "Galerie"
-        footer: "Footer"
-        rss: "RSS/Blog"
+    create_campaign:
+      navigation: "Navigation"
+      hero: "Hero"
+      section: "Abschnitt"
+      element: "Element"
+      content: "Inhalt"
+      special: "Spezial"
+      ecommerce: "E-Commerce"
+      gallery: "Galerie"
+      footer: "Footer"
+      rss: "RSS/Blog"
 
 
 

@@ -3,22 +3,27 @@ es:
     create_campaign:
       blocks:
         navigation:
-          main: "Menú Superior"
-          main_desc: "Barra principal de enlaces"
-          side: "Menú Lateral"
-          side_desc: "Enlaces verticales"
-          footer: "Menú Footer"
-          footer_desc: "Enlaces pie de página"
-          social: "Redes Sociales"
-          social_desc: "Enlaces a redes"
-          tabs: "Tabs de Navegación"
-          tabs_desc: "Navegación en pestañas"
-          breadcrumbs: "Breadcrumbs"
-          breadcrumbs_desc: "Ruta de navegación"
-          dropdown: "Dropdown Menu"
-          dropdown_desc: "Menú desplegable"
-          mobile: "Menú Móvil"
-          mobile_desc: "Barra tipo móvil"
+          logo: "Logo"
+          logo_desc: "Solo el logo de la empresa"
+          nav_main: "Navegación"
+          nav_main_desc: "Menú de navegación principal"
+          logo_nav: "Logo + Navegación"
+          logo_nav_desc: "Logo a la izquierda, menú a la derecha"
+          logo_center_nav: "Logo + Navegación centrada"
+          logo_center_nav_desc: "Logo y navegación centrados"
+          logo_nav_compact: "Logo + Navegación Compacta"
+          logo_nav_compact_desc: "Logo y menú compacto"
+          logo_button: "Logo + Botón"
+          logo_button_desc: "Logo y botón de acción"
+          logo_social: "Logo + Redes Sociales"
+          logo_social_desc: "Logo y enlaces a redes sociales"
+          logo_text: "Logo + Texto"
+          logo_text_desc: "Logo y texto destacado"
+
+
+
+
+          
         hero:
           basic: "Hero Básico"
           basic_desc: "Imagen, texto y botón"
