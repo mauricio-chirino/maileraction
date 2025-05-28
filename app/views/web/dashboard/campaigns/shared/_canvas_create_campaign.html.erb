@@ -1,17 +1,15 @@
 <!-- app/views/web/dashboard/campaigns/shared/_canvas_create_campaign.html.erb -->
 <div class="d-flex" style="height: 100vh;">
   <!-- Sidebar izquierdo -->
-  <!-- (Agrega aquí tu sidebar si tienes) -->
-
-  <!-- Lienzo editable central -->
   <div class="flex-grow-1 px-6" style="min-width:0;">
     <!-- Canvas principal -->
     <div id="email-canvas"
-      class="p-4 bg-white border rounded h-full overflow-auto canvas-area"
+      class="p-4 bg-white border rounded h-full canvas-area"
       data-controller="canvas"
-      data-action="drop->canvas#drop dragover->canvas#dragOver"
+      
     >
-      <div id="canvas-area-blocks" data-canvas-target="area">
+      <!-- Lienzo editable central -->
+      <div id="canvas-area-blocks" data-canvas-target="area" style="min-width:680px; min-height:340px; padding-bottom:2rem;">
         <%= render "web/dashboard/campaigns/shared/default_email_template" %>
       </div>
     </div>

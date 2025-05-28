@@ -14,10 +14,9 @@ export default class extends Controller {
   ];
 
   connect() {
-    console.log("✅ InspectorController conectado");
-    // Guardar referencia ligada al controlador para disconnect()
-    this._handleBlockSelected = this.handleBlockSelected.bind(this);
-    window.addEventListener('block:selected', this._handleBlockSelected);
+      window.addEventListener("block:selected", (e) => {
+        this.loadProperties(e.detail.category, e.detail.blockType)
+      })
   }
 
   show(event) {
@@ -98,7 +97,10 @@ export default class extends Controller {
   }
 
 
-  
+  async loadProperties(category, blockType) {
+    const resp = await fetch(`/web/dashboard/inspector/${category}/${blockType}_property`)
+    this.panelTarget.innerHTML = await resp.text()
+  }
 
 
 

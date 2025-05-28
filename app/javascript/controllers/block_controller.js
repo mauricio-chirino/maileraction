@@ -96,4 +96,25 @@ export default class extends Controller {
 
     // Opcional: scroll al inspector si quieres en móviles
   }
+
+
+  editProperties(event) {
+  // Consigue el tipo y categoría del bloque desde los atributos data-
+  const blockType = this.element.dataset.blockType; // ej: nav_main
+  const category = this.element.closest("[data-category]")?.dataset.category || "navigation"; // Por convención
+  const blockId = this.element.dataset.blockId;
+
+  // Dispara evento global que tu InspectorController escucha
+  window.dispatchEvent(new CustomEvent("block:selected", {
+    detail: { 
+      category: category,
+      blockType: blockType,
+      blockId: blockId
+    }
+  }));
+}
+
+
+
+
 }

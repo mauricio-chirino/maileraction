@@ -286,20 +286,19 @@ Rails.application.routes.draw do
 
             # Ruta para obtener la vista previa de la campaña
             get "campaign_preview", to: "dashboards#campaign_preview"
-            get "web/dashboard/scheduled_campaigns", to: "web/dashboard/dashboards#scheduled"
+            get "scheduled_campaigns", to: "dashboards#scheduled"  # ya no necesitas el prefijo web/dashboard aquí
 
             get "campaigns/:id/edit_modal", to: "dashboards#edit_modal", as: :campaign_edit_modal
             patch "campaigns/:id", to: "dashboards#update", as: :campaign
-
-
 
             get "sent_campaigns", to: "dashboards#sent"
 
             # los bloques drop
             get "campaigns/block_html", to: "campaigns#block_html"
+
+            # Inspector dinámico de bloques
+            get "inspector/:category/:block_type", to: "inspector#show_property", as: :inspector_property
           end
-
-
           # patch "update_campaign/:id", to: "dashboards#update_campaign", as: :update_campaign
 
 

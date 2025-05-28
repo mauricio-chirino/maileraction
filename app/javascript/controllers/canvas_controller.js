@@ -23,6 +23,7 @@ export default class extends Controller {
 
 
     drop(event) {
+      console.log("🔥 Drop ejecutado, blockType:", event.dataTransfer.getData("blockType"));
     event.preventDefault()
     const blockType = event.dataTransfer.getData("blockType")
     const dropBlock = event.target.closest(".email-block")
@@ -46,15 +47,24 @@ export default class extends Controller {
           } else {
             this.areaTarget.insertAdjacentHTML("beforeend", blockWrapper)
           }
-          this.save()
+          this.save && this.save()
         })
+         this.cleanDragClasses();
+        
     }
 
     if (this.draggedBlock && dropBlock && dropBlock !== this.draggedBlock) {
       this.areaTarget.insertBefore(this.draggedBlock, dropBlock)
-      this.save()
+      this.save && this.save()
     }
-    this.cleanDragClasses()
+     this.cleanDragClasses()
+  }
+
+
+
+  dragLeave(event) {
+    const block = event.target.closest(".email-block");
+    if (block) block.classList.remove("drag-over");
   }
 
 

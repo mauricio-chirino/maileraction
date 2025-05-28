@@ -21,11 +21,20 @@
           data-action="click->block#moveDown">
     <i class="bx bx-chevron-down"></i>
   </button>
+
+
   <% if local_assigns[:show_edit] != false %>
-    <button type="button" class="btn btn-xs btn-light" title="<%= t('block_toolbar.edit') %>" data-action="click->block#startEdit">
-      <i class="bx bx-edit-alt"></i>
+    <button type="button"
+        class="btn btn-xs btn-light"
+        title="<%= t('block_toolbar.edit') %>"
+        data-action="click->block#editProperties">
+        <i class="bx bx-edit-alt"></i>
     </button>
   <% end %>
+
+
+
+
   <% if local_assigns[:show_duplicate] != false %>
     <button type="button" class="btn btn-xs btn-light" title="<%= t('block_toolbar.duplicate') %>" data-action="click->block#duplicate">
       <i class="bx bx-duplicate"></i>
