@@ -78,11 +78,13 @@
 
 
     <!-- Footer -->
-    <% unless request.path.match?(/^\/(en|es|fr|br|de|it)?\/?web\/login$/) %>
+    <% unless request.path.match?(/^\/(en|es|fr|br|de|it)?\/?web\/login$/) || request.path.include?('web/dashboard') %>
       <footer class="bg-light text-center text-muted py-4 mt-5">
         <%= render "shared/footer" %>
       </footer>
     <% end %>
+
+
 
 
 

@@ -75,8 +75,12 @@ module Web
           total_revenue: "$12,340"
         )
 
+        @campaign = Campaign.where(user: current_user).order(updated_at: :desc).first
 
         @scheduled_campaigns = Campaign.where(status: "scheduled").order(send_at: :asc)
+
+        # ASIGNA LOS BLOQUES SIEMPRE QUE @campaign NO SEA NIL
+        @email_blocks = @campaign ? @campaign.email_blocks.order(:position) : []
         render layout: "web"
       end
 

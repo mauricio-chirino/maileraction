@@ -149,8 +149,22 @@
 
 
 
+/* ---- RESPONSIVE LAYOUT: EDITOR VISUAL ---- */
 
 
+  @media (max-width: 768px) {
+    .canvas-area { min-width: 0 !important; }
+    .sidebar-left,
+    .sidebar-right {
+      width: 100% !important;
+      max-width: 100% !important;
+      border: none !important;
+    }
+    .editor-flex {
+      flex-direction: column !important;
+      height: auto !important;
+    }
+  }
 
 
 

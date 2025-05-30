@@ -334,6 +334,7 @@ Rails.application.routes.draw do
           # Página principal
           root to: "home#index"
         end
+        mount ActionCable.server => "/cable"
       end
 
 

@@ -1,10 +1,14 @@
 <!-- app/views/web/dashboard/campaigns/shared/sidebar_blocks/navigation/_nav_main.html.erb -->
+
 <div class="email-block"
      data-controller="block"
      data-block-type="nav_main"
-     data-block-id="block-<%= SecureRandom.uuid %>"
-     data-category="navigation">
-  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+     data-block-id="block-<%= email_block.id %>"
+     data-category="navigation"
+     id="block_<%= email_block.id %>">
+
+  <%= render "web/dashboard/campaigns/shared/block_toolbar", email_block: email_block %>
+
   <nav class="border rounded p-2" style="min-height:48px;">
     <ul class="d-flex gap-4 list-unstyled mb-0 align-items-center justify-content-center">
       <li><a href="#" class="text-muted text-decoration-none">About</a></li>

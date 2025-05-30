@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_30_032325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,7 +34,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "campaign_id"
+    t.uuid "campaign_uuid"
     t.index ["campaign_id"], name: "index_bounces_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_bounces_on_campaign_uuid"
     t.index ["email_record_id"], name: "index_bounces_on_email_record_id"
   end
 
@@ -43,7 +45,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
     t.bigint "email_record_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "campaign_uuid"
     t.index ["campaign_id"], name: "index_campaign_emails_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_campaign_emails_on_campaign_uuid"
     t.index ["email_record_id"], name: "index_campaign_emails_on_email_record_id"
   end
 
@@ -60,9 +64,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
     t.datetime "send_at"
     t.text "html_content"
     t.string "name"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["industry_id"], name: "index_campaigns_on_industry_id"
     t.index ["template_id"], name: "index_campaigns_on_template_id"
     t.index ["user_id"], name: "index_campaigns_on_user_id"
+    t.index ["uuid"], name: "index_campaigns_on_uuid", unique: true
   end
 
   create_table "credit_accounts", force: :cascade do |t|
@@ -84,8 +90,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "campaign_uuid"
     t.index ["block_template_id"], name: "index_email_blocks_on_block_template_id"
     t.index ["campaign_id"], name: "index_email_blocks_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_email_blocks_on_campaign_uuid"
     t.index ["user_id"], name: "index_email_blocks_on_user_id"
   end
 
@@ -95,6 +103,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
     t.text "error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "campaign_uuid"
+    t.index ["campaign_uuid"], name: "index_email_error_logs_on_campaign_uuid"
   end
 
   create_table "email_event_logs", force: :cascade do |t|
@@ -104,7 +114,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
     t.bigint "campaign_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "campaign_uuid"
     t.index ["campaign_id"], name: "index_email_event_logs_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_email_event_logs_on_campaign_uuid"
     t.index ["email"], name: "index_email_event_logs_on_email"
     t.index ["event_type"], name: "index_email_event_logs_on_event_type"
   end
@@ -119,7 +131,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
     t.datetime "updated_at", null: false
     t.boolean "credit_refunded", default: false
     t.integer "attempts_count"
+    t.uuid "campaign_uuid"
     t.index ["campaign_id"], name: "index_email_logs_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_email_logs_on_campaign_uuid"
     t.index ["email_record_id"], name: "index_email_logs_on_email_record_id"
   end
 
@@ -366,7 +380,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_071256) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "campaign_id"
+    t.uuid "campaign_uuid"
     t.index ["campaign_id"], name: "index_transactions_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_transactions_on_campaign_uuid"
     t.index ["credit_account_id"], name: "index_transactions_on_credit_account_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end

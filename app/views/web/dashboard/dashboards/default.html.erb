@@ -1,19 +1,12 @@
-<!-- app/views/layouts/shared/campaigns/default.html.erb -->
-
 <h1>Dashboard General</h1>
 <p>Hola <%= current_user.email_address %>. Este es el panel por defecto.</p>
 
 <%= turbo_frame_tag "dashboard_section" do %>
   <% if params[:section] == "campaign_create" && params[:editor] == "visual" %>
-        <div class="text-center text-muted" >
-        <p class="mb-0">Visualizar en el Navegador</p>
-      </div>
-    <div class="d-flex">
-      
-      <%= render "web/dashboard/campaigns/shared/sidebar_create_campaign" %>
-      <%= render "web/dashboard/campaigns/shared/canvas_create_campaign" %>
-      <%= render "web/dashboard/campaigns/shared/canvas_right_sidebar" %>
-    </div>
+    <% if @campaign %>
+      <turbo-stream-from channel="campaign_<%= @campaign.id %>" />
+    <% end %>
+    <%= render "web/dashboard/campaigns/shared/canvas_create_campaign" %>
   <% else %>
     <% case params[:section] %>
     <% when "campaign_create" %>
@@ -21,7 +14,7 @@
     <% when "campaign_schedule" %>
       <%= render "layouts/shared/campaigns/schedule" %>
     <% when "campaign_scheduled" %>
-      <%= render "layouts/shared/campaigns/scheduled" %>  
+      <%= render "layouts/shared/campaigns/scheduled" %>
     <% when "campaign_sent" %>
       <%= render "layouts/shared/campaigns/sent" %>
     <% when "campaign_statistics" %>
@@ -37,3 +30,4 @@
     <% end %>
   <% end %>
 <% end %>
+

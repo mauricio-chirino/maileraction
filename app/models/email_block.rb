@@ -9,4 +9,12 @@ class EmailBlock < ApplicationRecord
 
   # Puedes añadir lógica para ordenación
   default_scope { order(:position) }
+
+
+  after_update_commit do
+    broadcast_replace_later_to "campaign_#{campaign_id}",
+      partial: "web/dashboard/campaigns/shared/email_block",
+      locals: { email_block: self },
+      target: "block_#{id}"
+  end
 end

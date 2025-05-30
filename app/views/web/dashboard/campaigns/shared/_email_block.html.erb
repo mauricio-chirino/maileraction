@@ -1,0 +1,10 @@
+<turbo-frame id="block_<%= email_block.id %>">
+  <div class="email-block"
+       data-controller="block"
+       data-block-type="<%= email_block.block_type %>"
+       data-block-id="block-<%= email_block.id %>"
+       data-category="navigation">
+    <%= render "web/dashboard/campaigns/shared/block_toolbar", email_block: email_block %>
+    <%= raw email_block.html_content %>
+  </div>
+</turbo-frame>
