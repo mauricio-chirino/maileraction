@@ -1,11 +1,17 @@
 <!-- app/views/web/dashboard/campaigns/shared/sidebar_blocks/navigation/_logo_center_nav.html.erb -->
-<%= render "web/dashboard/campaigns/shared/block_toolbar" %>
-<div class="email-block-logo-center-nav d-flex flex-column align-items-center border rounded p-2" style="min-height:48px;">
-  <img src="https://placehold.co/32x32?text=Logo" alt="Company Logo" class="mb-1" style="height:32px;">
-  <span class="fw-semibold text-muted mb-2">Company</span>
-  <ul class="d-flex gap-4 list-unstyled mb-0 align-items-center justify-content-center">
-    <li><a href="#" class="text-muted text-decoration-none">About</a></li>
-    <li><a href="#" class="text-muted text-decoration-none">Work</a></li>
-    <li><a href="#" class="text-muted text-decoration-none">Blog</a></li>
-  </ul>
+<div class="email-block"
+     data-controller="block"
+     data-block-type="logo_center_nav"
+     data-block-id="block-<%= SecureRandom.uuid %>"
+     data-category="navigation">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  <div class="email-block-logo-center-nav d-flex flex-column align-items-center border rounded p-2" style="min-height:48px;">
+    <img src="https://placehold.co/32x32?text=Logo" alt="Company Logo" class="mb-1" style="height:32px;">
+    <span class="fw-semibold text-muted mb-2">Company</span>
+    <ul class="d-flex gap-4 list-unstyled mb-0 align-items-center justify-content-center">
+      <li><a href="#" class="text-muted text-decoration-none">About</a></li>
+      <li><a href="#" class="text-muted text-decoration-none">Work</a></li>
+      <li><a href="#" class="text-muted text-decoration-none">Blog</a></li>
+    </ul>
+  </div>
 </div>

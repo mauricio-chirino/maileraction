@@ -1,5 +1,6 @@
 // app/javascript/controllers/canvas_controller.js
 import { Controller } from "@hotwired/stimulus"
+import { uniqueBlockId } from "../helpers/block_id_helper" // 👈 Importa el helper
 
 export default class extends Controller {
   static targets = ["area"]
@@ -14,6 +15,7 @@ export default class extends Controller {
 
   dragOver(event) {
     event.preventDefault()
+
     // Visual feedback solo si reordenando (draggedBlock existe)
     const overBlock = event.target.closest(".email-block")
     if (overBlock && overBlock !== this.draggedBlock) {
@@ -23,42 +25,43 @@ export default class extends Controller {
 
 
     drop(event) {
-      console.log("🔥 Drop ejecutado, blockType:", event.dataTransfer.getData("blockType"));
-    event.preventDefault()
-    const blockType = event.dataTransfer.getData("blockType")
-    const dropBlock = event.target.closest(".email-block")
 
-    if (blockType) {
-      fetch(`/web/dashboard/campaigns/block_html?block_type=${blockType}`)
-        .then(response => response.text())
-        .then(html => {
-          const id = `block-${Date.now()}`
-          const blockWrapper = `
-            <div class="email-block position-relative mb-3"
-                 data-controller="block"
-                 data-block-type="${blockType}"
-                 data-block-id="${id}"
-                 draggable="true"
-                 data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
-              ${html}
-            </div>`
-          if (dropBlock) {
-            dropBlock.insertAdjacentHTML("beforebegin", blockWrapper)
-          } else {
-            this.areaTarget.insertAdjacentHTML("beforeend", blockWrapper)
-          }
-          this.save && this.save()
-        })
-         this.cleanDragClasses();
-        
-    }
+      event.preventDefault()
+      const blockType = event.dataTransfer.getData("blockType")
+      const dropBlock = event.target.closest(".email-block")
 
-    if (this.draggedBlock && dropBlock && dropBlock !== this.draggedBlock) {
-      this.areaTarget.insertBefore(this.draggedBlock, dropBlock)
-      this.save && this.save()
+      if (blockType) {
+        fetch(`/web/dashboard/campaigns/block_html?block_type=${blockType}`)
+          .then(response => response.text())
+          .then(html => {
+            const id = uniqueBlockId(blockType)
+            
+            const blockWrapper = `
+              <div class="email-block position-relative mb-3"
+                  data-controller="block"
+                  data-block-type="${blockType}"
+                  data-block-id="${id}"
+                  draggable="true"
+                  data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+                ${html}
+              </div>`
+            if (dropBlock) {
+              dropBlock.insertAdjacentHTML("beforebegin", blockWrapper)
+            } else {
+              this.areaTarget.insertAdjacentHTML("beforeend", blockWrapper)
+            }
+            this.save && this.save()
+          })
+          this.cleanDragClasses();
+          
+      }
+
+      if (this.draggedBlock && dropBlock && dropBlock !== this.draggedBlock) {
+        this.areaTarget.insertBefore(this.draggedBlock, dropBlock)
+        this.save && this.save()
+      }
+      this.cleanDragClasses()
     }
-     this.cleanDragClasses()
-  }
 
 
 

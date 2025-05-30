@@ -3,6 +3,7 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static targets = [
+    "panel",
     "placeholder",
     "heroSettings",
     "headingSettings",
@@ -14,8 +15,13 @@ export default class extends Controller {
   ];
 
   connect() {
+    console.log("Inspector controller connected", this.panelTarget, this.element);
+
+  // Listar los targets encontrados:
+  console.log("All targets found:", this.targets.findAll("panel"));
+
       window.addEventListener("block:selected", (e) => {
-        this.loadProperties(e.detail.category, e.detail.blockType)
+        this.loadProperties(e.detail.category, e.detail.blockType, e.detail.blockId);
       })
   }
 
@@ -96,12 +102,28 @@ export default class extends Controller {
     window.removeEventListener("block:selected", this._handleBlockSelected);
   }
 
+ 
 
-  async loadProperties(category, blockType) {
-    const resp = await fetch(`/web/dashboard/inspector/${category}/${blockType}_property`)
-    this.panelTarget.innerHTML = await resp.text()
+  async loadProperties(category, blockType, blockId) {
+    // Cargar el HTML del panel de propiedades
+    const url = `/web/dashboard/inspector/${category}/${blockType}_property`;
+    const resp = await fetch(url);
+     console.log(this.panelTarget);
+    this.panelTarget.innerHTML = await resp.text();
+
+    this.element.dataset.currentBlockId = blockId;
+
+    // Luego, encuentra el bloque en el canvas
+    const block = document.querySelector(`.email-block[data-block-id="${blockId}"]`);
+    if (block) {
+      // Ahora, si el inspector tiene inputs, pon los valores actuales del bloque
+      // Ejemplo: para editar el texto del primer link del nav
+      const navLinks = block.querySelectorAll('a');
+      const input1 = this.panelTarget.querySelector('input[name="menu_item_1"]');
+      if (input1 && navLinks[0]) input1.value = navLinks[0].textContent;
+      // Y así sucesivamente...
+    }
   }
-
 
 
   

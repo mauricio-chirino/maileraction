@@ -1,13 +1,19 @@
 <!-- app/views/web/dashboard/campaigns/shared/sidebar_blocks/navigation/_logo_social.html.erb -->
-<%= render "web/dashboard/campaigns/shared/block_toolbar" %>
-<div class="email-block-logo-social d-flex align-items-center border rounded p-2 justify-content-between" style="min-height:48px;">
-  <div class="d-flex align-items-center">
-    <img src="https://placehold.co/32x32?text=Logo" alt="Company Logo" class="me-2" style="height:32px;">
-    <span class="fw-semibold text-muted">Company</span>
-  </div>
-  <div class="d-flex align-items-center ms-auto gap-2">
-    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
-    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+<div class="email-block"
+     data-controller="block"
+     data-block-type="logo_social"
+     data-block-id="block-<%= SecureRandom.uuid %>"
+     data-category="navigation">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  <div class="email-block-logo-social d-flex align-items-center border rounded p-2 justify-content-between" style="min-height:48px;">
+    <div class="d-flex align-items-center">
+      <img src="https://placehold.co/32x32?text=Logo" alt="Company Logo" class="me-2" style="height:32px;">
+      <span class="fw-semibold text-muted">Company</span>
+    </div>
+    <div class="d-flex align-items-center ms-auto gap-2">
+      <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
   </div>
 </div>
