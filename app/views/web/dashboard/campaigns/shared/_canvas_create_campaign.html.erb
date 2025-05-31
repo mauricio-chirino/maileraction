@@ -1,5 +1,8 @@
 <!-- app/views/web/dashboard/campaigns/shared/_canvas_create_campaign.html.erb -->
 
+<%= debug @show_demo %>
+<%= debug @email_blocks %>
+<%= debug @campaign.canvas_cleared? %>
 <div class="d-flex editor-flex flex-md-row flex-column" style="height: 100vh; min-height: 480px;">
   <!-- Sidebar izquierdo -->
   <div class="sidebar-left" style="width: 240px; min-width: 200px; background: #f9f9f9; border-right: 1px solid #eee;">
@@ -14,20 +17,26 @@
 
 
 
-<div id="canvas-area-blocks" data-canvas-target="area" style="min-width:280px; min-height:180px; padding-bottom:2rem;">
-  <% if @email_blocks.empty? %>
-    <div class="alert alert-info mt-4 text-center">
+<div id="canvas-area-blocks"
+     data-canvas-target="area"
+     style="min-width:280px; min-height:180px; padding-bottom:2rem;"
+     data-action="dragover->canvas#onDragOver drop->canvas#onDrop dragenter->canvas#onDragEnter dragleave->canvas#onDragLeave">
+
+  <% if @show_demo %>
+    <%= render "web/dashboard/campaigns/shared/default_email_template" %>
+  <% elsif @email_blocks.empty? %>
+    <div class="alert alert-info mt-4 text-center"
+         style="min-height:200px; display:flex; align-items:center; justify-content:center;">
       🚀 ¡Arrastra tu primer bloque para comenzar a construir tu campaña!
+      
     </div>
-  <% end %>
-
-  <%= render "web/dashboard/campaigns/shared/default_email_template" %>
-
-  <% (@email_blocks || []).each do |email_block| %>
-    <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{email_block.category}/#{email_block.block_type}", email_block: email_block %>
+    <%= render "web/dashboard/campaigns/shared/default_email_template" %>
+  <% else %>
+    <% @email_blocks.each do |email_block| %>
+      <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{email_block.category}/#{email_block.block_type}", email_block: email_block %>
+    <% end %>
   <% end %>
 </div>
-
 
 
     </div>

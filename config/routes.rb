@@ -309,6 +309,8 @@ Rails.application.routes.draw do
             member do
               # delete :cancel
               get :editor # ← aquí se agrega la nueva ruta para el editor visual
+              post :add_block     # ← POST para agregar bloque
+              post :clear_canvas  # ← POST para limpiar el canvas (eliminar todos los bloques)
             end
           end
 

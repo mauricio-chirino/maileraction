@@ -1,13 +1,12 @@
 # === app/controllers/web/dashboard/campaigns_controller.rb ===
 module Web
   module Dashboard
-    # class CampaignsController < ApplicationController
     class CampaignsController < Web::BaseController
       before_action :authenticate_user!
       layout "dashboard"
 
       def index
-        # campañas del usuario
+        # TODO: Mostrar campañas del usuario autenticado
       end
 
       def edit
@@ -18,20 +17,28 @@ module Web
       def update
         @campaign = Campaign.find(params[:id])
         if @campaign.update(campaign_params)
-          redirect_to dashboard_path(section: "campaign_scheduled"), notice: "Campaña reprogramada"
+          redirect_to web_dashboard_dashboard_path(section: "campaign_scheduled"), notice: "Campaña reprogramada"
         else
           render :edit, status: :unprocessable_entity
         end
       end
 
+      def add_block
+        @campaign = Campaign.find(params[:id])
+        # Aquí agregas el bloque según los params recibidos
+        # Ejemplo básico:
+        # @campaign.email_blocks.create(block_type: params[:block_type], ...otros params...)
 
+        # IMPORTANTE: Si el canvas estaba marcado como limpiado, lo restauramos
+        @campaign.update(canvas_cleared: false) if @campaign.canvas_cleared?
 
-
-
+        # Redirige o responde con Turbo/JS según tu flujo
+        # Ejemplo:
+        # redirect_to web_dashboard_dashboard_path(section: "campaign_create", id: @campaign.id)
+      end
 
       def block_html
         block_type = params[:block_type]
-
         partial_path = "web/dashboard/campaigns/shared/sidebar_blocks/navigation/#{block_type}"
 
         if lookup_context.exists?(partial_path, [], true)
@@ -41,11 +48,21 @@ module Web
         end
       end
 
+      def default
+        @campaign = Campaign.find(params[:id])
+        @email_blocks = @campaign.email_blocks.order(:position).to_a
 
+        # Mostrar demo SOLO si nunca ha limpiado el canvas y no hay bloques
+        @show_demo = @email_blocks.empty? && !@campaign.canvas_cleared?
+      end
 
-
-
-
+      def clear_canvas
+        @campaign = Campaign.find(params[:id])
+        @campaign.email_blocks.destroy_all
+        @campaign.update(canvas_cleared: true)
+        # Redirige o responde con Turbo/JS según tu flujo
+        redirect_to web_dashboard_dashboard_path(section: "campaign_create", id: @campaign.id)
+      end
 
       def cancel
         @campaign = Campaign.find(params[:id])
@@ -55,6 +72,7 @@ module Web
 
       def show
         @campaign = Campaign.find(params[:id])
+        # TODO: Mostrar detalles de la campaña si lo necesitas
       end
 
       def statistics
@@ -65,14 +83,21 @@ module Web
           bounces_count: Bounce.count,
           cancelled_count: Campaign.where(status: "cancelled").count
         }
-
         render layout: false
       end
 
       private
 
       def campaign_params
-        params.require(:campaign).permit(:send_at, :time_zone, :name, :subject, :sender, :html_content)
+        params.require(:campaign).permit(
+          :send_at,
+          :time_zone,
+          :name,
+          :subject,
+          :sender,
+          :html_content,
+          :canvas_cleared
+        )
       end
     end
   end

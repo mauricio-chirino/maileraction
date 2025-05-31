@@ -72,4 +72,9 @@ class Campaign < ApplicationRecord
       errors.add(:base, "La campaña no tiene destinatarios.")
     end
   end
+
+
+  def set_default_canvas_cleared
+    self.canvas_cleared = false if self.canvas_cleared.nil?
+  end
 end
