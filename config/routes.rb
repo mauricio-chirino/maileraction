@@ -308,6 +308,7 @@ Rails.application.routes.draw do
           resources :campaigns, only: [ :edit, :update, :show ], controller: "dashboard/campaigns" do
             member do
               # delete :cancel
+              delete :remove_block   # <-- Esto es lo nuevo
               get :editor # ← aquí se agrega la nueva ruta para el editor visual
               post :add_block     # ← POST para agregar bloque
               post :clear_canvas  # ← POST para limpiar el canvas (eliminar todos los bloques)

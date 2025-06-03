@@ -1346,8 +1346,8 @@ body {
 }
 
 .email-block.drag-over {
-  border: 2px solid #4a00e0;
-  background: #f8f6ff;
+  outline: 2px solid #696cff;
+  background: #f8f8fe;
 }
 
 /* Cursor solo en el handle */
@@ -1356,6 +1356,11 @@ body {
 }
 
 
+#canvas-area-blocks {
+  min-height: 340px;
+  padding-bottom: 2rem;
+  transition: min-height 0.2s;
+}
 
 
 .row-canvas {
@@ -1384,6 +1389,57 @@ body {
 
 
 
+
+
+
+/* ------ DEASTACADO LOS BLOQUES DRAG & DROP  EFECTO SNEAT---- */
+
+.sidebar-block-draggable {
+  cursor: grab;
+  transition: background 0.15s, color 0.15s;
+}
+.sidebar-block-draggable:hover,
+.sidebar-block-draggable:focus {
+  background: #f3f1fc !important;
+  color: #7367f0 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---- RESPONSIVE LAYOUT: EDITOR VISUAL ---- */
+
+
+  @media (max-width: 768px) {
+    .canvas-area { min-width: 0 !important; }
+    .sidebar-left,
+    .sidebar-right {
+      width: 100% !important;
+      max-width: 100% !important;
+      border: none !important;
+    }
+    .editor-flex {
+      flex-direction: column !important;
+      height: auto !important;
+    }
+  }
 
 
 

@@ -3,6 +3,7 @@ module Web
   module Dashboard
     class CampaignsController < Web::BaseController
       before_action :authenticate_user!
+      before_action :set_campaign_and_blocks, only: [ :default, :show, :edit ]
       layout "dashboard"
 
       def index
@@ -11,6 +12,8 @@ module Web
 
       def edit
         @campaign = Campaign.find(params[:id])
+        @email_blocks = @campaign.email_blocks.order(:position).to_a
+        @show_demo = @email_blocks.empty? && !@campaign.canvas_cleared?
         render layout: "dashboard"
       end
 
@@ -48,13 +51,13 @@ module Web
         end
       end
 
-      def default
-        @campaign = Campaign.find(params[:id])
-        @email_blocks = @campaign.email_blocks.order(:position).to_a
 
-        # Mostrar demo SOLO si nunca ha limpiado el canvas y no hay bloques
-        @show_demo = @email_blocks.empty? && !@campaign.canvas_cleared?
+
+      def default
+        set_campaign_and_blocks
       end
+
+
 
       def clear_canvas
         @campaign = Campaign.find(params[:id])
@@ -64,6 +67,9 @@ module Web
         redirect_to web_dashboard_dashboard_path(section: "campaign_create", id: @campaign.id)
       end
 
+
+
+
       def cancel
         @campaign = Campaign.find(params[:id])
         @campaign.update(status: "cancelled")
@@ -71,8 +77,7 @@ module Web
       end
 
       def show
-        @campaign = Campaign.find(params[:id])
-        # TODO: Mostrar detalles de la campaña si lo necesitas
+        set_campaign_and_blocks
       end
 
       def statistics
@@ -86,7 +91,17 @@ module Web
         render layout: false
       end
 
+
+
       private
+
+      def set_campaign_and_blocks
+        @campaign = Campaign.find(params[:id])
+        @email_blocks = @campaign.email_blocks.order(:position).to_a
+        @show_demo = @email_blocks.empty? && !@campaign.canvas_cleared?
+      end
+
+
 
       def campaign_params
         params.require(:campaign).permit(

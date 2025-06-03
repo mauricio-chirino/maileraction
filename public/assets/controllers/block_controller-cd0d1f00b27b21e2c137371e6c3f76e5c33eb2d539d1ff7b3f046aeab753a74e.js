@@ -96,4 +96,18 @@ export default class extends Controller {
 
     // Opcional: scroll al inspector si quieres en móviles
   }
+
+
+  editProperties(event) {
+    const blockType = this.element.dataset.blockType;   // ej: nav_main
+    const category = this.element.dataset.category || "navigation";
+    const blockId = this.element.dataset.blockId;
+    window.dispatchEvent(new CustomEvent("block:selected", {
+      detail: { category, blockType, blockId }
+    }));
+  }
+
+
+
+
 };
