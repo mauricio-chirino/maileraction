@@ -11,24 +11,27 @@
   <div class="flex-grow-1 px-2 px-md-6" style="min-width:0;">
     <div id="email-canvas"
       class="p-2 p-md-4 bg-white border rounded h-full canvas-area"
-      data-controller="canvas">
+      data-controller="canvas"
+      data-canvas-campaign-id="<%= @campaign.id %>"
+      >
 
 
 
-<div id="canvas-area-blocks" data-canvas-target="area">
-  <% if @email_blocks.empty? && @campaign.canvas_cleared == false %>
-    <%= render "web/dashboard/campaigns/shared/default_email_template" %>
-  <% elsif @email_blocks.empty? && @campaign.canvas_cleared == true %>
-    <div class="alert alert-info mt-4 text-center">
-      🚀 ¡Arrastra tu primer bloque para comenzar a construir tu campaña!
-    </div>
-  <% else %>
-    <% @email_blocks.each do |email_block| %>
-      <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{email_block.category}/#{email_block.block_type}", email_block: email_block %>
-    <% end %>
-  <% end %>
-</div>
-
+      <div id="canvas-area-blocks" data-canvas-target="area">
+        <%= debug @campaign.canvas_cleared %>
+<%= debug @email_blocks %>
+        <% if @email_blocks.empty? && @campaign.canvas_cleared == false %>
+          <%= render "web/dashboard/campaigns/shared/default_email_template" %>
+        <% elsif @email_blocks.empty? && @campaign.canvas_cleared == true %>
+          <div class="alert alert-info mt-4 text-center">
+            🚀 ¡Arrastra tu primer bloque para comenzar a construir tu campaña!
+          </div>
+        <% else %>
+          <% @email_blocks.each do |email_block| %>
+            <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{email_block.category}/#{email_block.block_type}", email_block: email_block %>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 

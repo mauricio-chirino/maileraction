@@ -168,12 +168,14 @@ Rails.application.routes.draw do
             get :stats              # /api/v1/campaigns/:id/stats
             post :send_campaign     # /api/v1/campaigns/:id/send_campaign
             post :cancel            # /api/v1/campaigns/:id/cancel
+            post :clear_canvas      # /api/v1/campaigns/:id/clear_canvas
           end
-
 
           collection do
-            get :monthly_summary
+            get :monthly_summary    # /api/v1/campaigns/monthly_summary
           end
+
+          resources :email_blocks, only: [ :index, :create, :update, :destroy ]
         end
 
 
@@ -335,7 +337,6 @@ Rails.application.routes.draw do
 
 
           # Página principal
-          root to: "home#index"
         end
         mount ActionCable.server => "/cable"
       end

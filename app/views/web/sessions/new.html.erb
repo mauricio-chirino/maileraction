@@ -21,7 +21,8 @@
           <h4 class="mb-2"><%= t("sessions.title") %></h4>
           <p class="mb-4"><%= t("sessions.subtitle") %></p>
 
-          <%= form_with(url: "/web/login", method: :post, local: true, html: { class: "needs-validation", novalidate: true }) do |form| %>
+          <%= form_with(url: "/web/login", method: :post, local: true, id: "login-form", html: { class: "needs-validation", novalidate: true }) do |form| %>
+          
 
             <!-- Flash messages -->
             <% if flash[:alert] %>
@@ -88,4 +89,35 @@
   </div>
 </div>
 
-<!-- / Content -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.getElementById("login-form");
+    if (!loginForm) {
+      console.log("No login-form found!");
+      return;
+    }
+
+    loginForm.addEventListener("submit", function(event) {
+      const email = loginForm.querySelector("[name='email_address']").value;
+      const password = loginForm.querySelector("[name='password']").value;
+
+      // IMPORTANTE: Esto dispara la petición a la API, NO cancela el submit clásico.
+      fetch("/api/v1/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email_address: email, password: password })
+      })
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem("maileraction_jwt", data.token);
+          console.log("Token JWT guardado:", data.token);
+        } else {
+          console.warn("NO TOKEN:", data);
+        }
+      })
+      .catch(err => console.error("Error al pedir token API:", err));
+      // NO hagas event.preventDefault()
+    });
+  });
+</script>

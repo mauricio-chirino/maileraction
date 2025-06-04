@@ -26,6 +26,7 @@ module Web
         end
       end
 
+
       def add_block
         @campaign = Campaign.find(params[:id])
         # Aquí agregas el bloque según los params recibidos
@@ -39,6 +40,7 @@ module Web
         # Ejemplo:
         # redirect_to web_dashboard_dashboard_path(section: "campaign_create", id: @campaign.id)
       end
+
 
       def block_html
         block_type = params[:block_type]

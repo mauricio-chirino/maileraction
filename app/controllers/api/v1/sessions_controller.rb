@@ -1,6 +1,9 @@
 # app/controllers/api/v1/sessions_controller.rb
 class Api::V1::SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def create
+    Rails.logger.info "PARAMS: #{params.inspect}"
     user = User.find_by(email_address: params[:email_address])
 
     if user&.authenticate(params[:password])  # Suponiendo que has configurado 'has_secure_password' en el modelo User
