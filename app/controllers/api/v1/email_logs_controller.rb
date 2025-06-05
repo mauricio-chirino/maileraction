@@ -1,7 +1,8 @@
 module Api
   module V1
     class EmailLogsController < ApplicationController
-      before_action :authenticate_user!
+      # before_action :authenticate_user!
+      before_action :authenticate_jwt_user!
 
       def index
         email_logs = policy_scope(EmailLog).joins(:campaign)

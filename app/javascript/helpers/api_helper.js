@@ -6,7 +6,7 @@ export function getToken() {
 
 export function authorizedFetch(url, options = {}) {
   const token = getToken();
-  const headers = options.headers || {};
+  const headers = { ...(options.headers || {}) };
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }

@@ -2,7 +2,8 @@ module Authentication
   extend ActiveSupport::Concern
 
   included do
-    before_action :require_authentication
+    # before_action :require_authentication
+    before_action :authenticate_jwt_user!
     helper_method :authenticated? if respond_to?(:helper_method)
   end
 

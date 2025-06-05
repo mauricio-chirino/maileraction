@@ -1,6 +1,4 @@
 <!-- app/views/web/sessions/new.html.erb -->
-    <!-- Content -->
-
 <div class="container-xxl">
   <div class="authentication-wrapper authentication-basic container-p-y">
     <div class="authentication-inner">
@@ -22,16 +20,13 @@
           <p class="mb-4"><%= t("sessions.subtitle") %></p>
 
           <%= form_with(url: "/web/login", method: :post, local: true, id: "login-form", html: { class: "needs-validation", novalidate: true }) do |form| %>
-          
 
-            <!-- Flash messages -->
             <% if flash[:alert] %>
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <%= flash[:alert] %>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             <% end %>
-
             <% if flash[:notice] %>
               <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <%= flash[:notice] %>
@@ -51,14 +46,12 @@
                 <%= form.label :password, t("sessions.password"), class: "form-label" %>
                 <%= link_to content_tag(:small, t("sessions.forgot_password")), "/web/forgot_password" %>
               </div>
-
               <div class="input-group input-group-merge">
                 <%= form.password_field :password, required: true, class: "form-control", placeholder: "************", id: "password_field" %>
                 <span class="input-group-text cursor-pointer" id="eye-icon">
                   <i class="bx bx-hide" id="eye-toggle-icon"></i>
                 </span>
               </div>
-
               <div class="invalid-feedback">
                 <%= t("sessions.password_required") %>
               </div>
@@ -91,17 +84,29 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    // Toggle ojo contraseña
+    document.getElementById('eye-icon')?.addEventListener('click', function() {
+      const pwdField = document.getElementById('password_field');
+      const icon = document.getElementById('eye-toggle-icon');
+      if (pwdField.type === "password") {
+        pwdField.type = "text";
+        icon.classList.remove('bx-hide');
+        icon.classList.add('bx-show');
+      } else {
+        pwdField.type = "password";
+        icon.classList.remove('bx-show');
+        icon.classList.add('bx-hide');
+      }
+    });
+
     const loginForm = document.getElementById("login-form");
-    if (!loginForm) {
-      console.log("No login-form found!");
-      return;
-    }
+    if (!loginForm) return;
 
     loginForm.addEventListener("submit", function(event) {
+      event.preventDefault(); // <- EVITA el submit clásico
       const email = loginForm.querySelector("[name='email_address']").value;
       const password = loginForm.querySelector("[name='password']").value;
 
-      // IMPORTANTE: Esto dispara la petición a la API, NO cancela el submit clásico.
       fetch("/api/v1/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -111,13 +116,15 @@
       .then(data => {
         if (data.token) {
           localStorage.setItem("maileraction_jwt", data.token);
-          console.log("Token JWT guardado:", data.token);
+          window.location.href = "/web/dashboard/admin_dashboard"; // Redirige al dashboard
         } else {
-          console.warn("NO TOKEN:", data);
+          alert(data.error || "Error en login");
         }
       })
-      .catch(err => console.error("Error al pedir token API:", err));
-      // NO hagas event.preventDefault()
+      .catch(err => {
+        console.error("Error al pedir token API:", err);
+        alert("Ocurrió un error en la autenticación");
+      });
     });
   });
 </script>

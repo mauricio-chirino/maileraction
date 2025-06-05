@@ -1,7 +1,8 @@
 module Api
   module V1
     class CreditAccountsController < ApplicationController
-      before_action :authenticate_user!
+      # before_action :authenticate_user!
+      before_action :authenticate_jwt_user!
 
       # GET /api/v1/credit_account
       def show

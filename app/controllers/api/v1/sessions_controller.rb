@@ -1,6 +1,6 @@
 # app/controllers/api/v1/sessions_controller.rb
 class Api::V1::SessionsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, only: [ :create ]
 
   def create
     Rails.logger.info "PARAMS: #{params.inspect}"
