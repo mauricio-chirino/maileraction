@@ -2,7 +2,7 @@ module Api
   module V1
     module Admin
       class IndustriesController < ApplicationController
-        before_action :authenticate_user! # o :authorize_admin!
+        # before_action :authenticate_user! # o :authorize_admin!
 
         def reset_counts
           ResetIndustryEmailCountsJob.perform_later

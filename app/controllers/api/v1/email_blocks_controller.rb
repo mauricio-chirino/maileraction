@@ -3,7 +3,7 @@ module Api
   module V1
     class EmailBlocksController < ApplicationController
       # before_action :authenticate_user!
-      before_action :authenticate_jwt_user!
+
       before_action :set_campaign
 
       def index

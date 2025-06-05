@@ -2,7 +2,7 @@ module Api
   module V1
     class BouncesController < ApplicationController
       # before_action :authenticate_user!
-      before_action :authenticate_jwt_user!
+      # before_action :authenticate_jwt_user!
 
       def index
         bounces = Bounce.joins(email_record: :campaign)

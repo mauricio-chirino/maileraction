@@ -15,6 +15,8 @@ export default class extends Controller {
 
 
   async loadBlocksFromAPI(campaignId) {
+    console.log("TOKEN JWT ANTES DE LLAMAR A authorizedFetch:", localStorage.getItem('maileraction_jwt'));
+
     const response = await authorizedFetch(`/api/v1/campaigns/${campaignId}/email_blocks`);
     let blocks;
     try {

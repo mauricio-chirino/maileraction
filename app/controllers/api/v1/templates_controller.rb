@@ -2,7 +2,7 @@ module Api
   module V1
     class TemplatesController < ApplicationController
       # before_action :authenticate_user!
-      before_action :authenticate_jwt_user!
+      # before_action :authenticate_jwt_user!
       before_action :set_template, only: [ :show, :update, :destroy, :preview ]
       after_action :verify_authorized
 

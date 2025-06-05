@@ -14,7 +14,7 @@ module Api
   module V1
     class StatsController < ApplicationController
       # before_action :authenticate_user!
-      before_action :authenticate_jwt_user!
+      # before_action :authenticate_jwt_user!
 
       def show
         campaign = Campaign.find(params[:id])

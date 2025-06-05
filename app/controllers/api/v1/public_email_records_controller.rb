@@ -3,7 +3,7 @@ module Api
   module V1
     class PublicEmailRecordsController < ApplicationController
       # before_action :authenticate_user!
-      before_action :authenticate_jwt_user!
+      # before_action :authenticate_jwt_user!
 
       def index
         records = policy_scope(PublicEmailRecord)

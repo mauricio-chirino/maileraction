@@ -2,7 +2,7 @@ module Api
   module V1
     class ScrapingsController < ApplicationController
       # before_action :authenticate_user!
-      before_action :authenticate_jwt_user!
+      # before_action :authenticate_jwt_user!
 
       def create
         url = params[:url]

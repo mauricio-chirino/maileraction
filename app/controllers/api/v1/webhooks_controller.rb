@@ -1,6 +1,6 @@
 module Api
   module V1
-    class WebhooksController < ActionController::API
+    class WebhooksController < ApplicationController
       # Este controlador es seguro para recibir llamadas externas
       skip_before_action :verify_authenticity_token, only: [ :aws_ses_tracking ]
 

@@ -1,7 +1,6 @@
 # app/controllers/application_controller.rb
 
 class ApplicationController < ActionController::API
-  skip_before_action :verify_authenticity_token
   # Soporte para políticas (roles/permisos)
   include Pundit::Authorization
 

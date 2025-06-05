@@ -9,6 +9,9 @@ export function authorizedFetch(url, options = {}) {
   const headers = { ...(options.headers || {}) };
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
+    console.log("Enviando Authorization:", headers['Authorization']); // <-- Agrega esto
+  } else {
+    console.warn("NO HAY TOKEN! No se enviará Authorization");
   }
   headers['Accept'] = "application/json";
   return fetch(url, { ...options, headers });

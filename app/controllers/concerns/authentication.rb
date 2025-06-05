@@ -1,6 +1,8 @@
 module Authentication
   extend ActiveSupport::Concern
 
+  require "jwt"
+
   included do
     # before_action :require_authentication
     before_action :authenticate_jwt_user!
@@ -65,7 +67,44 @@ module Authentication
       cookies.delete(:session_id)
     end
 
-    def current_user
-      Current.session&.user
-    end
+
+
+
+
+  # def authenticate_jwt_user!
+  #  header = request.headers["Authorization"]
+  # token = header.split(" ").last if header
+
+  # if token
+  # begin
+  #  decoded = JWT.decode(token, Rails.application.credentials[:secret_key_base], true, { algorithm: "HS256" })
+  # user_id = decoded[0]["user_id"]
+  # @current_user = User.find_by(id: user_id)
+  # unless @current_user
+  # render json: { error: "Usuario no encontrado" }, status: :unauthorized
+  # end
+  # rescue JWT::DecodeError, JWT::ExpiredSignature
+  # render json: { error: "Token inválido o expirado" }, status: :unauthorized
+  # end
+  # else
+  # render json: { error: "Token de autorización requerido" }, status: :unauthorized
+  # end
+  # end
+
+
+
+
+  # def current_user
+  #   return @current_user if defined?(@current_user)
+  #   if request.headers["Authorization"].present?
+  #     token = request.headers["Authorization"].split(" ").last
+  #     begin
+  #       payload = JWT.decode(token, Rails.application.credentials[:secret_key_base])[0]
+  #       @current_user = User.find_by(id: payload["user_id"])
+  #     rescue JWT::DecodeError, ActiveRecord::RecordNotFound
+  #       @current_user = nil
+  #     end
+  #   end
+  #   @current_user
+  # end
 end

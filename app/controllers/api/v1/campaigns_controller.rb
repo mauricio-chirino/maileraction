@@ -2,7 +2,7 @@ module Api
   module V1
     class CampaignsController < ApplicationController
       # before_action :authenticate_user!
-      before_action :authenticate_jwt_user!#
+      # before_action :authenticate_jwt_user!#
       before_action :set_campaign, only: [ :show, :update, :destroy, :stats, :send_campaign, :cancel ]
 
       # GET /api/v1/campaigns

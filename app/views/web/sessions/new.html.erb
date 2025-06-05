@@ -84,26 +84,12 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    // Toggle ojo contraseña
-    document.getElementById('eye-icon')?.addEventListener('click', function() {
-      const pwdField = document.getElementById('password_field');
-      const icon = document.getElementById('eye-toggle-icon');
-      if (pwdField.type === "password") {
-        pwdField.type = "text";
-        icon.classList.remove('bx-hide');
-        icon.classList.add('bx-show');
-      } else {
-        pwdField.type = "password";
-        icon.classList.remove('bx-show');
-        icon.classList.add('bx-hide');
-      }
-    });
-
     const loginForm = document.getElementById("login-form");
     if (!loginForm) return;
 
     loginForm.addEventListener("submit", function(event) {
-      event.preventDefault(); // <- EVITA el submit clásico
+      event.preventDefault();
+
       const email = loginForm.querySelector("[name='email_address']").value;
       const password = loginForm.querySelector("[name='password']").value;
 
@@ -116,15 +102,21 @@
       .then(data => {
         if (data.token) {
           localStorage.setItem("maileraction_jwt", data.token);
-          window.location.href = "/web/dashboard/admin_dashboard"; // Redirige al dashboard
+          // Chequea que el token se guardó
+          if(localStorage.getItem("maileraction_jwt")) {
+            window.location.href = "/web/dashboard/admin_dashboard";
+          } else {
+            alert("No se pudo guardar el token. Intenta nuevamente.");
+          }
         } else {
           alert(data.error || "Error en login");
         }
       })
       .catch(err => {
-        console.error("Error al pedir token API:", err);
         alert("Ocurrió un error en la autenticación");
+        console.error("Error al pedir token API:", err);
       });
     });
   });
 </script>
+
