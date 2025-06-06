@@ -126,5 +126,26 @@ export default class extends Controller {
   }
 
 
+
+  updateLogoUrl(event) {
+    const url = event.target.value;
+    const blockId = this.element.dataset.currentBlockId;
+    const block = document.querySelector(`.email-block[data-block-id="${blockId}"]`);
+    if (block) {
+      const img = block.querySelector("img");
+      if (img) img.src = url;
+    }
+  }
+
+  updateLogoName(event) {
+    const name = event.target.value;
+    const blockId = this.element.dataset.currentBlockId;
+    const block = document.querySelector(`.email-block[data-block-id="${blockId}"]`);
+    if (block) {
+      const span = block.querySelector("span.fw-semibold");
+      if (span) span.textContent = name;
+    }
+  }
+
   
 };

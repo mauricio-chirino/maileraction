@@ -12,15 +12,15 @@ pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
 pin "controllers", to: "controllers/index.js"
 
 
-pin "controllers/bootstrap_controller", to: "controllers/bootstrap_controller.js"
 pin "controllers/inspector_controller", to: "controllers/inspector_controller.js"
 # agrega los demás según los tengas
 #
 # Helpers
 pin "helpers/api_helper", to: "helpers/api_helper.js"
-# pin "sneat/config", to: "sneat/config.js"
-# pin "sneat/main", to: "sneat/main.js"
-pin "bootstrap", to: "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js", preload: true
+
+
+
+pin "controllers/bootstrap_controller", to: "controllers/bootstrap_controller.js"
 
 
 

@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
+
 export default class extends Controller {
   connect() {
     // Reinicializa solo si Bootstrap está disponible

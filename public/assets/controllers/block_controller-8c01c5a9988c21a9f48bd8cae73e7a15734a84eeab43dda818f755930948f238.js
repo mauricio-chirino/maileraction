@@ -5,69 +5,46 @@ export default class extends Controller {
   static values = { id: String }
 
   connect() {
-    // Bandera interna para drag
     this.allowDrag = false
     this.element.setAttribute('draggable', 'true')
   }
 
   enableDrag(event) {
     this.allowDrag = true
-    // Para feedback visual en el handle
     event.currentTarget.classList.add('active-handle')
   }
-
   disableDrag(event) {
     this.allowDrag = false
     event.currentTarget.classList.remove('active-handle')
   }
 
   dragStart(event) {
-    // SOLO permite drag si el arrastre viene del handle
-    if (!this.allowDrag) {
-      event.preventDefault()
-      return false
-    }
-    // Feedback visual
+    if (!this.allowDrag) { event.preventDefault(); return false }
     this.element.classList.add("dragging")
     event.dataTransfer.effectAllowed = "move"
-    event.dataTransfer.setData("text/plain", this.element.dataset.blockId)
-    this.allowDrag = false // Siempre reset
+    event.dataTransfer.setData("blockType", this.element.dataset.blockType)
+    this.allowDrag = false
   }
 
-  dragEnd(event) {
-    this.element.classList.remove("dragging")
-  }
+  dragEnd(event) { this.element.classList.remove("dragging") }
 
-  moveUp() {
-    const prev = this.element.previousElementSibling
-    if (prev) {
-      prev.parentNode.insertBefore(this.element, prev)
-      this.saveCanvas()
-    }
-  }
-
-  moveDown() {
-    const next = this.element.nextElementSibling
-    if (next) {
-      next.parentNode.insertBefore(next, this.element)
-      this.saveCanvas()
-    }
-  }
-
-  remove() {
-    this.element.remove()
-    this.saveCanvas()
+  async remove() {
+    const campaignId = document.querySelector('[data-controller="canvas"]').dataset.campaignId
+    const blockId = this.element.dataset.blockId
+    const resp = await fetch(`/api/v1/campaigns/${campaignId}/email_blocks/${blockId}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+        "Accept": "application/json"
+      }
+    })
+    if (resp.ok) this.element.remove()
   }
 
   duplicate() {
     const clone = this.element.cloneNode(true)
     this.element.parentNode.insertBefore(clone, this.element.nextSibling)
-    this.saveCanvas()
-  }
-
-  startEdit() {
-    const heading = this.element.querySelector('[contenteditable]')
-    if (heading) heading.focus()
+    // O puedes hacer una petición POST para duplicar en backend
   }
 
   saveCanvas() {
@@ -75,39 +52,28 @@ export default class extends Controller {
       document.querySelector('[data-controller~="canvas"]'),
       "canvas"
     )
-    if (canvasController) {
-      canvasController.save()
-    }
+    if (canvasController) canvasController.save()
   }
 
+
   select(event) {
-    // Opcional: resalta el bloque seleccionado
     document.querySelectorAll(".email-block.selected").forEach(b => b.classList.remove("selected"));
     this.element.classList.add("selected");
-
-    // Dispara el evento global
     const blockType = this.element.dataset.blockType;
-    window.dispatchEvent(new CustomEvent("block:selected", { 
-      detail: { 
-        blockType: this.element.dataset.blockType,
-        blockId: this.element.dataset.blockId
-      } 
+    const category = this.element.dataset.category || "navigation";
+    window.dispatchEvent(new CustomEvent("block:selected", {
+      detail: { category, blockType, blockId: this.element.dataset.blockId }
     }));
-
-    // Opcional: scroll al inspector si quieres en móviles
   }
 
 
   editProperties(event) {
-    const blockType = this.element.dataset.blockType;   // ej: nav_main
+    event.stopPropagation(); // Para que no dispare select()
+    const blockType = this.element.dataset.blockType;
     const category = this.element.dataset.category || "navigation";
     const blockId = this.element.dataset.blockId;
     window.dispatchEvent(new CustomEvent("block:selected", {
       detail: { category, blockType, blockId }
     }));
   }
-
-
-
-
 };
