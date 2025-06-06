@@ -12,11 +12,19 @@ module Api
         render json: blocks
       end
 
+
+
       def create
         authorize @campaign, :update?
-        block = @campaign.email_blocks.create!(block_params)
+        Rails.logger.info "BLOCK PARAMS: #{block_params.inspect}"
+        block = @campaign.email_blocks.create!(
+          block_params.merge(user_id: current_user.id, block_template_id: buscar_template_para_tipo(block_params[:block_type]))
+        )
         render json: block, status: :created
       end
+
+
+
 
       def update
         block = @campaign.email_blocks.find(params[:id])
@@ -39,7 +47,11 @@ module Api
       end
 
       def block_params
-        params.require(:email_block).permit(:block_type, :category, :position, :content)
+        params.require(:email_block).permit(
+          :block_type,
+          :position,
+          :html_content
+        )
       end
     end
   end

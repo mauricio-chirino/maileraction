@@ -19,7 +19,6 @@
 
       <div id="canvas-area-blocks" data-canvas-target="area">
         <%= debug @campaign.canvas_cleared %>
-<%= debug @email_blocks %>
         <% if @email_blocks.empty? && @campaign.canvas_cleared == false %>
           <%= render "web/dashboard/campaigns/shared/default_email_template" %>
         <% elsif @email_blocks.empty? && @campaign.canvas_cleared == true %>

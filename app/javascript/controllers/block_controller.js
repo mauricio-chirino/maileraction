@@ -13,6 +13,7 @@ export default class extends Controller {
     this.allowDrag = true
     event.currentTarget.classList.add('active-handle')
   }
+  
   disableDrag(event) {
     this.allowDrag = false
     event.currentTarget.classList.remove('active-handle')
