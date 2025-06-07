@@ -76,78 +76,29 @@
 
 
 
-puts "Sembrando campañas de prueba..."
 
-admin = User.find_by(email: "admin@mail.com")
+# crea los template
+#
+user = User.first # O el usuario que corresponda
 
-unless admin
-  puts "Usuario admin no encontrado. Asegúrate de ejecutar primero los seeds básicos."
-  return
-end
+template = Template.create!(
+  name: "Promoción Primavera",
+  description: "Una plantilla fresca para promociones de temporada...",
+  category: "Business",
+  user_id: user.id,
+  public: true,
+  preview_image_url: "https://mi-cdn.com/templates/spring-promo.png",
+  html_content: "<html>...tu código de plantilla aquí...</html>"
+)
 
-industry = Industry.first || Industry.create!(name: "Tecnología", email_count: 1000)
+template.template_blocks.create!(
+  block_type: "hero",
+  html_content: "<div class='hero'>¡Bienvenida Primavera!</div>",
+  position: 1
+)
 
-3.times do |i|
-  Campaign.find_or_create_by!(user: admin, industry: industry) do |campaign|
-    campaign.status = "pending"
-    campaign.created_at = Time.now - (i + 1).days
-    campaign.email_limit = 500
-  end
-end
-
-puts "✅ Campañas creadas: #{admin.campaigns.count}"
-
-
-
-
-puts "Generando emails simulados..."
-
-email_records = []
-
-10.times do |i|
-  email_records << EmailRecord.find_or_create_by!(
-    email: "test#{i}@example.com",
-    company: "Empresa #{i}",
-    website: "https://empresa#{i}.cl",
-    industry: industry
-  )
-end
-
-puts "✅ Emails simulados: #{email_records.count}"
-
-
-
-
-puts "Asociando emails a campañas..."
-
-admin.campaigns.each do |campaign|
-  email_records.each do |record|
-    CampaignEmail.find_or_create_by!(campaign_id: campaign.id, email_record_id: record.id)
-  end
-end
-
-puts "✅ Emails asociados a campañas"
-
-
-
-
-puts "Generando estadísticas ficticias..."
-
-admin.campaigns.each do |campaign|
-  email_records.each_with_index do |record, i|
-    EmailLog.find_or_create_by!(campaign_id: campaign.id, email_record_id: record.id) do |log|
-      log.status = "delivered"
-      log.opened_at = i.even? ? Time.now - rand(10).minutes : nil
-      log.clicked_at = i % 3 == 0 ? Time.now - rand(5).minutes : nil
-    end
-
-    if i % 4 == 0 # 25% de rebote simulado
-      Bounce.find_or_create_by!(email_record_id: record.id) do |bounce|
-        bounce.reason = "Dirección no válida"
-        bounce.bounced_at = Time.now
-      end
-    end
-  end
-end
-
-puts "✅ Estadísticas creadas"
+template.template_blocks.create!(
+  block_type: "content",
+  html_content: "<div class='content'>Oferta especial solo por esta semana...</div>",
+  position: 2
+)

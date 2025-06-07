@@ -1,12 +1,21 @@
 # === app/controllers/web/dashboard/templates_controller.rb ===
 module Web
   module Dashboard
-    class TemplatesController < ApplicationController
+    class TemplatesController < Web::BaseController
       before_action :authenticate_user!
-      layout "dashboard"
+
+
 
       def index
-        # plantillas propias o públicas
+        # Cargar templates públicos y propios (si los tienes)
+        @templates = Template.where(public: true)
+        @templates = @templates.or(Template.where(user_id: current_user.id)) if Template.column_names.include?("user_id")
+        @templates = @templates.distinct
+        @categories = @templates.pluck(:category).uniq.compact
+      end
+
+      def show
+        @template = Template.find(params[:id])
       end
     end
   end

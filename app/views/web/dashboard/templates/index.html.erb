@@ -1,0 +1,37 @@
+<h2 class="mb-3"><%= t("campaign.templates.title") %></h2>
+<div class="row">
+  <div class="col-md-2">
+    <ul class="list-group">
+      <li class="list-group-item <%= 'active' unless params[:category] %>">
+        <%= link_to t("campaign.templates.all_categories"), url_for(category: nil), data: { turbo_frame: "dashboard_section" } %>
+      </li>
+      <% @categories.each do |cat| %>
+        <li class="list-group-item <%= 'active' if params[:category] == cat %>">
+          <%= link_to cat, url_for(category: cat), data: { turbo_frame: "dashboard_section" } %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-md-10">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <% @templates.each do |template| %>
+        <div class="col">
+          <div class="card h-100">
+            <% if template.preview_image_url.present? %>
+              <%= image_tag template.preview_image_url, class: "card-img-top", alt: template.name %>
+            <% end %>
+            <div class="card-body">
+              <h5 class="card-title"><%= template.name %></h5>
+              <p class="card-text"><%= truncate(template.description, length: 80) %></p>
+              <button class="btn btn-primary"
+                      data-action="click->template-gallery#selectTemplate"
+                      data-template-id="<%= template.id %>">
+                <%= t("campaign.templates.use_this") %>
+              </button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

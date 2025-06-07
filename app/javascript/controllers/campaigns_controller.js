@@ -42,4 +42,8 @@ export default class extends Controller {
       alert("Error al crear campaña: " + (error.errors || error.message))
     }
   }
+
+
+
+
 }

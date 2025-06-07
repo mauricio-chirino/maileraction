@@ -1,20 +1,28 @@
 <div class="card mb-4">
   <div class="card-header">
-    <h5 class="mb-0">Create New Campaign</h5>
-    <small class="text-muted">Start a new email campaign using our builder or your saved templates.</small>
+    <h5 class="mb-0"><%= t("campaign.create.title") %></h5>
+    <small class="text-muted"><%= t("campaign.create.subtitle") %></small>
   </div>
 
-  <div class="card-body">
+  <div class="card-body" data-controller="campaign-form">
     <%= form_with url: "#", method: :post, local: true, html: { class: "row g-3" } do %>
       <div class="col-md-6">
-        <label class="form-label">Campaign Name</label>
-        <input type="text" name="campaign[name]" class="form-control" placeholder="Spring Promo 2025" />
+        <label class="form-label"><%= t("campaign.create.campaign_name") %></label>
+        <input 
+          type="text"
+          class="form-control"
+          id="campaign_name"
+          placeholder="<%= t('campaign.create.placeholder_name') %>"
+          data-campaign-form-target="name"
+          data-action="input->campaign-form#toggleButtons"
+          name="campaign[name]"
+        />
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Select Industry Segment</label>
+        <label class="form-label"><%= t("campaign.create.industry_segment") %></label>
         <select name="campaign[industry_id]" class="form-select">
-          <option disabled selected>Choose a segment</option>
+          <option disabled selected><%= t("campaign.create.choose_segment") %></option>
           <option value="1">Retail</option>
           <option value="2">Logistics</option>
           <option value="3">Education</option>
@@ -23,38 +31,57 @@
       </div>
 
       <div class="col-md-12">
-        <label class="form-label">Email Subject</label>
-        <input type="text" name="campaign[subject]" class="form-control" placeholder="Don't miss out on our offers!" />
+        <label class="form-label"><%= t("campaign.create.subject") %></label>
+        <input
+          type="text"
+          name="campaign[subject]"
+          class="form-control"
+          placeholder="<%= t('campaign.create.placeholder_subject') %>"
+        />
       </div>
 
       <div class="col-md-12">
-        <label class="form-label">Template or Editor</label>
+        <label class="form-label"><%= t("campaign.create.template_or_editor") %></label>
         <div class="d-flex gap-3">
-          <button type="button" class="btn btn-outline-secondary">Use Template</button>
-          <!-- <button type="button" class="btn btn-outline-primary">Open Drag & Drop Editor</button>-->
-          <%= link_to "Open Drag & Drop Editor",
-            web_dashboard_dashboard_path(section: "campaign_create", editor: "visual", locale: I18n.locale),
-            data: { turbo_frame: "dashboard_section" },
-            class: "btn btn-outline-primary"
-          %>
+          <button type="button"
+                  class="btn btn-outline-secondary"
+                  data-campaign-form-target="useTemplate"
+                  data-action="click->campaign-form#openTemplates"
+                  disabled>
+            <%= t("campaign.create.use_template") %>
+          </button>
+          <button type="button"
+                  class="btn btn-outline-primary"
+                  data-campaign-form-target="editor"
+                  data-action="click->campaign-form#openEditor"
+                  disabled>
+            <%= t("campaign.create.open_drag_and_drop_editor") %>
+          </button>
         </div>
-        <small class="text-muted d-block mt-1">Choose a template or build your email with our visual editor.</small>
+        <small class="text-muted d-block mt-1">
+          <%= t("campaign.create.choose_template_or_editor") %>
+        </small>
       </div>
 
       <div class="col-md-4">
-        <label class="form-label">Send Limit (credits)</label>
-        <input type="number" name="campaign[email_limit]" class="form-control" placeholder="e.g. 500" />
-        <small class="text-muted">You have 1500 credits available</small>
+        <label class="form-label"><%= t("campaign.create.send_limit") %></label>
+        <input
+          type="number"
+          name="campaign[email_limit]"
+          class="form-control"
+          placeholder="<%= t('campaign.create.placeholder_limit') %>"
+        />
+        <small class="text-muted"><%= t("campaign.create.credits_available") %></small>
       </div>
 
       <div class="col-md-4">
-        <label class="form-label">Schedule</label>
+        <label class="form-label"><%= t("campaign.create.schedule") %></label>
         <input type="datetime-local" name="campaign[schedule_at]" class="form-control" />
       </div>
 
       <div class="col-md-4 d-flex align-items-end">
         <button type="submit" class="btn btn-success w-100">
-          <i class="bx bx-send me-1"></i> Launch Campaign
+          <i class="bx bx-send me-1"></i> <%= t("campaign.create.launch") %>
         </button>
       </div>
     <% end %>

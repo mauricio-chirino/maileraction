@@ -95,26 +95,39 @@ module Web
 
 
 
+
+      def apply_template
+        @campaign = Campaign.find(params[:id])
+        @template = Template.find(params[:template_id])
+
+        # Solo si no tiene bloques todavía
+        if @campaign.email_blocks.empty?
+          @template.template_blocks.order(:position).each do |tb|
+            @campaign.email_blocks.create!(
+              block_type: tb.block_type,
+              html_content: tb.html_content,
+              settings: tb.settings,
+              position: tb.position,
+              user_id: current_user.id
+            )
+          end
+        end
+        redirect_to edit_campaign_path(@campaign)
+      end
+
+
+
+
+
+
+
+
       private
 
       def set_campaign_and_blocks
         @campaign = Campaign.find(params[:id])
         @email_blocks = @campaign.email_blocks.order(:position).to_a
         @show_demo = @email_blocks.empty? && !@campaign.canvas_cleared?
-      end
-
-
-
-      def campaign_params
-        params.require(:campaign).permit(
-          :send_at,
-          :time_zone,
-          :name,
-          :subject,
-          :sender,
-          :html_content,
-          :canvas_cleared
-        )
       end
     end
   end

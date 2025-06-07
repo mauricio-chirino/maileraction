@@ -14,13 +14,18 @@
       data-controller="canvas"
       data-canvas-campaign-id="<%= @campaign.id %>"
       >
-
-
-
       <div id="canvas-area-blocks" data-canvas-target="area">
         <%= debug @campaign.canvas_cleared %>
+
+
+
+
         <% if @email_blocks.empty? && @campaign.canvas_cleared == false %>
-          <%= render "web/dashboard/campaigns/shared/default_email_template" %>
+          <% if @canvas_html.present? %>
+            <%= @canvas_html.html_safe %>
+          <% else %>
+            <%= render "web/dashboard/campaigns/shared/default_email_template" %>
+          <% end %>
         <% elsif @email_blocks.empty? && @campaign.canvas_cleared == true %>
           <div class="alert alert-info mt-4 text-center">
             🚀 ¡Arrastra tu primer bloque para comenzar a construir tu campaña!
@@ -30,6 +35,9 @@
             <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{email_block.category}/#{email_block.block_type}", email_block: email_block %>
           <% end %>
         <% end %>
+
+
+
       </div>
     </div>
   </div>

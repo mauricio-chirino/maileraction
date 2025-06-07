@@ -1,0 +1,20 @@
+en:
+  campaign:
+    create:
+      title: "Create New Campaign"
+      subtitle: "Start a new email campaign using our builder or your saved templates."
+      campaign_name: "Campaign Name"
+      industry_segment: "Select Industry Segment"
+      choose_segment: "Choose a segment"
+      subject: "Email Subject"
+      template_or_editor: "Template or Editor"
+      use_template: "Use Template"
+      open_drag_and_drop_editor: "Open Drag & Drop Editor"
+      choose_template_or_editor: "Choose a template or build your email with our visual editor."
+      send_limit: "Send Limit (credits)"
+      credits_available: "You have 1500 credits available"
+      schedule: "Schedule"
+      launch: "Launch Campaign"
+      placeholder_name: "Spring Promo 2025"
+      placeholder_subject: "Don't miss out on our offers!"
+      placeholder_limit: "e.g. 500"

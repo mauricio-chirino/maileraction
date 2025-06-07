@@ -211,7 +211,7 @@ Rails.application.routes.draw do
           get "/account/settings", to: "accounts#settings", as: :account_settings
 
 
-
+          resources :templates, only: [ :index, :show ] # Para listar y mostrar preview
 
 
 
@@ -300,6 +300,9 @@ Rails.application.routes.draw do
 
             # Inspector dinámico de bloques
             get "inspector/:category/:block_type", to: "inspector#show_property", as: :inspector_property
+
+            # Ruta web para templates
+            resources :templates, only: [ :index, :show ]
           end
           # patch "update_campaign/:id", to: "dashboards#update_campaign", as: :update_campaign
 

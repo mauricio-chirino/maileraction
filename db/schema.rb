@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_30_070336) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_07_021701) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -360,15 +360,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_070336) do
     t.index ["user_id"], name: "index_support_requests_on_user_id"
   end
 
+  create_table "template_blocks", force: :cascade do |t|
+    t.bigint "template_id", null: false
+    t.string "block_type", null: false
+    t.text "html_content", null: false
+    t.jsonb "settings"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["template_id"], name: "index_template_blocks_on_template_id"
+  end
+
   create_table "templates", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.text "content"
     t.string "category"
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "public"
+    t.string "preview_image_url"
+    t.text "html_content"
     t.index ["user_id"], name: "index_templates_on_user_id"
   end
 
@@ -431,6 +443,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_070336) do
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "support_requests", "users"
+  add_foreign_key "template_blocks", "templates"
   add_foreign_key "templates", "users"
   add_foreign_key "transactions", "campaigns"
   add_foreign_key "transactions", "credit_accounts"

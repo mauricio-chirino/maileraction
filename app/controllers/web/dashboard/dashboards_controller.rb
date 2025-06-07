@@ -81,6 +81,16 @@ module Web
 
         # ASIGNA LOS BLOQUES SIEMPRE QUE @campaign NO SEA NIL
         @email_blocks = @campaign ? @campaign.email_blocks.order(:position) : []
+
+
+        # Aquí procesamos el template seleccionado
+        if params[:template_id].present?
+          @selected_template = Template.find_by(id: params[:template_id])
+          @canvas_html = @selected_template&.html_content
+        else
+          @canvas_html = nil
+        end
+
         render layout: "web"
       end
 

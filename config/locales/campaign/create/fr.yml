@@ -1,0 +1,20 @@
+fr:
+  campaign:
+    create:
+      title: "Créer une nouvelle campagne"
+      subtitle: "Commencez une campagne avec notre éditeur visuel ou un modèle enregistré."
+      campaign_name: "Nom de la campagne"
+      industry_segment: "Sélectionnez le secteur d'industrie"
+      choose_segment: "Choisissez un segment"
+      subject: "Objet de l'e-mail"
+      template_or_editor: "Modèle ou éditeur"
+      use_template: "Utiliser un modèle"
+      open_drag_and_drop_editor: "Ouvrir l’éditeur visuel"
+      choose_template_or_editor: "Choisissez un modèle ou créez votre email avec notre éditeur visuel."
+      send_limit: "Limite d'envoi (crédits)"
+      credits_available: "Vous avez 1500 crédits disponibles"
+      schedule: "Planifier"
+      launch: "Lancer la campagne"
+      placeholder_name: "Promo de printemps 2025"
+      placeholder_subject: "Ne manquez pas nos offres !"
+      placeholder_limit: "ex : 500"
