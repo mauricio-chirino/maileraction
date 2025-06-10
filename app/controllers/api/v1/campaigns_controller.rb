@@ -17,6 +17,9 @@ module Api
         render json: @campaign, serializer: CampaignSerializer
       end
 
+
+
+
       # POST /api/v1/campaigns
       def create
         @campaign = current_user.campaigns.build(campaign_params)
@@ -36,6 +39,10 @@ module Api
           render json: { errors: @campaign.errors.full_messages }, status: :unprocessable_entity
         end
       end
+
+
+
+
 
       # PUT /api/v1/campaigns/:id
       def update

@@ -43,11 +43,11 @@ module Web
 
 
       def block_html
-        block_type = params[:block_type]
-        partial_path = "web/dashboard/campaigns/shared/sidebar_blocks/navigation/#{block_type}"
-
+        block_type = params[:block_type] # ej: "hero-basic"
+        category, partial = block_type.split("-", 2)
+        partial_path = "web/dashboard/campaigns/shared/sidebar_blocks/#{category}/#{category}_#{partial}"
         if lookup_context.exists?(partial_path, [], true)
-          render partial: partial_path, formats: [ :html ]
+          render partial: partial_path, formats: [ :html ], layout: false
         else
           render html: "<div>Bloque no disponible aún</div>".html_safe, status: 404
         end

@@ -4,7 +4,6 @@
 import "@hotwired/turbo-rails"
 import "./stimulus_application" // <- Este importa y arranca Stimulus
 import "controllers"
-//import "bootstrap"
 import "./global_helpers"
 
 

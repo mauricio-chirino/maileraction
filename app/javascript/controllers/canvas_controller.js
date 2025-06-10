@@ -56,7 +56,7 @@ export default class extends Controller {
         "data-action",
         "click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd"
       );
-      el.innerHTML = block.content // Contenido HTML del bloque
+      el.innerHTML = block.html_content // Contenido HTML del bloque
       this.areaTarget.appendChild(el);
     })
   }
@@ -71,6 +71,8 @@ export default class extends Controller {
     if (overBlock && overBlock !== this.draggedBlock) overBlock.classList.add("drag-over")
   }
 
+  
+
   async drop(event) {
     event.preventDefault()
     const blockType = event.dataTransfer.getData("blockType")
@@ -78,10 +80,11 @@ export default class extends Controller {
     const campaignId = this.data.get("campaignId")
 
     if (blockType) {
-      // Usa el endpoint para obtener el HTML parcial (no necesita JWT porque es vista)
+      // Pide el HTML del bloque
       const resp = await fetch(`/web/dashboard/campaigns/block_html?block_type=${blockType}`)
       const html = await resp.text()
-      // Guarda bloque en backend (usa JWT)
+
+      // Guarda el bloque en backend
       const apiResp = await authorizedFetch(`/api/v1/campaigns/${campaignId}/email_blocks`, {
         method: "POST",
         headers: {
@@ -92,8 +95,9 @@ export default class extends Controller {
           email_block: { block_type: blockType, html_content: html }
         })
       })
+
       const block = await apiResp.json()
-      // Agrega al DOM
+      // Agrega el bloque al DOM (usa html_content como expliqué antes)
       this.renderBlocks([...this.getCurrentBlocks(), block])
     }
 
@@ -103,6 +107,15 @@ export default class extends Controller {
     }
     this.cleanDragClasses()
   }
+
+
+
+
+
+
+
+
+
 
   getCurrentBlocks() {
     return Array.from(this.areaTarget.children).map(b => ({

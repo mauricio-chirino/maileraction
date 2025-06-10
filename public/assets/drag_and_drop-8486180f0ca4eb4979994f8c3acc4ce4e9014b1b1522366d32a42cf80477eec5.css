@@ -148,6 +148,29 @@
 
 
 
+/* css para mostrar el preview en hover */
+.block-with-preview {
+  position: relative;
+}
+.block-with-preview:focus .block-preview-html,
+.block-with-preview:hover .block-preview-html {
+  display: block !important;
+}
+.block-preview-html {
+  display: none;
+  pointer-events: none;
+  /* miniatura más pequeña y agradable si quieres: */
+  max-width: 200px; 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  border-radius: 8px;
+  background: #fff;
+  z-index: 99;
+}
+.block-with-preview:focus,
+.block-with-preview:hover {
+  outline: none;
+}
+
 
 
 

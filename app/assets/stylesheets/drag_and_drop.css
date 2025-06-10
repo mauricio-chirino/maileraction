@@ -148,6 +148,23 @@
 
 
 
+/* css para mostrar el preview en hover */
+.block-with-preview {
+  position: relative;
+}
+.block-with-preview:focus .block-preview-html,
+.block-with-preview:hover .block-preview-html {
+  display: block !important;
+}
+.block-preview-html {
+  transition: box-shadow 0.15s;
+  pointer-events: none;
+}
+.block-with-preview:focus,
+.block-with-preview:hover {
+  outline: none;
+}
+
 
 
 

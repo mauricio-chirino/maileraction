@@ -1,0 +1,24 @@
+<!-- app/views/web/dashboard/campaigns/shared/sidebar_blocks/hero/_video.html.erb -->
+<div class="email-block"
+     data-controller="block"
+     data-block-type="hero-video"
+     data-block-id="block-<%= SecureRandom.uuid %>"
+     data-category="hero">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  
+  <div class="email-hero-video-block text-center px-4 py-5">
+    <div class="mb-4" style="position: relative; width: 100%; max-width: 440px; margin: 0 auto;">
+      <img src="https://placehold.co/440x220?text=Video+Thumbnail" alt="Video Preview" style="width: 100%; border-radius: 8px;">
+      <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+        <svg width="56" height="56" fill="#19c37d" viewBox="0 0 20 20"><polygon points="8,5 15,10 8,15" /></svg>
+      </span>
+    </div>
+    <h2 class="fw-bold mb-2"><%= t("sidebar.create_campaign.blocks.hero.video") %></h2>
+    <p class="text-muted mb-3">
+      <%= t("sidebar.create_campaign.blocks.hero.video_desc") %>
+    </p>
+    <a href="#" class="btn btn-primary px-4">
+      <%= t("sidebar.create_campaign.blocks.content.button") %>
+    </a>
+  </div>
+</div>

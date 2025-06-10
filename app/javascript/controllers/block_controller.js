@@ -77,4 +77,14 @@ export default class extends Controller {
       detail: { category, blockType, blockId }
     }));
   }
+
+
+
+
+
+
+
+
+
+  
 }

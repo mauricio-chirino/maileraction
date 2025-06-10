@@ -1,0 +1,20 @@
+<!-- app/views/web/dashboard/campaigns/shared/sidebar_blocks/hero/_center.html.erb -->
+<div class="email-block"
+     data-controller="block"
+     data-block-type="hero-center"
+     data-block-id="block-<%= SecureRandom.uuid %>"
+     data-category="hero">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  
+  <div class="email-hero-center-block text-center px-4 py-5" style="background: #fafbfc; border-radius: 8px;">
+    <h2 class="fw-bold mb-2" style="font-size: 2rem;">
+      <%= t("sidebar.create_campaign.blocks.hero.center") %>
+    </h2>
+    <p class="mb-3 text-muted">
+      <%= t("sidebar.create_campaign.blocks.hero.center_desc") %>
+    </p>
+    <a href="#" class="btn btn-success px-4">
+      <%= t("sidebar.create_campaign.blocks.content.button") %>
+    </a>
+  </div>
+</div>

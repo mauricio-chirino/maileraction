@@ -1,0 +1,31 @@
+<!-- app/views/web/dashboard/campaigns/shared/sidebar_blocks/hero/_basic.html.erb -->
+<div class="email-block"
+     data-controller="block"
+     data-block-type="hero-basic"
+     data-block-id="block-<%= SecureRandom.uuid %>"
+     data-category="hero">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  
+  <div class="email-hero-block text-center px-4 py-5">
+    <!-- Imagen principal -->
+    <img src="https://placehold.co/480x180?text=Banner"
+         alt="<%= t('sidebar.create_campaign.blocks.hero.basic') %>"
+         class="mb-4 rounded shadow-sm mx-auto d-block"
+         style="max-width: 400px; width: 100%; height: auto;">
+    
+    <!-- Título -->
+    <h1 class="fw-bold mb-2" style="font-size: 2rem;">
+      <%= t("sidebar.create_campaign.blocks.hero.basic") %>
+    </h1>
+    
+    <!-- Texto introductorio -->
+    <p class="text-muted mb-3" style="font-size: 1.08rem;">
+      <%= t("sidebar.create_campaign.blocks.hero.basic_desc") %>
+    </p>
+    
+    <!-- Botón principal -->
+    <a href="#" class="btn btn-success px-4" style="font-size:1.05rem;">
+      <%= t("sidebar.create_campaign.blocks.content.button") %>
+    </a>
+  </div>
+</div>

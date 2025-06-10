@@ -13,3 +13,14 @@ window.updateNavMenuItem = function(input, idx) {
   const links = block.querySelectorAll('a');
   if (links[idx]) links[idx].textContent = input.value;
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('.block-with-preview').forEach(function(block) {
+    block.addEventListener('click', function(e) {
+      // Toggle manual
+      const preview = this.querySelector('.block-preview-html');
+      if (preview) preview.style.display = preview.style.display === "block" ? "none" : "block";
+    });
+  });
+});

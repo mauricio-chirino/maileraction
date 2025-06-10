@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_07_021701) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_07_080538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -381,6 +381,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_021701) do
     t.boolean "public"
     t.string "preview_image_url"
     t.text "html_content"
+    t.string "theme", default: "", null: false
     t.index ["user_id"], name: "index_templates_on_user_id"
   end
 

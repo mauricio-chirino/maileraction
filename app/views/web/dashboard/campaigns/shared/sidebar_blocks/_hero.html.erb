@@ -8,14 +8,23 @@
   {type: "hero-icon", label: t("sidebar.create_campaign.blocks.hero.icon"), desc: t("sidebar.create_campaign.blocks.hero.icon_desc")},
   {type: "hero-overlay", label: t("sidebar.create_campaign.blocks.hero.overlay"), desc: t("sidebar.create_campaign.blocks.hero.overlay_desc")}
 ].each do |block| %>
-  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+  <div class="sidebar-block draggable-block block-with-preview px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
        draggable="true"
        data-block-type="<%= block[:type] %>"
        data-category="hero"
-       data-action="dragstart->sidebar#createBlockPreview">
+       data-action="dragstart->sidebar#createBlockPreview"
+       tabindex="0"
+       style="position:relative;">
     <div>
       <strong><%= block[:label] %></strong>
       <small class="text-muted d-block"><%= block[:desc] %></small>
     </div>
+    <%# Solo mostramos el preview para el hero-basic por ahora %>
+    <% if block[:type] == "hero-basic" %>
+      <div class="block-preview-html"
+           style="display:none; position:absolute; left:110%; top:0; z-index:99;">
+        <%= render "web/dashboard/campaigns/shared/block_previews/hero/hero_basic_preview" %>
+      </div>
+    <% end %>
   </div>
 <% end %>

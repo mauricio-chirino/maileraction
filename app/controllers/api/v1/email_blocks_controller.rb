@@ -14,14 +14,14 @@ module Api
 
 
 
-      def create
-        authorize @campaign, :update?
-        Rails.logger.info "BLOCK PARAMS: #{block_params.inspect}"
-        block = @campaign.email_blocks.create!(
-          block_params.merge(user_id: current_user.id, block_template_id: buscar_template_para_tipo(block_params[:block_type]))
-        )
-        render json: block, status: :created
-      end
+def create
+  authorize @campaign, :update?
+  Rails.logger.info "BLOCK PARAMS: #{block_params.inspect}"
+  block = @campaign.email_blocks.create!(
+    block_params.merge(user_id: current_user.id)
+  )
+  render json: block, status: :created
+end
 
 
 
