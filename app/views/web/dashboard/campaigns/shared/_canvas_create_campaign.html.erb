@@ -27,11 +27,19 @@
             🚀 ¡Arrastra tu primer bloque para comenzar a construir tu campaña!
           </div>
         <% else %>
+
           <% @email_blocks.each do |email_block| %>
             <% category, *parts = email_block.block_type.split('-') %>
             <% partial_name = ([category] + parts).join('_') %>
-            <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{category}/#{partial_name}", email_block: email_block %>
+            <% begin %>
+              <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{category}/#{partial_name}", email_block: email_block %>
+            <% rescue ActionView::MissingTemplate %>
+              <%= render "web/dashboard/campaigns/shared/sidebar_blocks/empty", email_block: email_block %>
+            <% end %>
+
+         
           <% end %>
+          
         <% end %>
       </div>
     </div>
