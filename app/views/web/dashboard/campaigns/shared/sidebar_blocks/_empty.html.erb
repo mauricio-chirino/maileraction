@@ -1,4 +1,9 @@
 <!-- Este bloque está vacío (empty block) -->
 <div class="text-muted p-3 text-center">
-  Bloque no disponible o aún no creado.
+  Bloque no disponible o aún no creado.<br>
+  <% if Rails.env.development? && defined?(email_block) && email_block.respond_to?(:block_type) %>
+    <small class="d-block mt-2">
+      <strong>block_type:</strong> <code><%= email_block.block_type %></code>
+    </small>
+  <% end %>
 </div>
