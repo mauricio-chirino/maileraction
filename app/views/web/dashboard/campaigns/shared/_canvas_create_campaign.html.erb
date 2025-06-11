@@ -28,9 +28,9 @@
           </div>
         <% else %>
           <% @email_blocks.each do |email_block| %>
-          <% Rails.logger.debug "BLOCK TYPE: #{email_block.block_type} | CATEGORY: #{email_block.category}" %>
-            <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{email_block.category}/#{email_block.block_type.tr('-', '_')}", email_block: email_block %>
-
+            <% category, *parts = email_block.block_type.split('-') %>
+            <% partial_name = ([category] + parts).join('_') %>
+            <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{category}/#{partial_name}", email_block: email_block %>
           <% end %>
         <% end %>
       </div>

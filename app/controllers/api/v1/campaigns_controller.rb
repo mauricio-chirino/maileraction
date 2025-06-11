@@ -11,6 +11,8 @@ module Api
         render json: @campaigns, each_serializer: CampaignSerializer
       end
 
+
+
       # GET /api/v1/campaigns/:id
       def show
         authorize @campaign
@@ -80,6 +82,8 @@ module Api
         }
       end
 
+
+
       # POST /api/v1/campaigns/:id/send_campaign
       def send_campaign
         authorize @campaign, :send?
@@ -93,6 +97,8 @@ module Api
 
         render json: { message: "Campaña en cola para envío." }
       end
+
+
 
       # POST /api/v1/campaigns/:id/cancel
       def cancel
@@ -112,6 +118,8 @@ module Api
 
         render json: { message: "Campaña cancelada exitosamente." }, status: :ok
       end
+
+
 
       # GET /api/v1/campaigns/monthly_summary
       def monthly_summary
