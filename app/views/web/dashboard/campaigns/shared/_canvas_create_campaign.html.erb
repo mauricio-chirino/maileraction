@@ -16,10 +16,6 @@
       >
       <div id="canvas-area-blocks" data-canvas-target="area">
         <%= debug @campaign.canvas_cleared %>
-
-
-
-
         <% if @email_blocks.empty? && @campaign.canvas_cleared == false %>
           <% if @canvas_html.present? %>
             <%= @canvas_html.html_safe %>
@@ -32,12 +28,11 @@
           </div>
         <% else %>
           <% @email_blocks.each do |email_block| %>
-            <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{email_block.category}/#{email_block.block_type}", email_block: email_block %>
+          <% Rails.logger.debug "BLOCK TYPE: #{email_block.block_type} | CATEGORY: #{email_block.category}" %>
+            <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{email_block.category}/#{email_block.block_type.tr('-', '_')}", email_block: email_block %>
+
           <% end %>
         <% end %>
-
-
-
       </div>
     </div>
   </div>

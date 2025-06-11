@@ -1,0 +1,126 @@
+/* Paleta sugerida MailerAction
+Primario: #6941c6 (violeta)
+
+Secundario: #1db5fc (celeste)
+
+Verde: #19c37d
+
+Gris claro: #f4f6fb
+
+Gris oscuro: #202223
+
+Tipografía: #202223 (casi negro, para buena legibilidad) */
+
+
+.email-canvas, .email-canvas * {
+  box-sizing: border-box;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  color: #202223;
+}
+
+.email-canvas {
+  background: #f4f6fb;
+  padding: 32px 12px;
+  min-height: 600px;
+}
+
+/* Email blocks generales */
+.email-canvas .email-block {
+  margin-bottom: 24px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(105, 65, 198, 0.03);
+  padding: 24px 18px;
+  transition: box-shadow 0.18s;
+  font-size: 1.02rem;
+}
+
+/* Imagen principal dentro del bloque */
+.email-canvas .email-block img {
+  max-width: 320px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(105, 65, 198, 0.05);
+}
+
+/* Títulos */
+.email-canvas h1,
+.email-canvas h2 {
+  font-size: 1.25rem !important;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #6941c6;
+}
+
+.email-canvas h1 {
+  font-size: 1.4rem !important;
+}
+
+.email-canvas h2 {
+  font-size: 1.17rem !important;
+}
+
+/* Descripción */
+.email-canvas p,
+.email-canvas .text-muted {
+  color: #606072 !important;
+  font-size: 1.01rem;
+  margin-bottom: 12px;
+}
+
+/* Botones */
+.email-canvas .btn {
+  padding: 7px 28px;
+  border-radius: 5px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  box-shadow: 0 2px 8px rgba(29, 181, 252, 0.07);
+  transition: background 0.18s, color 0.18s;
+}
+
+/* Colores de botones MailerAction */
+.email-canvas .btn-success {
+  background: #19c37d;
+  color: #fff;
+  border: none;
+}
+.email-canvas .btn-primary {
+  background: #6941c6;
+  color: #fff;
+  border: none;
+}
+.email-canvas .btn-info {
+  background: #1db5fc;
+  color: #fff;
+  border: none;
+}
+.email-canvas .btn-success:hover,
+.email-canvas .btn-primary:hover,
+.email-canvas .btn-info:hover {
+  filter: brightness(1.12);
+}
+
+/* Fondo especial para los bloques con bg */
+.email-canvas .email-hero-bg-block,
+.email-canvas .email-hero-center-block {
+  background: linear-gradient(90deg, #e0eafc, #cfdef3);
+  border-radius: 10px;
+  padding: 24px 18px;
+}
+
+.email-canvas .email-hero-center-block {
+  background: #f7f8fa;
+}
+
+/* Video thumbnail svg play button */
+.email-canvas .email-hero-video-block svg {
+  filter: drop-shadow(0 2px 4px rgba(29,181,252,0.13));
+}
+
+/* Toolbar */
+.email-canvas .block-actions {
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+}

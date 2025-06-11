@@ -17,4 +17,10 @@ class EmailBlock < ApplicationRecord
       locals: { email_block: self },
       target: "block_#{id}"
   end
+
+
+  def category
+    # Asume block_type: "hero-basic" => category: "hero"
+    block_type.split("-").first
+  end
 end

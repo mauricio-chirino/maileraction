@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_07_080538) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_10_043904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -83,7 +83,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_080538) do
   create_table "email_blocks", force: :cascade do |t|
     t.bigint "campaign_id", null: false
     t.bigint "user_id", null: false
-    t.bigint "block_template_id", null: false
+    t.bigint "block_template_id"
     t.string "name"
     t.string "block_type"
     t.text "html_content"

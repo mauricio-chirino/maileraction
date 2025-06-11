@@ -56,7 +56,7 @@ export default class extends Controller {
         "data-action",
         "click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd"
       );
-      el.innerHTML = block.html_content // Contenido HTML del bloque
+      el.innerHTML = block.html_content || block.content || ""
       this.areaTarget.appendChild(el);
     })
   }
