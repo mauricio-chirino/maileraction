@@ -101,12 +101,19 @@ export default class extends Controller {
       this.renderBlocks([...this.getCurrentBlocks(), block])
     }
 
-    if (this.draggedBlock && dropBlock && dropBlock !== this.draggedBlock) {
+    if (
+      this.draggedBlock &&
+      dropBlock &&
+      dropBlock !== this.draggedBlock &&
+      this.areaTarget.contains(this.draggedBlock) &&
+      this.areaTarget.contains(dropBlock)
+    ) {
       this.areaTarget.insertBefore(this.draggedBlock, dropBlock)
       this.save()
     }
     this.cleanDragClasses()
   }
+
 
 
 
