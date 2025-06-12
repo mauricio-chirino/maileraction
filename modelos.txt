@@ -1,0 +1,245 @@
+Modelo: User
+  id: integer
+  email_address: string
+  password_digest: string
+  created_at: datetime
+  updated_at: datetime
+  role: integer
+  plan_id: integer
+  time_zone: string
+  remember_token: string
+  company: string
+  name: string
+  password_reset_token: string
+  password_reset_sent_at: datetime
+----------------------------------------
+Modelo: Transaction
+  id: integer
+  amount: integer
+  status: string
+  payment_method: string
+  user_id: integer
+  credit_account_id: integer
+  created_at: datetime
+  updated_at: datetime
+  campaign_id: integer
+  campaign_uuid: uuid
+----------------------------------------
+Modelo: TemplateBlock
+  id: integer
+  template_id: integer
+  block_type: string
+  html_content: text
+  settings: jsonb
+  position: integer
+  created_at: datetime
+  updated_at: datetime
+----------------------------------------
+Modelo: Template
+  id: integer
+  name: string
+  description: text
+  category: string
+  user_id: integer
+  created_at: datetime
+  updated_at: datetime
+  public: boolean
+  preview_image_url: string
+  html_content: text
+  theme: string
+----------------------------------------
+Modelo: SupportRequest
+  id: integer
+  user_id: integer
+  message: text
+  created_at: datetime
+  updated_at: datetime
+  category: integer
+  status: integer
+  priority: integer
+  source: integer
+----------------------------------------
+Modelo: Session
+  id: integer
+  user_id: integer
+  session_token: string
+  created_at: datetime
+  updated_at: datetime
+  user_agent: string
+  ip_address: string
+----------------------------------------
+Modelo: ScrapingSource
+  id: integer
+  url: string
+  status: string
+  created_at: datetime
+  updated_at: datetime
+----------------------------------------
+Modelo: ScrapeTarget
+  id: integer
+  url: string
+  status: integer
+  last_attempt_at: datetime
+  created_at: datetime
+  updated_at: datetime
+----------------------------------------
+Modelo: Role
+  id: integer
+  name: string
+  created_at: datetime
+  updated_at: datetime
+----------------------------------------
+Modelo: PublicEmailRecord
+  id: integer
+  email: string
+  website: string
+  address: string
+  municipality: string
+  city: string
+  country: string
+  company_name: string
+  description: text
+  created_at: datetime
+  updated_at: datetime
+  industry_id: integer
+  source_keyword: string
+  status: integer
+----------------------------------------
+Modelo: Plan
+  id: integer
+  name: string
+  max: integer
+  campaigna: integer
+  max_email: integer
+  created_at: datetime
+  updated_at: datetime
+----------------------------------------
+Modelo: Notification
+  id: integer
+  user_id: integer
+  title: string
+  body: text
+  read_at: datetime
+  email_sent_at: datetime
+  created_at: datetime
+  updated_at: datetime
+----------------------------------------
+Modelo: Industry
+  id: integer
+  name: string
+  email_count: integer
+  created_at: datetime
+  updated_at: datetime
+  name_en: string
+----------------------------------------
+Modelo: EmailRecord
+  id: integer
+  email: string
+  company: string
+  website: string
+  industry_id: integer
+  created_at: datetime
+  updated_at: datetime
+  bounces_count: integer
+  active: boolean
+----------------------------------------
+Modelo: EmailLog
+  id: integer
+  status: string
+  opened_at: datetime
+  clicked_at: datetime
+  campaign_id: integer
+  email_record_id: integer
+  created_at: datetime
+  updated_at: datetime
+  credit_refunded: boolean
+  attempts_count: integer
+  campaign_uuid: uuid
+----------------------------------------
+Modelo: EmailEventLog
+  id: integer
+  email: string
+  event_type: string
+  metadata: jsonb
+  campaign_id: integer
+  created_at: datetime
+  updated_at: datetime
+  campaign_uuid: uuid
+----------------------------------------
+Modelo: EmailErrorLog
+  id: integer
+  email: string
+  campaign_id: integer
+  error: text
+  created_at: datetime
+  updated_at: datetime
+  campaign_uuid: uuid
+----------------------------------------
+Modelo: EmailBlock
+  id: integer
+  campaign_id: integer
+  user_id: integer
+  block_template_id: integer
+  name: string
+  block_type: string
+  html_content: text
+  settings: jsonb
+  position: integer
+  created_at: datetime
+  updated_at: datetime
+  campaign_uuid: uuid
+----------------------------------------
+Modelo: CreditAccount
+  id: integer
+  available_credit: integer
+  user_id: integer
+  created_at: datetime
+  updated_at: datetime
+----------------------------------------
+Modelo: CampaignEmail
+  id: integer
+  campaign_id: integer
+  email_record_id: integer
+  created_at: datetime
+  updated_at: datetime
+  campaign_uuid: uuid
+----------------------------------------
+Modelo: Campaign
+  id: integer
+  email_limit: integer
+  status: string
+  user_id: integer
+  industry_id: integer
+  created_at: datetime
+  updated_at: datetime
+  subject: string
+  body: text
+  template_id: integer
+  send_at: datetime
+  html_content: text
+  name: string
+  uuid: uuid
+  canvas_cleared: boolean
+----------------------------------------
+Modelo: Bounce
+  id: integer
+  reason: string
+  bounced_at: datetime
+  email_record_id: integer
+  created_at: datetime
+  updated_at: datetime
+  campaign_id: integer
+  campaign_uuid: uuid
+----------------------------------------
+Modelo: BlockTemplate
+  id: integer
+  name: string
+  description: text
+  html_content: text
+  category: string
+  settings: jsonb
+  public: boolean
+  user_id: integer
+  created_at: datetime
+  updated_at: datetime
+----------------------------------------
