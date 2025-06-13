@@ -1,4 +1,5 @@
 class SupportRequest < ApplicationRecord
+self.primary_key = "uuid"
   belongs_to :user
 
   validates :message, presence: true

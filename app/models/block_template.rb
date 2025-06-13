@@ -1,4 +1,5 @@
 class BlockTemplate < ApplicationRecord
+self.primary_key = "uuid"
   belongs_to :user, optional: true
   has_many :email_blocks, dependent: :nullify
 

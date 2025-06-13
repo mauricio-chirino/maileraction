@@ -12,7 +12,7 @@
     <div id="email-canvas"
       class="p-2 p-md-4 bg-white border rounded h-full canvas-area"
       data-controller="canvas"
-      data-canvas-campaign-id="<%= @campaign.id %>"
+      data-canvas-campaign-id="<%= @campaign.id if @campaign.present? && @campaign.persisted? %>"
       >
       <div id="canvas-area-blocks" data-canvas-target="area">
         <%= debug @campaign.canvas_cleared %>

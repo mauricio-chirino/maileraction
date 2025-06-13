@@ -1,5 +1,7 @@
 # app/models/permissions.rb
+
 class Permissions
+  self.primary_key = "uuid"
   ROLE_PERMISSIONS = {
     admin: %i[
       manage_users manage_campaigns manage_templates manage_credits

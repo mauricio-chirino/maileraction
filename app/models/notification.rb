@@ -1,4 +1,5 @@
 
+
 # The Notification model represents a notification that belongs to a user.
 # It includes validations for the presence of title and body, and provides
 # a scope to retrieve unread notifications. Additionally, it has an instance
@@ -17,6 +18,7 @@
 # Instance Methods:
 # - mark_as_read!: sets the read_at attribute to the current time
 class Notification < ApplicationRecord
+  self.primary_key = "uuid"
   belongs_to :user
 
   validates :title, :body, presence: true

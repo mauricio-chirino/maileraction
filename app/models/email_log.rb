@@ -1,4 +1,5 @@
 class EmailLog < ApplicationRecord
+  self.primary_key = "uuid"
   def self.statuses
     %w[success error delivered]
   end

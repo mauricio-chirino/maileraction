@@ -1,4 +1,5 @@
 class Industry < ApplicationRecord
+  self.primary_key = "uuid"
   has_many :email_records
   has_many :campaigns
   has_many :public_email_records, dependent: :nullify

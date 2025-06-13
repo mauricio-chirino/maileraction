@@ -1,4 +1,5 @@
 class EmailRecord < ApplicationRecord
+  self.primary_key = "uuid"
   belongs_to :industry
   has_many :email_logs
   has_many :bounces

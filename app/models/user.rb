@@ -1,4 +1,5 @@
 # The User model represents a user in the application.
+
 # It includes authentication, associations, validations, and normalizations.
 #
 # Associations:
@@ -22,38 +23,19 @@
 # Normalizations:
 # - email_address: Strips and downcases the email address before saving.
 class User < ApplicationRecord
+  self.primary_key = "uuid"
+
   has_secure_password
 
-
-
-
-  # Método público solo para el controlador de registro
-  def generate_remember_token_value
-    self.remember_token = User.generate_remember_token
-  end
-
-
-
-
-
   has_many :sessions, dependent: :destroy
+  has_many :campaigns, foreign_key: "user_uuid"
+  has_many :templates, foreign_key: "user_uuid"
+  has_one :credit_account, foreign_key: "user_uuid"
+  has_many :transactions, foreign_key: "user_uuid"
+  has_many :support_requests, foreign_key: "user_uuid"
+  has_many :block_templates, foreign_key: "user_uuid"
+  has_many :email_blocks, foreign_key: "user_uuid"
 
-
-
-  has_many :campaigns
-
-  has_many :templates
-
-  has_one :credit_account
-  has_many :transactions
-
-  has_many :support_requests
-
-  # modelos campannas
-  has_many :block_templates
-  has_many :email_blocks
-
-  # belongs_to :role, optional: true
   belongs_to :plan, optional: true
 
   validates :email_address, presence: true, uniqueness: true
@@ -72,7 +54,6 @@ class User < ApplicationRecord
     :observador_prepago
   ], default: :user
 
-
   validates :name, presence: true, unless: -> { password_reset_token.present? }
   validates :company, presence: true, unless: -> { password_reset_token.present? }
 
@@ -82,15 +63,14 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
+  def generate_remember_token_value
+    self.remember_token = User.generate_remember_token
+  end
 
-  # Método para generar el remember_token
   def self.generate_remember_token
     SecureRandom.urlsafe_base64(16)
   end
 
-
-
-  # Método para enviar un correo con el enlace de restablecimiento de contraseña
   def send_password_reset_email
     self.password_reset_token = generate_password_reset_token
     self.password_reset_sent_at = Time.now
@@ -98,12 +78,9 @@ class User < ApplicationRecord
     UserMailer.password_reset(self).deliver_now
   end
 
-
-
   private
 
-    # Genera un token de restablecimiento de contraseña
-    def generate_password_reset_token
-      SecureRandom.urlsafe_base64
-    end
+  def generate_password_reset_token
+    SecureRandom.urlsafe_base64
+  end
 end

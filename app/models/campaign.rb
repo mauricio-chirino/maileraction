@@ -1,4 +1,5 @@
 # La clase Campaign representa una campaña de correo electrónico en la aplicación.
+
 #
 # Relaciones:
 # - Pertenece a un usuario (user).
@@ -22,6 +23,8 @@
 # - `must_have_recipients`: La campaña debe tener destinatarios. Si la industria o el límite de correos electrónicos es nil, se omite la validación. Si no hay destinatarios, se agrega un error a la base.
 
 class Campaign < ApplicationRecord
+  self.primary_key = "uuid"
+
   after_initialize do
     self.status ||= "pending"
   end

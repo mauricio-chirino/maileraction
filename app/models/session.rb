@@ -1,4 +1,5 @@
 class Session < ApplicationRecord
+self.primary_key = "uuid"
   belongs_to :user
 
   before_validation :generate_session_token, on: :create
