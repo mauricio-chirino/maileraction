@@ -1,17 +1,17 @@
 # app/models/bounce.rb
-self.primary_key = "uuid"
+
 class Bounce < ApplicationRecord
-  belongs_to :email_record
-  belongs_to :campaign, optional: true # opcional por los registros antiguos
+  self.primary_key = "uuid"
 
-
+  belongs_to :email_record, primary_key: "uuid", foreign_key: "email_record_uuid", optional: true
+  belongs_to :campaign, primary_key: "uuid", foreign_key: "campaign_uuid", optional: true
 
   after_create :refund_credit_if_prepago
 
   private
 
   def refund_credit_if_prepago
-    return unless campaign.usuario_prepago?
+    return unless campaign&.usuario_prepago? # Agregado & por si campaign es nil
 
     account = campaign.user.credit_account
     account.increment!(:credits, 1)

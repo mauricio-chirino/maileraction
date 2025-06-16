@@ -1,6 +1,6 @@
 class CampaignSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :industry_id, :email_limit, :status, :created_at,
-             :subject, :body, :template_id, :template_name, :template_content_html
+  attributes :uuid, :user_uuid, :industry_uuid, :email_limit, :status, :created_at,
+             :subject, :body, :template_uuid, :template_name, :template_content_html
 
   def template_name
     object.template&.name

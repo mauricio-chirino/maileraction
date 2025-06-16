@@ -25,57 +25,50 @@
 class Campaign < ApplicationRecord
   self.primary_key = "uuid"
 
+  # Callbacks y valores por defecto
   after_initialize do
     self.status ||= "pending"
+    set_default_canvas_cleared
   end
 
-  belongs_to :user
-  belongs_to :industry
+  # RELACIONES SOLO CON UUIDs
+  belongs_to :user,     foreign_key: "user_uuid",     primary_key: "uuid"
+  belongs_to :industry, foreign_key: "industry_uuid", primary_key: "uuid"
+  belongs_to :template, foreign_key: "template_uuid", primary_key: "uuid", optional: true
 
-  has_many :campaign_emails
-  has_many :email_records, through: :campaign_emails
-  has_many :email_logs
+  has_many :campaign_emails, foreign_key: "campaign_uuid", primary_key: "uuid"
+  has_many :email_records, through: :campaign_emails, source: :email_record
 
-  has_many :bounces
+  has_many :email_logs,   foreign_key: "campaign_uuid", primary_key: "uuid"
+  has_many :bounces,      foreign_key: "campaign_uuid", primary_key: "uuid"
+  has_many :email_blocks, foreign_key: "campaign_uuid", primary_key: "uuid", dependent: :destroy
 
-  # modelos campanna
-  belongs_to :template, optional: true
-  has_many :email_blocks, dependent: :destroy
+  # Validaciones
+  validates :email_limit, numericality: { greater_than: 0 }
+  validates :status, inclusion: { in: %w[pending sending completed failed cancelled] }
+  validates :subject, presence: true
+  validate  :must_have_recipients
+  validate  :body_or_template_present
 
-
-
+  # Delegaciones (ajusta según tu template)
   delegate :content, to: :template, allow_nil: true
 
-  validates :email_limit, numericality: { greater_than: 0 }
-
-  validates :status, inclusion: { in: %w[pending sending completed failed cancelled] }
-
-  validates :subject, presence: true
-  # validates :body, presence: true
-
-  validate :must_have_recipients
-
-  validate :body_or_template_present
-
+  # Métodos de validación
   def body_or_template_present
     if body.blank? && template&.content.blank?
       errors.add(:body, "no puede estar vacío si no se selecciona una plantilla con contenido.")
     end
   end
 
-
-
   private
 
   def must_have_recipients
     return if industry.nil? || email_limit.nil?
-
-    recipients_count = EmailRecord.where(industry_id: industry.id).limit(email_limit).count
+    recipients_count = EmailRecord.where(industry_uuid: industry.uuid).limit(email_limit).count
     if recipients_count.zero?
       errors.add(:base, "La campaña no tiene destinatarios.")
     end
   end
-
 
   def set_default_canvas_cleared
     self.canvas_cleared = false if self.canvas_cleared.nil?

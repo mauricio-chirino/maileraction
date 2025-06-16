@@ -1,5 +1,6 @@
 class SupportRequestSerializer < ActiveModel::Serializer
-  attributes :id, :message, :category, :status, :priority, :source, :created_at, :updated_at
+  attributes :id, :message, :category, :status, :priority, :source, :created_at, :updated_at, :user_uuid
+
   belongs_to :user, serializer: UserSerializer
 
   def category
@@ -16,5 +17,10 @@ class SupportRequestSerializer < ActiveModel::Serializer
 
   def source
     object.source&.to_s
+  end
+
+  # Expone el uuid del usuario explícitamente (asumiendo que tienes la columna user_uuid)
+  def user_uuid
+    object.user_uuid
   end
 end

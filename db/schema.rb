@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_12_074056) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_13_081845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "uuid-ossp"
@@ -79,9 +79,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_074056) do
     t.boolean "canvas_cleared"
     t.uuid "user_uuid"
     t.uuid "industry_uuid"
+    t.uuid "template_uuid"
     t.index ["industry_id"], name: "index_campaigns_on_industry_id"
     t.index ["industry_uuid"], name: "index_campaigns_on_industry_uuid"
     t.index ["template_id"], name: "index_campaigns_on_template_id"
+    t.index ["template_uuid"], name: "index_campaigns_on_template_uuid"
     t.index ["user_id"], name: "index_campaigns_on_user_id"
     t.index ["user_uuid"], name: "index_campaigns_on_user_uuid"
     t.index ["uuid"], name: "index_campaigns_on_uuid", unique: true
@@ -129,6 +131,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_074056) do
     t.datetime "updated_at", null: false
     t.uuid "campaign_uuid"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "email_record_uuid"
     t.index ["campaign_uuid"], name: "index_email_error_logs_on_campaign_uuid"
     t.index ["uuid"], name: "index_email_error_logs_on_uuid", unique: true
   end
@@ -202,7 +205,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_074056) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+    t.index ["user_uuid"], name: "index_notifications_on_user_uuid"
     t.index ["uuid"], name: "index_notifications_on_uuid", unique: true
   end
 
@@ -263,8 +268,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_074056) do
     t.string "user_agent"
     t.string "ip_address"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
     t.index ["session_token"], name: "index_sessions_on_session_token"
     t.index ["user_id"], name: "index_sessions_on_user_id"
+    t.index ["user_uuid"], name: "index_sessions_on_user_uuid"
     t.index ["uuid"], name: "index_sessions_on_uuid", unique: true
   end
 
@@ -399,7 +406,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_074056) do
     t.integer "priority"
     t.integer "source"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
     t.index ["user_id"], name: "index_support_requests_on_user_id"
+    t.index ["user_uuid"], name: "index_support_requests_on_user_uuid"
     t.index ["uuid"], name: "index_support_requests_on_uuid", unique: true
   end
 
@@ -412,7 +421,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_074056) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "template_uuid"
     t.index ["template_id"], name: "index_template_blocks_on_template_id"
+    t.index ["template_uuid"], name: "index_template_blocks_on_template_uuid"
     t.index ["uuid"], name: "index_template_blocks_on_uuid", unique: true
   end
 

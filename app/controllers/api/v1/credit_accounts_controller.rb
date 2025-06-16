@@ -6,24 +6,22 @@ module Api
 
       # GET /api/v1/credit_account
       def show
-        credit_account = current_user.credit_account
+        credit_account = CreditAccount.find_by(user_uuid: current_user.uuid)
         authorize credit_account || CreditAccount
 
         render json: credit_account, serializer: CreditAccountSerializer, include: [ "plan", "transactions" ]
       end
 
-
-
       # POST /api/v1/credit_accounts/consume_campaign
       def consume_campaign
-        credit_account = current_user.credit_account
+        credit_account = CreditAccount.find_by(user_uuid: current_user.uuid)
         authorize credit_account || CreditAccount
 
-        if params[:campaign_id].blank?
-          render json: { error: "Se requiere campaign_id." }, status: :bad_request and return
+        if params[:campaign_uuid].blank?
+          render json: { error: "Se requiere campaign_uuid." }, status: :bad_request and return
         end
 
-        campaign = Campaign.find_by(id: params[:campaign_id])
+        campaign = Campaign.find_by(uuid: params[:campaign_uuid])
         unless campaign
           render json: { error: "Campaña no encontrada." }, status: :not_found and return
         end
@@ -44,12 +42,12 @@ module Api
           credit_account.decrement!(:available_credit, email_count)
 
           transaction = Transaction.create!(
-            user: current_user,
-            credit_account: credit_account,
+            user_uuid: current_user.uuid,
+            credit_account_uuid: credit_account.uuid,
             amount: email_count,
             status: "consumed",
             payment_method: "campaign",
-            campaign_id: campaign.id
+            campaign_uuid: campaign.uuid
           )
         end
 
@@ -59,23 +57,17 @@ module Api
         }
       end
 
-
-
-
-
-
-
       # POST /api/v1/credit_accounts/assign_initial
       def assign_initial
         authorize CreditAccount, :assign_initial?
 
-        user = User.find_by(id: params[:user_id])
+        user = User.find_by(uuid: params[:user_uuid])
         return render json: { error: "Usuario no encontrado." }, status: :not_found if user.nil?
 
-        credit_account = user.credit_account || user.build_credit_account
+        credit_account = CreditAccount.find_by(user_uuid: user.uuid) || user.build_credit_account
 
         if credit_account.persisted?
-          render json: { error: "El usuario ya tiene créditos asignados." }, status: :unprocessable_entity # Si ya existe, respondemos con error 422 (Unprocessable Entity), porque no se puede asignar dos veces.
+          render json: { error: "El usuario ya tiene créditos asignados." }, status: :unprocessable_entity
           return
         end
 
@@ -83,8 +75,8 @@ module Api
         credit_account.save!
 
         Transaction.create!(
-          user: user,
-          credit_account: credit_account,
+          user_uuid: user.uuid,
+          credit_account_uuid: credit_account.uuid,
           amount: 30,
           status: "assigned",
           payment_method: "initial"
@@ -93,11 +85,9 @@ module Api
         render json: credit_account, serializer: CreditAccountSerializer, status: :created
       end
 
-
-
       # POST /api/v1/credit_accounts/consume
       def consume
-        credit_account = current_user.credit_account
+        credit_account = CreditAccount.find_by(user_uuid: current_user.uuid)
         authorize credit_account, :consume?
 
         amount = params[:amount].to_i
@@ -121,8 +111,8 @@ module Api
         credit_account.save!
 
         transaction = Transaction.create!(
-          user: current_user,
-          credit_account: credit_account,
+          user_uuid: current_user.uuid,
+          credit_account_uuid: credit_account.uuid,
           amount: amount,
           status: "consumed",
           payment_method: "credits"

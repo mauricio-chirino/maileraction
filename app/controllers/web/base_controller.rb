@@ -1,48 +1,34 @@
 # app/controllers/web/base_controller.rb
 module Web
   class BaseController < ActionController::Base
-    layout "application"  # Asegúrate de que se esté usando el layout correcto
+    layout "application"
 
     protect_from_forgery with: :exception
     before_action :set_locale
 
-    # Asegura que el usuario esté autenticado antes de ejecutar las acciones (excepto en acciones específicas como el login)
     before_action :authenticate_user!
-
-    # Esto hace que esté disponible en las vistas
     helper_method :current_user
 
-    # Si la petición es JSON, no aplicar protección CSRF
     skip_forgery_protection if: -> { request.format.json? }
 
-    # Incluir cookies y helpers para flash y manejo de sesiones
     include ActionController::Cookies
     include ActionController::Helpers
     include ActionController::Flash
 
-
-
-
-    # Método para obtener el usuario actual
+    # Método para obtener el usuario actual usando UUID
     def current_user
-      @current_user ||= User.find_by(id: session[:user_id])
+      @current_user ||= User.find_by(uuid: session[:user_uuid])
     end
-
-
-
 
     private
 
     # Método de autenticación para verificar si el usuario está autenticado
     def authenticate_user!
-      unless session[:user_id]
+      unless session[:user_uuid]
         session[:return_to] = request.fullpath
         redirect_to web_login_path, alert: "Inicia sesión para continuar" and return
       end
     end
-
-
-
 
     # seleccionar el idioma por defecto
     def set_locale

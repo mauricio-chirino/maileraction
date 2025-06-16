@@ -1,6 +1,7 @@
+# app/models/support_request.rb
 class SupportRequest < ApplicationRecord
-self.primary_key = "uuid"
-  belongs_to :user
+  self.primary_key = "uuid"
+  belongs_to :user, primary_key: "uuid", foreign_key: "user_uuid"
 
   validates :message, presence: true
 

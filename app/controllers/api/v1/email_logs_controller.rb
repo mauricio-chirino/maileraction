@@ -5,8 +5,9 @@ module Api
       # before_action :authenticate_jwt_user!
 
       def index
+        # Ahora campaigns tiene user_uuid, y EmailLog apunta a campaign_uuid
         email_logs = policy_scope(EmailLog).joins(:campaign)
-                          .where(campaigns: { user_id: current_user.id })
+                          .where(campaigns: { user_uuid: current_user.uuid })
                           .order(created_at: :desc)
 
         render json: email_logs, each_serializer: EmailLogSerializer

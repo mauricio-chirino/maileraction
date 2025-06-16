@@ -1,12 +1,14 @@
+# app/models/email_log.rb
 class EmailLog < ApplicationRecord
   self.primary_key = "uuid"
+
   def self.statuses
     %w[success error delivered]
   end
 
-
-  belongs_to :campaign
-  belongs_to :email_record
+  # Asociaciones usando los nuevos UUIDs
+  belongs_to :campaign,   primary_key: "uuid", foreign_key: "campaign_uuid", optional: true
+  belongs_to :email_record, primary_key: "uuid", foreign_key: "email_record_uuid", optional: true
 
   # Scopes para trazabilidad de reembolsos
   scope :refunded,     -> { where(credit_refunded: true) }
@@ -14,10 +16,6 @@ class EmailLog < ApplicationRecord
 
   validates :status, inclusion: { in: statuses }
 
-  # Validación (opcional si decidís activarla)
-  # validates :status, inclusion: { in: ->(_) { statuses.keys }, message: "%{value} no es válido" }
-  #
-  #
   # Métodos de conveniencia para manejar estados
   def success?
     status == "success"

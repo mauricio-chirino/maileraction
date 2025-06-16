@@ -19,7 +19,7 @@
 # - mark_as_read!: sets the read_at attribute to the current time
 class Notification < ApplicationRecord
   self.primary_key = "uuid"
-  belongs_to :user
+   belongs_to :user, primary_key: "uuid", foreign_key: "user_uuid"
 
   validates :title, :body, presence: true
 

@@ -1,3 +1,3 @@
 class PlanSerializer < ActiveModel::Serializer
-  attributes :id, :name, :max_email, :campaigna
+  attributes :uuid, :name, :max_email, :campaigna
 end
