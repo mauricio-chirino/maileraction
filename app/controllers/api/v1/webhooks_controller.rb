@@ -1,12 +1,12 @@
+# app/controllers/api/v1/webhooks_controller.rb
 module Api
   module V1
     class WebhooksController < ApplicationController
       # Este controlador es seguro para recibir llamadas externas
-      skip_before_action :verify_authenticity_token, only: [ :aws_ses_tracking ]
+      skip_before_action :verify_authenticity_token, only: [ :aws_ses, :aws_ses_tracking ]
 
       def payment
-        # Aquí irá la lógica para procesar pagos y recargar créditos
-        # según el servicio de Stripe / MercadoPago
+        # Lógica para pagos externos (Stripe, MercadoPago, etc)
         head :ok
       end
 
@@ -20,18 +20,18 @@ module Api
 
           if payload["notificationType"] == "Bounce"
             bounced = payload.dig("bounce", "bouncedRecipients")
-            campaign_id = payload.dig("mail", "tags", "campaign_id")&.first
-            Rails.logger.info("campaign_id: #{campaign_id}, bounced: #{bounced}")
+            campaign_uuid = payload.dig("mail", "tags", "campaign_uuid")&.first
+            Rails.logger.info("campaign_uuid: #{campaign_uuid}, bounced: #{bounced}")
 
-            if bounced && campaign_id
+            if bounced && campaign_uuid
               bounced.each do |recipient|
                 email = recipient["emailAddress"]
                 Rails.logger.info("Procesando rebote para: #{email}")
 
-                ReboundCreditRefunder.call(campaign_id: campaign_id, email: email)
+                ReboundCreditRefunder.call(campaign_uuid: campaign_uuid, email: email)
               end
             else
-              Rails.logger.warn("Rebote recibido sin campaign_id o sin destinatarios.")
+              Rails.logger.warn("Rebote recibido sin campaign_uuid o sin destinatarios.")
             end
           end
 
@@ -54,12 +54,12 @@ module Api
 
           mail_data = payload["mail"]
           event_type = payload["eventType"]
-          campaign_id = mail_data.dig("tags", "campaign_id")&.first
+          campaign_uuid = mail_data.dig("tags", "campaign_uuid")&.first
           recipient = mail_data["destination"]&.first
 
-          if campaign_id && recipient
+          if campaign_uuid && recipient
             TrackEmailEvent.call(
-              campaign_id: campaign_id,
+              campaign_uuid: campaign_uuid,
               email: recipient,
               event_type: event_type
             )

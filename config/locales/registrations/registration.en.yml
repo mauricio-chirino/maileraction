@@ -1,0 +1,11 @@
+en:
+  registration:
+    title: "Create a new account"
+    name: "Name"
+    email: "Email"
+    password: "Password"
+    password_confirmation: "Confirm Password"
+    signup_button: "Sign up"
+    already_have_account: "Already have an account?"
+    login: "Log in"
+    error_heading: "Please fix the following errors:"

@@ -2,14 +2,11 @@
 module Api
   module V1
     class SupportRequestsController < ApplicationController
-      # before_action :authenticate_user!
-      # before_action :authenticate_jwt_user!
       before_action :set_support_request, only: [ :show, :update ]
 
       def create
         @support_request = current_user.support_requests.build(support_request_params)
         authorize @support_request, :create?
-
         if @support_request.save
           AdminNotifierJob.perform_later("📬 Nuevo soporte de #{current_user.email_address}: #{@support_request.message}")
           render json: @support_request, status: :created
@@ -40,7 +37,6 @@ module Api
       private
 
       def set_support_request
-        # Usa uuid en vez de id
         @support_request = SupportRequest.find_by!(uuid: params[:id])
       end
 

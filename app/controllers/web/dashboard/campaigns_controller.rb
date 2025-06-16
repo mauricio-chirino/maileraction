@@ -6,13 +6,12 @@ module Web
       layout "dashboard"
 
       def index
-        # Muestra solo campañas del usuario autenticado usando UUID
         @campaigns = Campaign.where(user_uuid: current_user.uuid)
       end
 
       def edit
         @campaign = Campaign.find_by!(uuid: params[:id])
-        @email_blocks = @campaign.email_blocks.order(:position).to_a
+        @email_blocks = @campaign.email_blocks.order(:position)
         @show_demo = @email_blocks.empty? && !@campaign.canvas_cleared?
         render layout: "dashboard"
       end
@@ -28,10 +27,8 @@ module Web
 
       def add_block
         @campaign = Campaign.find_by!(uuid: params[:id])
-        # Ejemplo básico:
-        # @campaign.email_blocks.create(block_type: params[:block_type], ...otros params..., user_uuid: current_user.uuid)
         @campaign.update(canvas_cleared: false) if @campaign.canvas_cleared?
-        # Redirige o responde con Turbo/JS según tu flujo
+        # Lógica para agregar bloques aquí
       end
 
       def block_html
@@ -67,7 +64,6 @@ module Web
       end
 
       def statistics
-        # Ajusta tus estadísticas aquí según necesites
         @campaign_stats = {
           sent_count: Campaign.where(status: "sent").count,
           opens_count: EmailLog.where(event: "open").count,
@@ -82,7 +78,6 @@ module Web
         @campaign = Campaign.find_by!(uuid: params[:id])
         @template = Template.find_by!(uuid: params[:template_id])
 
-        # Solo si no tiene bloques todavía
         if @campaign.email_blocks.empty?
           @template.template_blocks.order(:position).each do |tb|
             @campaign.email_blocks.create!(
@@ -101,7 +96,7 @@ module Web
 
       def set_campaign_and_blocks
         @campaign = Campaign.find_by!(uuid: params[:id])
-        @email_blocks = @campaign.email_blocks.order(:position).to_a
+        @email_blocks = @campaign.email_blocks.order(:position)
         @show_demo = @email_blocks.empty? && !@campaign.canvas_cleared?
       end
 

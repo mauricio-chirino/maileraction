@@ -13,17 +13,14 @@
 module Api
   module V1
     class StatsController < ApplicationController
-      # before_action :authenticate_user!
-      # before_action :authenticate_jwt_user!
-
       def show
-        campaign = Campaign.find(params[:id])
+        campaign = Campaign.find_by!(uuid: params[:id])
         authorize campaign, :stats?
 
-        total_sent = EmailLog.where(campaign_id: campaign.id).count
-        opens = EmailLog.where(campaign_id: campaign.id).where.not(opened_at: nil).count
-        clicks = EmailLog.where(campaign_id: campaign.id).where.not(clicked_at: nil).count
-        bounces = Bounce.joins(:email_record).where(email_records: { campaign_id: campaign.id }).count
+        total_sent = EmailLog.where(campaign_uuid: campaign.uuid).count
+        opens = EmailLog.where(campaign_uuid: campaign.uuid).where.not(opened_at: nil).count
+        clicks = EmailLog.where(campaign_uuid: campaign.uuid).where.not(clicked_at: nil).count
+        bounces = Bounce.joins(:email_record).where(email_records: { campaign_uuid: campaign.uuid }).count
 
         stats = {
           total_sent: total_sent,
@@ -48,7 +45,7 @@ module Api
 
       def top_bounced_domains(campaign)
         Bounce.joins(:email_record)
-              .where(email_records: { campaign_id: campaign.id })
+              .where(email_records: { campaign_uuid: campaign.uuid })
               .group("SUBSTRING(email FROM POSITION('@' IN email) + 1)")
               .order("count_all DESC")
               .limit(5)

@@ -1,0 +1,11 @@
+fr:
+  registration:
+    title: "Créer un nouveau compte"
+    name: "Nom"
+    email: "E-mail"
+    password: "Mot de passe"
+    password_confirmation: "Confirmer le mot de passe"
+    signup_button: "S'inscrire"
+    already_have_account: "Vous avez déjà un compte ?"
+    login: "Se connecter"
+    error_heading: "Veuillez corriger les erreurs suivantes :"

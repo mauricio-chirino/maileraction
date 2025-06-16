@@ -15,12 +15,11 @@ module Web
         # Si el correo está registrado, genera el token y lo envía
         @user.send_password_reset_email
         flash[:notice] = "Si el correo está registrado, te hemos enviado un enlace para restablecer tu contraseña."
-        redirect_to web_login_path
       else
         # Si el correo no está registrado, muestra un mensaje de éxito para evitar el error
         flash[:notice] = "Si el correo está registrado, te hemos enviado un enlace para restablecer tu contraseña."
-        redirect_to web_login_path
       end
+      redirect_to web_login_path
     end
 
     def edit

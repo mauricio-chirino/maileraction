@@ -14,14 +14,12 @@ module Web
         session[:user_uuid] = user.uuid  # Guarda el UUID del usuario en la sesión
         redirect_after_login(user)
 
-        # Recordar al usuario si la opción "Recordarme" está seleccionada
         if params[:remember_me] == "1"
           cookies.permanent[:user_uuid] = user.uuid
           cookies.permanent[:remember_token] = user.remember_token
         end
       else
         flash.now[:alert] = "Email o contraseña incorrectos"
-        # render :new
         redirect_to web_login_path
       end
     end

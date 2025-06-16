@@ -5,7 +5,6 @@ module Web
     class DashboardsController < Web::BaseController
       require "ostruct"
 
-
       def admin
         @section = params[:section]
         @editor = params[:editor]
@@ -20,13 +19,12 @@ module Web
         render layout: "web"
       end
 
-      # web/dashboard/dashboards_controller.rb
       def campaign_preview
         render layout: false
       end
 
       def update_campaign
-        @campaign = Campaign.find(params[:id])
+        @campaign = Campaign.find_by!(uuid: params[:id])
         if @campaign.update(campaign_params)
           @scheduled_campaigns = Campaign.where(status: "scheduled").order(:send_at)
           respond_to do |format|
@@ -38,35 +36,28 @@ module Web
         end
       end
 
-
       def edit_modal
-        @campaign = Campaign.find(params[:id])
+        @campaign = Campaign.find_by!(uuid: params[:id])
         render partial: "layouts/shared/campaigns/edit_modal", layout: false
       end
 
       def scheduled
         @scheduled_campaigns = Campaign.where(status: "scheduled").order(send_at: :asc)
-
         respond_to do |format|
           format.turbo_stream
           format.html { render layout: false }
         end
       end
 
-
       def cancel
-        @campaign = Campaign.find(params[:id])
+        @campaign = Campaign.find_by!(uuid: params[:id])
         @campaign.update(status: "cancelled")
-
         @scheduled_campaigns = Campaign.where(status: "scheduled")
-
         respond_to do |format|
           format.turbo_stream
           format.html { redirect_to some_path, notice: "Campaña cancelada." }
         end
       end
-
-
 
       def default
         @campaign_stats = OpenStruct.new(
@@ -75,17 +66,12 @@ module Web
           total_revenue: "$12,340"
         )
 
-        @campaign = Campaign.where(user: current_user).order(updated_at: :desc).first
-
+        @campaign = Campaign.where(user_uuid: current_user.uuid).order(updated_at: :desc).first
         @scheduled_campaigns = Campaign.where(status: "scheduled").order(send_at: :asc)
-
-        # ASIGNA LOS BLOQUES SIEMPRE QUE @campaign NO SEA NIL
         @email_blocks = @campaign ? @campaign.email_blocks.order(:position) : []
 
-
-        # Aquí procesamos el template seleccionado
         if params[:template_id].present?
-          @selected_template = Template.find_by(id: params[:template_id])
+          @selected_template = Template.find_by(uuid: params[:template_id])
           @canvas_html = @selected_template&.html_content
         else
           @canvas_html = nil
@@ -94,20 +80,13 @@ module Web
         render layout: "web"
       end
 
-
-
-
       def sent
         @sent_campaigns = Campaign.where(status: "sent").includes(:campaign_emails).order(updated_at: :desc)
-
         respond_to do |format|
           format.turbo_stream
           format.html { render layout: false }
         end
       end
-
-
-
 
       private
 

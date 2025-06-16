@@ -1,0 +1,354 @@
+# app/controllers/web/base_controller.rb
+module Web
+  class BaseController < ActionController::Base
+    layout "application"
+
+    protect_from_forgery with: :exception
+    before_action :set_locale
+
+    before_action :authenticate_user!
+    helper_method :current_user
+
+    skip_forgery_protection if: -> { request.format.json? }
+
+    include ActionController::Cookies
+    include ActionController::Helpers
+    include ActionController::Flash
+
+    # Método para obtener el usuario actual usando UUID
+    def current_user
+      @current_user ||= User.find_by(uuid: session[:user_uuid])
+    end
+
+    private
+
+    # Método de autenticación para verificar si el usuario está autenticado
+    def authenticate_user!
+      unless session[:user_uuid]
+        session[:return_to] = request.fullpath
+        redirect_to web_login_path, alert: "Inicia sesión para continuar" and return
+      end
+    end
+
+    # seleccionar el idioma por defecto
+    def set_locale
+      I18n.locale = params[:locale] || session[:locale] || I18n.default_locale
+      session[:locale] = I18n.locale
+    end
+  end
+end
+class Web::CommunityController < ApplicationController
+  def index
+  end
+
+  def user_forum
+  end
+
+  def referral_program
+  end
+
+  def developer_community
+  end
+end
+class Web::CompanyController < ApplicationController
+  def index
+  end
+
+  def about_us
+  end
+
+  def why_maileraction
+  end
+
+  def values
+  end
+
+  def partners
+  end
+
+  def gdpr_compliance
+  end
+
+  def corporate_responsibility
+  end
+
+  def contact_us
+  end
+end
+module Web
+  class HomeController < Web::BaseController
+    skip_before_action :authenticate_user!, only: [ :index ] # Asegura que el index sea accesible sin autenticación
+
+    def index
+      render layout: "application"
+    end
+  end
+end
+class Web::LegalController < ApplicationController
+  def index
+  end
+
+  def terms_of_service
+  end
+
+  def privacy_policy
+  end
+
+  def cookie_settings
+  end
+
+  def security
+  end
+
+  def brand_assets
+  end
+end
+module Web
+  class PasswordsController < BaseController
+    layout "application"  # Asegúrate de que se esté usando el layout correcto
+    # No es necesario estar autenticado para acceder a estas acciones
+    skip_before_action :authenticate_user!, only: [ :new, :create, :edit, :update ]
+
+    def new
+      # Aquí se muestra el formulario para ingresar el correo de recuperación
+    end
+
+    def create
+      @user = User.find_by(email_address: params[:email_address])
+
+      if @user.present?
+        # Si el correo está registrado, genera el token y lo envía
+        @user.send_password_reset_email
+        flash[:notice] = "Si el correo está registrado, te hemos enviado un enlace para restablecer tu contraseña."
+        redirect_to web_login_path
+      else
+        # Si el correo no está registrado, muestra un mensaje de éxito para evitar el error
+        flash[:notice] = "Si el correo está registrado, te hemos enviado un enlace para restablecer tu contraseña."
+        redirect_to web_login_path
+      end
+    end
+
+    def edit
+      @user = User.find_by(password_reset_token: params[:token])
+
+
+      if @user.nil? || @user.password_reset_sent_at < 2.hours.ago
+        # Manejo de error si el token no es válido
+        flash[:alert] = "El enlace de restablecimiento de contraseña ha caducado."
+        # redirect_to web_forgot_password_path
+        redirect_to root_path
+      end
+    end
+
+    def update
+      @user = User.find_by(password_reset_token: params[:token])
+
+      if @user.update(password_params)
+        flash[:notice] = "Tu contraseña ha sido actualizada con éxito."
+        redirect_to web_login_path
+      else
+        flash.now[:alert] = "Hubo un error al actualizar la contraseña."
+        render :edit
+      end
+    end
+
+    private
+
+    def password_params
+      params.require(:user).permit(:password, :password_confirmation)
+    end
+  end
+end
+class Web::ProductController < ApplicationController
+  def index
+  end
+
+  def email_marketing
+  end
+
+  def automate
+  end
+
+  def websites
+  end
+
+  def transactional_email
+  end
+
+  def integrations
+  end
+
+  def compare_mailer_action
+  end
+
+  def developer_api
+  end
+
+  def news
+  end
+
+  def templates
+  end
+end
+# app/controllers/web/registrations_controller.rb
+module Web
+  class RegistrationsController < BaseController
+    skip_before_action :authenticate_user!, only: [ :new, :create ]
+    layout "application"  # Asegúrate de que se esté usando el layout correcto
+    # Muestra el formulario de registro
+    def new
+      @user = User.new
+    end
+
+    # Procesa el registro de usuario
+    def create
+      @user = User.new(user_params)
+
+      # Llamamos al método para generar el remember_token
+      @user.generate_remember_token_value
+
+      if @user.save
+        # Redirige a la página principal o donde desees
+        redirect_to root_path, notice: "¡Registro exitoso! Ahora puedes iniciar sesión."
+      else
+        # Si hay un error, muestra el formulario nuevamente con los errores
+        render :new
+      end
+    end
+
+    private
+
+    def user_params
+      # Asegúrate de que los parámetros que estás permitiendo sean correctos
+      params.require(:user).permit(:email_address, :password, :password_confirmation, :company, :name)
+    end
+  end
+end
+class Web::ResourcesController < ApplicationController
+  def index
+  end
+
+  def blog
+  end
+
+  def success_stories
+  end
+
+  def webinars_and_events
+  end
+
+  def guides_and_tutorials
+  end
+end
+# app/controllers/web/sessions_controller.rb
+module Web
+  class SessionsController < BaseController
+    skip_before_action :authenticate_user!, only: [ :new, :create ]
+
+    def new
+      # Acción para mostrar el formulario de inicio de sesión
+    end
+
+    def create
+      user = User.find_by(email_address: params[:email_address])
+
+      if user&.authenticate(params[:password])
+        session[:user_uuid] = user.uuid  # Guarda el UUID del usuario en la sesión
+        redirect_after_login(user)
+
+        # Recordar al usuario si la opción "Recordarme" está seleccionada
+        if params[:remember_me] == "1"
+          cookies.permanent[:user_uuid] = user.uuid
+          cookies.permanent[:remember_token] = user.remember_token
+        end
+      else
+        flash.now[:alert] = "Email o contraseña incorrectos"
+        # render :new
+        redirect_to web_login_path
+      end
+    end
+
+    def destroy
+      reset_session
+      cookies.delete(:user_uuid)
+      cookies.delete(:remember_token)
+
+      redirect_to root_path(locale: I18n.locale), notice: "Sesión cerrada correctamente", status: :see_other
+    end
+
+    private
+
+    def redirect_after_login(user)
+      case user.role.to_sym
+      when :admin
+        redirect_to web_dashboard_admin_dashboard_path
+      when :campaign_manager
+        redirect_to web_dashboard_campaigns_dashboard_path
+      when :usuario_prepago, :colaborador_prepago
+        redirect_to web_dashboard_prepaid_dashboard_path
+      when :designer
+        redirect_to web_templates_path
+      when :analyst, :observer, :observador_prepago
+        redirect_to web_campaign_reports_path
+      else
+        redirect_to web_dashboard_dashboard_path, notice: "Bienvenido a MailerAction"
+      end
+    end
+  end
+end
+class Web::SupportController < ApplicationController
+  def index
+  end
+
+  def customer_support
+  end
+
+  def migrate_to_maileraction
+  end
+
+  def report_spam
+  end
+
+  def tutorials
+  end
+
+  def deliverability_diagnostics
+  end
+end
+module Web
+  class UsersController < BaseController
+    before_action :set_user, only: [ :show, :edit, :update ]
+
+
+
+
+
+    def show
+    end
+
+    def edit
+      @user = User.find(params[:id])
+    end
+
+
+    def update
+      @user = User.find(params[:id])
+      if @user.update(user_params)
+        redirect_to edit_web_user_path(@user), notice: "Perfil actualizado correctamente"
+      else
+        render :edit
+      end
+    end
+
+
+    private
+
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit(:name, :email_address, :avatar)
+    end
+  end
+end

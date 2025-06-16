@@ -1,21 +1,19 @@
 # app/controllers/application_controller.rb
 
 class ApplicationController < ActionController::API
-  # Soporte para políticas (roles/permisos)
   include Pundit::Authorization
 
-  # Setear zona horaria desde header
+  # Setea zona horaria si viene del header
   around_action :set_time_zone_from_header
 
-  # Autenticación global usando JWT (puedes exceptuar controllers como sessions, signup, etc)
+  # Autenticación global (excepto acciones públicas como login/signup/webhooks)
   before_action :authenticate_user_with_jwt!, unless: :open_action?
 
-  # Manejo de errores de autorización (Pundit)
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
 
-  # --- AUTENTICACIÓN JWT ---
+  # Autenticación por JWT
   def authenticate_user_with_jwt!
     header = request.headers["Authorization"]
     token = header&.split(" ")&.last
@@ -25,11 +23,10 @@ class ApplicationController < ActionController::API
 
     begin
       decoded = JWT.decode(token, Rails.application.credentials[:secret_key_base])[0]
-      # Valida expiración
       if decoded["exp"] && Time.at(decoded["exp"]) < Time.now
         return render json: { error: "Token expirado, inicia sesión de nuevo." }, status: :unauthorized
       end
-      @current_user = User.find(decoded["user_id"])
+      @current_user = User.find_by!(uuid: decoded["user_uuid"]) # Usa uuid
     rescue JWT::ExpiredSignature
       render json: { error: "Token expirado." }, status: :unauthorized
     rescue JWT::DecodeError, ActiveRecord::RecordNotFound
@@ -37,26 +34,21 @@ class ApplicationController < ActionController::API
     end
   end
 
-  # Métodos auxiliares globales
   def current_user
     @current_user
   end
 
-  # Permitir acciones abiertas (por ejemplo login, signup, webhooks públicos, etc)
+  # Acciones abiertas (no requieren autenticación)
   def open_action?
-    # Ajusta estos controladores/acciones según tus necesidades.
-    # Ejemplo: permitir que Api::V1::SessionsController y Api::V1::UsersController#create sean públicos:
     (controller_name == "sessions" && action_name == "create") ||
     (controller_name == "users" && action_name == "create") ||
-    (controller_name == "webhooks") # Agrega otros si tienes webhooks públicos
+    (controller_name == "webhooks")
   end
 
-  # --- PUNDIt: No autorizado ---
   def user_not_authorized
     render json: { error: "No autorizado" }, status: :forbidden
   end
 
-  # --- ZONA HORARIA por HEADER ---
   def set_time_zone_from_header(&block)
     time_zone = request.headers["Time-Zone"]
     if time_zone.present? && ActiveSupport::TimeZone[time_zone]

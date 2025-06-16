@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_13_081845) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_16_034751) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "uuid-ossp"
@@ -26,7 +26,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_081845) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
     t.index ["user_id"], name: "index_block_templates_on_user_id"
+    t.index ["user_uuid"], name: "index_block_templates_on_user_uuid"
     t.index ["uuid"], name: "index_block_templates_on_uuid", unique: true
   end
 
@@ -236,13 +238,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_081845) do
     t.bigint "industry_id", null: false
     t.string "source_keyword"
     t.integer "status", default: 0, null: false
+    t.uuid "industry_uuid"
     t.index ["industry_id"], name: "index_public_email_records_on_industry_id"
+    t.index ["industry_uuid"], name: "index_public_email_records_on_industry_uuid"
   end
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_roles_on_uuid", unique: true
   end
 
   create_table "scrape_targets", force: :cascade do |t|
@@ -251,6 +257,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_081845) do
     t.datetime "last_attempt_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_scrape_targets_on_uuid", unique: true
   end
 
   create_table "scraping_sources", force: :cascade do |t|
@@ -258,6 +266,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_081845) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_scraping_sources_on_uuid", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|

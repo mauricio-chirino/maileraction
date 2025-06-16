@@ -1,6 +1,7 @@
 class PasswordsMailer < ApplicationMailer
   def reset(user)
     @user = user
-    mail subject: "Reset your password", to: user.email_address
+    @url  = edit_web_password_reset_url(token: @user.password_reset_token)
+    mail(to: @user.email_address, subject: I18n.t("reset_password.subject"))
   end
 end

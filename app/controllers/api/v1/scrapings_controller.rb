@@ -1,14 +1,11 @@
+# app/controllers/api/v1/scrapings_controller.rb
 module Api
   module V1
     class ScrapingsController < ApplicationController
-      # before_action :authenticate_user!
-      # before_action :authenticate_jwt_user!
-
       def create
         url = params[:url]
-
         if url.blank?
-          return render json: { error: "URL es requerida" }, status: :unprocessable_entity
+          render json: { error: "URL es requerida" }, status: :unprocessable_entity and return
         end
 
         ScrapeEmailJob.perform_later(url)
