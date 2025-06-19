@@ -1,0 +1,10 @@
+de:
+  helpers:
+    api_helper:
+      no_token: "Kein Authentifizierungstoken."
+      token_expirado: "Sitzung abgelaufen, bitte erneut anmelden."
+    block_id_helper:
+      generado: "Eindeutige ID für %{block} generiert"
+    global_helpers:
+      alerta_error: "Ein unerwarteter Fehler ist aufgetreten."
+      exito: "Vorgang erfolgreich abgeschlossen."

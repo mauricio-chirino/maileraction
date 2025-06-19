@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { t } from "../helpers/i18n_helper"
 
 export default class extends Controller {
   connect() {
@@ -18,17 +19,17 @@ export default class extends Controller {
               next: "Next"
             }
           }
-        });
+        })
       }
     } else {
-      console.error("❌ jQuery or DataTable is not available");
+      alert(t("data.error_jquery"))
     }
   }
 
   disconnect() {
     if (window.$ && $.fn.DataTable) {
       if ($.fn.DataTable.isDataTable(this.element)) {
-        $(this.element).DataTable().destroy();
+        $(this.element).DataTable().destroy()
       }
     }
   }

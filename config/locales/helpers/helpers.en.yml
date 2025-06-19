@@ -1,0 +1,9 @@
+en:
+  api_helper:
+    no_token: "No authentication token."
+    token_expirado: "Session expired, please log in again."
+  block_id_helper:
+    generado: "Unique ID generated for %{block}"
+  global_helpers:
+    alerta_error: "An unexpected error has occurred."
+    exito: "Operation completed successfully."

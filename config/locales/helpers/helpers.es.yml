@@ -1,0 +1,9 @@
+es:
+  api_helper:
+    no_token: "No hay token de autenticación."
+    token_expirado: "Sesión expirada, vuelve a iniciar sesión."
+  block_id_helper:
+    generado: "ID único generado para %{block}"
+  global_helpers:
+    alerta_error: "Ha ocurrido un error inesperado."
+    exito: "Operación realizada con éxito."
