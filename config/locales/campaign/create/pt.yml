@@ -1,0 +1,20 @@
+pt:
+  campaign:
+    create:
+      title: "Criar nova campanha"
+      subtitle: "Comece uma campanha usando nosso editor visual ou um modelo salvo."
+      campaign_name: "Nome da campanha"
+      industry_segment: "Selecione o segmento da indústria"
+      choose_segment: "Escolha um segmento"
+      subject: "Assunto do e-mail"
+      template_or_editor: "Modelo ou Editor"
+      use_template: "Usar modelo"
+      open_drag_and_drop_editor: "Abrir editor visual"
+      choose_template_or_editor: "Escolha um modelo ou crie seu email com nosso editor visual."
+      send_limit: "Limite de envio (créditos)"
+      credits_available: "Você tem 1500 créditos disponíveis"
+      schedule: "Agendar"
+      launch: "Enviar campanha"
+      placeholder_name: "Promoção de Primavera 2025"
+      placeholder_subject: "Não perca nossas ofertas!"
+      placeholder_limit: "ex: 500"

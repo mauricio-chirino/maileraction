@@ -1,0 +1,10 @@
+fr:
+  session:
+    title: "Se connecter à votre compte"
+    email_label: "E-mail"
+    email_placeholder: "exemple@mail.com"
+    password_label: "Mot de passe"
+    password_placeholder: "••••••••"
+    login_button: "Se connecter"
+    no_account: "Vous n'avez pas de compte ?"
+    register_link: "Inscrivez-vous"

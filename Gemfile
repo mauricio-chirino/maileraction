@@ -54,6 +54,8 @@ group :development, :test do
   gem "foreman"
 
   gem "pundit-matchers"
+
+   gem "pry-rails"
 end
 
 
@@ -88,3 +90,7 @@ gem "stimulus-rails"
 
 
 gem "turbo-rails"
+
+
+
+gem "openlayers-rails"

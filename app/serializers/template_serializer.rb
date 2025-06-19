@@ -1,13 +1,12 @@
 class TemplateSerializer < ActiveModel::Serializer
-  attributes :id,
+  attributes :uuid,
              :name,
              :subject,
              :content_html,
              :shared,
-             :user_id,
+             :user_uuid,
              :created_at,
              :updated_at
 
-  # Incluye información del usuario solo si la plantilla está marcada como compartida
-  belongs_to :user, if: -> { object.shared? }
+  belongs_to :user, if: -> { object.shared? }, serializer: UserSerializer
 end

@@ -1,0 +1,11 @@
+pt:
+  registration:
+    title: "Criar uma nova conta"
+    name: "Nome"
+    email: "E-mail"
+    password: "Senha"
+    password_confirmation: "Confirmar Senha"
+    signup_button: "Cadastrar"
+    already_have_account: "Já tem uma conta?"
+    login: "Entrar"
+    error_heading: "Por favor, corrija os seguintes erros:"

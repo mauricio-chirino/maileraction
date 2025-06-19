@@ -1,0 +1,16 @@
+=> [32m#<Campaign:0x00007fa0c942eea8[0m
+ id: [1;34m7[0m,
+ email_limit: [[1;34;4mFILTERED[0m],
+ status: [31m[1;31m"[0m[31mcompleted[1;31m"[0m[31m[0m,
+ user_id: [1;34m1[0m,
+ industry_id: [1;34m1[0m,
+ created_at: [31m[1;31m"[0m[31m2025-03-26 03:07:14.983410000 -0300[1;31m"[0m[31m[0m,
+ updated_at: [31m[1;31m"[0m[31m2025-03-29 00:56:56.979806000 -0300[1;31m"[0m[31m[0m,
+ subject: [31m[1;31m"[0m[31mSin intentos[1;31m"[0m[31m[0m,
+ body: [31m[1;31m"[0m[31m<p>Nada se intentó</p>[1;31m"[0m[31m[0m,
+ template_id: [1;36mnil[0m,
+ send_at: [1;36mnil[0m,
+ html_content: [1;36mnil[0m,
+ name: [1;36mnil[0m,
+ uuid: [31m[1;31m"[0m[31m8196a156-67eb-4f2f-b387-c5444a6deb59[1;31m"[0m[31m[0m,
+ canvas_cleared: [1;36mfalse[0m[32m>[0m

@@ -1,0 +1,866 @@
+// app/javascript/controllers/block_controller.js
+import { Controller } from "@hotwired/stimulus"
+import { authorizedFetch } from "../helpers/api_helper";
+
+export default class extends Controller {
+  static values = { id: String }
+
+  connect() {
+    this.allowDrag = false
+    this.element.setAttribute('draggable', 'true')
+  }
+
+  enableDrag(event) {
+    this.allowDrag = true
+    event.currentTarget.classList.add('active-handle')
+  }
+  
+  disableDrag(event) {
+    this.allowDrag = false
+    event.currentTarget.classList.remove('active-handle')
+  }
+
+  dragStart(event) {
+    if (!this.allowDrag) { event.preventDefault(); return false }
+    this.element.classList.add("dragging")
+    event.dataTransfer.effectAllowed = "move"
+    event.dataTransfer.setData("blockType", this.element.dataset.blockType)
+    this.allowDrag = false
+  }
+
+  dragEnd(event) { this.element.classList.remove("dragging") }
+
+
+  async remove() {
+    console.log("Borrar bloque", this.element.dataset.blockId);
+
+    const campaignId = document.querySelector('[data-controller="canvas"]').dataset.canvasCampaignId;
+
+    // REMUEVE EL PREFIJO SI EXISTE
+    let rawBlockId = this.element.dataset.blockId;
+    let blockId = rawBlockId.replace(/^block-/, '');
+
+    // Log de depuración
+    console.log(`/api/v1/campaigns/${campaignId}/email_blocks/${blockId}`);
+
+    const resp = await authorizedFetch(`/api/v1/campaigns/${campaignId}/email_blocks/${blockId}`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+        "Accept": "application/json"
+      }
+    });
+
+    if (resp.ok) {
+      this.element.remove();
+      console.log("Bloque eliminado correctamente");
+    } else {
+      console.warn("No se pudo eliminar el bloque. Código de respuesta:", resp.status);
+    }
+  }
+
+
+
+
+
+  duplicate() {
+    const clone = this.element.cloneNode(true)
+    this.element.parentNode.insertBefore(clone, this.element.nextSibling)
+    // O puedes hacer una petición POST para duplicar en backend
+  }
+
+  saveCanvas() {
+    const canvasController = this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller~="canvas"]'),
+      "canvas"
+    )
+    if (canvasController) canvasController.save()
+  }
+
+
+  select(event) {
+    document.querySelectorAll(".email-block.selected").forEach(b => b.classList.remove("selected"));
+    this.element.classList.add("selected");
+    const blockType = this.element.dataset.blockType;
+    const category = this.element.dataset.category || "navigation";
+    window.dispatchEvent(new CustomEvent("block:selected", {
+      detail: { category, blockType, blockId: this.element.dataset.blockId }
+    }));
+  }
+
+
+  editProperties(event) {
+    event.stopPropagation(); // Para que no dispare select()
+    const blockType = this.element.dataset.blockType;
+    const category = this.element.dataset.category || "navigation";
+    const blockId = this.element.dataset.blockId;
+    window.dispatchEvent(new CustomEvent("block:selected", {
+      detail: { category, blockType, blockId }
+    }));
+  }
+
+
+    moveUp(event) {
+    event.preventDefault();
+    // Encuentra el área de bloques
+    const area = this.element.closest('#canvas-area-blocks');
+    // Obtén solo los bloques directos del área
+    const blocks = Array.from(area.children).filter(child =>
+      child.classList.contains('email-block')
+    );
+    const idx = blocks.indexOf(this.element);
+
+    if (idx > 0) {
+      area.insertBefore(this.element, blocks[idx - 1]);
+      // Si tienes un método para guardar, lo llamas:
+      if (typeof this.saveCanvas === "function") this.saveCanvas();
+    }
+  }
+
+  moveDown(event) {
+    event.preventDefault();
+    const area = this.element.closest('#canvas-area-blocks');
+    const blocks = Array.from(area.children).filter(child =>
+      child.classList.contains('email-block')
+    );
+    const idx = blocks.indexOf(this.element);
+
+    if (idx !== -1 && idx < blocks.length - 1) {
+      area.insertBefore(blocks[idx + 1], this.element);
+      if (typeof this.saveCanvas === "function") this.saveCanvas();
+    }
+  }
+
+
+
+
+}
+import { Controller } from "@hotwired/stimulus"
+
+
+export default class extends Controller {
+  connect() {
+    // Reinicializa solo si Bootstrap está disponible
+    if (typeof bootstrap !== "undefined" && bootstrap.Dropdown) {
+      this.initializeDropdowns()
+    }
+  }
+
+  initializeDropdowns() {
+    const dropdowns = this.element.querySelectorAll('[data-bs-toggle="dropdown"]')
+    dropdowns.forEach((el) => {
+      if (el._dropdownInstance) {
+        el._dropdownInstance.dispose()
+      }
+      el._dropdownInstance = new bootstrap.Dropdown(el)
+    })
+  }
+}import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["name", "useTemplate", "editor"]
+
+  connect() {
+    this.toggleButtons()
+  }
+
+  toggleButtons() {
+    const namePresent = this.nameTarget.value.trim().length > 0
+    this.useTemplateTarget.disabled = !namePresent
+    this.editorTarget.disabled = !namePresent
+  }
+
+  openEditor(event) {
+    if (this.editorTarget.disabled) {
+      event.preventDefault()
+      return
+    }
+    // Si está habilitado, redirige usando Turbo (o window.location si lo prefieres)
+    const locale = document.documentElement.lang || "en"
+    const url = `/` + locale + `/web/dashboard/dashboard?section=campaign_create&editor=visual`
+    Turbo.visit(url, { frame: "dashboard_section" })
+  }
+
+
+
+
+  openTemplates(event) {
+    if (this.useTemplateTarget.disabled) {
+      event.preventDefault()
+      return
+    }
+    const locale = document.documentElement.lang || "en"
+    const campaignName = this.nameTarget.value
+    // Opcional: puedes enviar el campaignName en la URL si necesitas pre-rellenar algo
+
+    // Redirige con Turbo Frame solo el contenido principal
+    const url = `/${locale}/web/dashboard/templates?campaign_name=${encodeURIComponent(campaignName)}`
+    Turbo.visit(url, { frame: "dashboard_section" })
+  }
+
+
+
+
+}
+import { Controller } from "@hotwired/stimulus"
+
+// Conecta este controller al botón o link de crear campaña
+export default class extends Controller {
+  static targets = ["name", "subject", "body", "industry", "limit"]
+
+  async new(event) {
+    event.preventDefault()
+
+    const name = prompt("Nombre de la campaña:")
+    const subject = prompt("Asunto del email:")
+    const body = prompt("Cuerpo del mensaje (HTML permitido):")
+    const industry = prompt("ID de la industria:")
+    const emailLimit = prompt("Límite de emails a enviar:")
+
+    if (!name || !subject || !body || !industry || !emailLimit) {
+      alert("Todos los campos son obligatorios.")
+      return
+    }
+
+    const response = await fetch("/api/v1/campaigns", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content")
+      },
+      body: JSON.stringify({
+        name: name,
+        subject: subject,
+        body: body,
+        industry_id: industry,
+        email_limit: emailLimit
+      })
+    })
+
+    if (response.ok) {
+      const data = await response.json()
+      alert(`Campaña creada exitosamente: ID ${data.id}`)
+    } else {
+      const error = await response.json()
+      alert("Error al crear campaña: " + (error.errors || error.message))
+    }
+  }
+
+
+
+
+}
+// app/javascript/controllers/canvas_controller.js
+import { Controller } from "@hotwired/stimulus"
+import { uniqueBlockId } from "../helpers/block_id_helper"
+import { authorizedFetch } from "../helpers/api_helper"
+
+export default class extends Controller {
+  static targets = ["area"]
+
+  connect() {
+    this.draggedBlock = null
+    // Carga bloques desde backend usando API autorizada
+    this.loadBlocksFromAPI(this.data.get("campaignId"))
+  }
+
+
+
+  async loadBlocksFromAPI(campaignId) {
+    console.log("TOKEN JWT ANTES DE LLAMAR A authorizedFetch:", localStorage.getItem('maileraction_jwt'));
+
+    const response = await authorizedFetch(`/api/v1/campaigns/${campaignId}/email_blocks`);
+    let blocks;
+    try {
+      blocks = await response.json();
+    } catch (e) {
+      blocks = [];
+    }
+    if (!Array.isArray(blocks)) return; // evita error y NO limpia demo
+    this.renderBlocks(blocks);
+  }
+  
+
+
+
+
+
+
+  renderBlocks(blocks) {
+    //this.areaTarget.innerHTML = ""
+    // Sólo limpia el canvas si HAY bloques de verdad
+    if (!Array.isArray(blocks) || blocks.length === 0) return; // deja demo
+    if (blocks.length === 0) {
+      // La lógica de demo la controla Rails al renderizar
+      return
+    }
+    // Si HAY bloques, entonces sí limpia y agrega los reales
+    this.areaTarget.innerHTML = "";
+    blocks.forEach(block => {
+      // Render parcial en HTML desde backend (mejorable, pero simple para MVP)
+      const el = document.createElement("div");
+      el.className = "email-block position-relative mb-3";
+      el.setAttribute("data-controller", "block");
+      el.setAttribute("data-block-type", block.block_type);
+      el.setAttribute("data-block-id", block.id);
+      el.setAttribute("draggable", "true");
+      el.setAttribute(
+        "data-action",
+        "click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd"
+      );
+      el.innerHTML = block.html_content || block.content || ""
+      this.areaTarget.appendChild(el);
+    })
+  }
+
+  dragStart(event) {
+    this.draggedBlock = event.currentTarget
+  }
+
+  dragOver(event) {
+    event.preventDefault()
+    const overBlock = event.target.closest(".email-block")
+    if (overBlock && overBlock !== this.draggedBlock) overBlock.classList.add("drag-over")
+  }
+
+  
+
+  async drop(event) {
+    event.preventDefault()
+    const blockType = event.dataTransfer.getData("blockType")
+    const dropBlock = event.target.closest(".email-block")
+    const campaignId = this.data.get("campaignId")
+
+    if (blockType) {
+      // Pide el HTML del bloque
+      const resp = await fetch(`/web/dashboard/campaigns/block_html?block_type=${blockType}`)
+      const html = await resp.text()
+
+      // Guarda el bloque en backend
+      const apiResp = await authorizedFetch(`/api/v1/campaigns/${campaignId}/email_blocks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({
+          email_block: { block_type: blockType, html_content: html }
+        })
+      })
+
+      const block = await apiResp.json()
+      // Agrega el bloque al DOM (usa html_content como expliqué antes)
+      this.renderBlocks([...this.getCurrentBlocks(), block])
+    }
+
+    if (
+      this.draggedBlock &&
+      dropBlock &&
+      dropBlock !== this.draggedBlock &&
+      this.areaTarget.contains(this.draggedBlock) &&
+      this.areaTarget.contains(dropBlock)
+    ) {
+      this.areaTarget.insertBefore(this.draggedBlock, dropBlock)
+      this.save()
+    }
+    this.cleanDragClasses()
+  }
+
+
+
+
+
+
+
+
+
+
+
+  getCurrentBlocks() {
+    return Array.from(this.areaTarget.children).map(b => ({
+      id: b.dataset.blockId,
+      block_type: b.dataset.blockType,
+      content: b.innerHTML
+    }))
+  }
+
+  dragLeave(event) {
+    const block = event.target.closest(".email-block")
+    if (block) block.classList.remove("drag-over")
+  }
+
+  dragEnd(event) {
+    if (this.draggedBlock) {
+      this.draggedBlock.classList.remove("dragging")
+      this.draggedBlock = null
+    }
+    this.cleanDragClasses()
+  }
+
+  cleanDragClasses() {
+    document.querySelectorAll(".email-block.drag-over").forEach(el => el.classList.remove("drag-over"))
+  }
+
+  save() {
+    // Si quieres: sincroniza orden con backend aquí (pendiente para el MVP)
+  }
+}
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  connect() {
+    if (window.$ && $.fn.DataTable) {
+      if (!$.fn.DataTable.isDataTable(this.element)) {
+        $(this.element).DataTable({
+          responsive: true,
+          select: true,
+          pageLength: 10,
+          lengthMenu: [10, 25, 50, 100],
+          language: {
+            search: "Search:",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            paginate: {
+              previous: "Previous",
+              next: "Next"
+            }
+          }
+        });
+      }
+    } else {
+      console.error("❌ jQuery or DataTable is not available");
+    }
+  }
+
+  disconnect() {
+    if (window.$ && $.fn.DataTable) {
+      if ($.fn.DataTable.isDataTable(this.element)) {
+        $(this.element).DataTable().destroy();
+      }
+    }
+  }
+}
+// app/javascript/controllers/editable_controller.js
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  connect() {
+    // Guardar automáticamente cuando el usuario edite el texto
+    this.element.addEventListener("input", this.saveCanvas.bind(this))
+  }
+
+  saveCanvas() {
+    const canvasController = this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller~="canvas"]'),
+      "canvas"
+    )
+    if (canvasController) {
+      canvasController.save()
+    }
+  }
+}
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  connect() {
+    console.log("✅ Stimulus funcionando desde hello_controller")
+  }
+}// app/javascript/controllers/index.js
+import { application } from "../stimulus_application"
+
+
+
+import InspectorController from "./inspector_controller"
+import BootstrapController from "./bootstrap_controller"
+
+
+import CanvasController from "./canvas_controller"
+import BlockController from "./block_controller"
+
+
+import SidebarController from "./sidebar_controller" 
+
+import CampaignFormController from "./campaign_form_controller"
+
+
+application.register("inspector", InspectorController)
+application.register("bootstrap", BootstrapController)
+
+
+
+application.register("canvas", CanvasController)
+application.register("block", BlockController)
+
+application.register("sidebar", SidebarController) 
+
+application.register("campaign-form", CampaignFormController)// app/javascript/controllers/inspector_controller.js
+import { Controller } from "@hotwired/stimulus";
+
+export default class extends Controller {
+  static targets = [
+    "panel",
+    "placeholder",
+    "heroSettings",
+    "headingSettings",
+    "textSettings",
+    "buttonSettings",
+    "badgesSettings",
+    "cardsSettings",
+    "socialSettings"
+  ];
+
+  connect() {
+    console.log("Inspector controller connected", this.panelTarget, this.element);
+
+  // Listar los targets encontrados:
+  console.log("All targets found:", this.targets.findAll("panel"));
+
+      window.addEventListener("block:selected", (e) => {
+        this.loadProperties(e.detail.category, e.detail.blockType, e.detail.blockId);
+      })
+  }
+
+  show(event) {
+    const type = event.currentTarget.dataset.blockType;
+    this.hideAll();
+
+    switch (type) {
+      case "hero":
+        this.heroSettingsTarget.classList.remove("d-none");
+        break;
+      case "heading":
+        this.headingSettingsTarget.classList.remove("d-none");
+        break;
+      case "text":
+        this.textSettingsTarget.classList.remove("d-none");
+        break;
+      case "button":
+        this.buttonSettingsTarget.classList.remove("d-none");
+        break;
+      case "badges":
+        this.badgesSettingsTarget.classList.remove("d-none");
+        break;
+      case "cards":
+        this.cardsSettingsTarget.classList.remove("d-none");
+        break;
+      case "social":
+        this.socialSettingsTarget.classList.remove("d-none");
+        break;
+      default:
+        this.placeholderTarget.classList.remove("d-none");
+    }
+  }
+
+  handleBlockSelected(event) {
+    const type = event.detail.blockType;
+    this.hideAll();
+
+    switch (type) {
+      case "hero":
+        this.heroSettingsTarget.classList.remove("d-none");
+        break;
+      case "heading":
+        this.headingSettingsTarget.classList.remove("d-none");
+        break;
+      case "text":
+        this.textSettingsTarget.classList.remove("d-none");
+        break;
+      case "button":
+        this.buttonSettingsTarget.classList.remove("d-none");
+        break;
+      case "badges":
+        this.badgesSettingsTarget.classList.remove("d-none");
+        break;
+      case "cards":
+        this.cardsSettingsTarget.classList.remove("d-none");
+        break;
+      case "social":
+        this.socialSettingsTarget.classList.remove("d-none");
+        break;
+      default:
+        this.placeholderTarget.classList.remove("d-none");
+    }
+  }
+
+  hideAll() {
+    this.placeholderTarget.classList.add("d-none");
+    this.heroSettingsTarget.classList.add("d-none");
+    this.headingSettingsTarget.classList.add("d-none");
+    this.textSettingsTarget.classList.add("d-none");
+    this.buttonSettingsTarget.classList.add("d-none");
+    this.badgesSettingsTarget.classList.add("d-none");
+    this.cardsSettingsTarget.classList.add("d-none");
+    this.socialSettingsTarget.classList.add("d-none");
+  }
+
+  disconnect() {
+    window.removeEventListener("block:selected", this._handleBlockSelected);
+  }
+
+ 
+
+  async loadProperties(category, blockType, blockId) {
+    // Cargar el HTML del panel de propiedades
+    const url = `/web/dashboard/inspector/${category}/${blockType}_property`;
+    const resp = await fetch(url);
+     console.log(this.panelTarget);
+    this.panelTarget.innerHTML = await resp.text();
+
+    this.element.dataset.currentBlockId = blockId;
+
+    // Luego, encuentra el bloque en el canvas
+    const block = document.querySelector(`.email-block[data-block-id="${blockId}"]`);
+    if (block) {
+      // Ahora, si el inspector tiene inputs, pon los valores actuales del bloque
+      // Ejemplo: para editar el texto del primer link del nav
+      const navLinks = block.querySelectorAll('a');
+      const input1 = this.panelTarget.querySelector('input[name="menu_item_1"]');
+      if (input1 && navLinks[0]) input1.value = navLinks[0].textContent;
+      // Y así sucesivamente...
+    }
+  }
+
+
+
+  updateLogoUrl(event) {
+    const url = event.target.value;
+    const blockId = this.element.dataset.currentBlockId;
+    const block = document.querySelector(`.email-block[data-block-id="${blockId}"]`);
+    if (block) {
+      const img = block.querySelector("img");
+      if (img) img.src = url;
+    }
+  }
+
+  updateLogoName(event) {
+    const name = event.target.value;
+    const blockId = this.element.dataset.currentBlockId;
+    const block = document.querySelector(`.email-block[data-block-id="${blockId}"]`);
+    if (block) {
+      const span = block.querySelector("span.fw-semibold");
+      if (span) span.textContent = name;
+    }
+  }
+
+  
+}
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  connect() {
+    if (typeof Layout !== "undefined" && Layout.init) {
+      Layout.init(); // <-- reinicia el comportamiento del layout Sneat
+    }
+  }
+}// app/javascript/controllers/map_controller.js
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["map", "country", "region", "city", "industry"]
+
+  connect() {
+    this.loadCountries()
+    this.loadIndustries()
+    // Aquí puedes inicializar OpenLayers si aún no lo has hecho
+  }
+
+  async loadCountries() {
+    try {
+      const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions")
+      const data = await res.json()
+
+      this.countryTarget.innerHTML = '<option value="">Selecciona un país</option>'
+      data.data.forEach(country => {
+        const option = document.createElement("option")
+        option.value = country.name
+        option.textContent = country.name
+        this.countryTarget.appendChild(option)
+      })
+    } catch (e) {
+      console.error("Error cargando países:", e)
+    }
+  }
+
+  async loadRegions() {
+    const selectedCountry = this.countryTarget.value
+    if (!selectedCountry) return
+
+    try {
+      const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ country: selectedCountry })
+      })
+      const data = await res.json()
+
+      this.regionTarget.innerHTML = '<option value="">Selecciona una región</option>'
+      data.data.states.forEach(region => {
+        const option = document.createElement("option")
+        option.value = region.name
+        option.textContent = region.name
+        this.regionTarget.appendChild(option)
+      })
+    } catch (e) {
+      console.error("Error cargando regiones:", e)
+    }
+  }
+
+  async loadCities() {
+    const selectedCountry = this.countryTarget.value
+    const selectedRegion = this.regionTarget.value
+    if (!selectedCountry || !selectedRegion) return
+
+    try {
+      const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ country: selectedCountry, state: selectedRegion })
+      })
+      const data = await res.json()
+
+      this.cityTarget.innerHTML = '<option value="">Selecciona una ciudad</option>'
+      data.data.forEach(city => {
+        const option = document.createElement("option")
+        option.value = city
+        option.textContent = city
+        this.cityTarget.appendChild(option)
+      })
+    } catch (e) {
+      console.error("Error cargando ciudades:", e)
+    }
+  }
+
+  async loadIndustries() {
+    try {
+      const res = await fetch("/api/v1/industries")
+      const data = await res.json()
+
+      this.industryTarget.innerHTML = '<option value="">Selecciona un rubro</option>'
+      data.forEach(industry => {
+        const option = document.createElement("option")
+        option.value = industry.name
+        option.textContent = industry.name
+        this.industryTarget.appendChild(option)
+      })
+    } catch (e) {
+      console.error("Error cargando rubros:", e)
+    }
+  }
+
+  filter() {
+    const filters = {
+      country: this.countryTarget.value,
+      region: this.regionTarget.value,
+      city: this.cityTarget.value,
+      industry: this.industryTarget.value
+    }
+    console.log("Aplicando filtros:", filters)
+    // Aquí puedes interactuar con OpenLayers o realizar una llamada a tu backend para obtener los puntos
+  }
+
+  reset() {
+    this.countryTarget.value = ""
+    this.regionTarget.innerHTML = '<option value="">Selecciona una región</option>'
+    this.cityTarget.innerHTML = '<option value="">Selecciona una ciudad</option>'
+    this.industryTarget.value = ""
+    console.log("Filtros reiniciados")
+  }
+}
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["column"]
+
+  connect() {
+    this.updateColumns()
+    window.addEventListener("resize", this.updateColumns.bind(this))
+  }
+
+  disconnect() {
+    window.removeEventListener("resize", this.updateColumns.bind(this))
+  }
+
+  updateColumns() {
+    const isLargeScreen = window.innerWidth >= 1200
+
+    this.columnTargets.forEach((column) => {
+      if (isLargeScreen) {
+        column.classList.remove("dtr-hidden")
+        column.style.display = ""
+      } else {
+        column.classList.add("dtr-hidden")
+        column.style.display = "none"
+      }
+    })
+  }
+}
+// controllers/sidebar_controller.js
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  
+  createBlockPreview(event) {
+    const blockType = event.currentTarget.dataset.blockType
+    event.dataTransfer.setData("blockType", blockType)
+  }
+}
+import { Controller } from "stimulus";
+
+export default class extends Controller {
+  static targets = ["spinner"];
+
+  connect() {
+    console.log("Spinner Controller conectado"); // Confirma que Stimulus cargó
+    if (this.hasSpinnerTarget) {
+      console.log("Spinner encontrado en DOM, ocultándolo...");
+      this.spinnerTarget.classList.add("spinner-hidden");
+    }
+  }
+
+  showSpinner(event) {
+    event.preventDefault();
+    console.log("showSpinner activado");
+
+    if (this.hasSpinnerTarget) {
+      console.log("Antes de mostrar el spinner:", this.spinnerTarget.style.display);
+      this.spinnerTarget.classList.remove("spinner-hidden");
+      console.log("Después de mostrar el spinner:", this.spinnerTarget.style.display);
+    } else {
+      console.error("spinnerTarget no encontrado");
+    }
+
+    requestAnimationFrame(() => {
+      event.target.submit();
+      setTimeout(() => this.hideSpinner(), 1000);
+    });
+  }
+
+  hideSpinner() {
+    if (this.hasSpinnerTarget) {
+      console.log("Ocultando el spinner...");
+      this.spinnerTarget.classList.add("spinner-hidden");
+    }
+  }
+}
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = []
+
+  selectTemplate(event) {
+    const templateId = event.currentTarget.dataset.templateId
+    const locale = document.documentElement.lang || "en"
+    // Puedes enviar otros datos por URL (ej: campaign_name si lo necesitas)
+    // Redirige al editor visual con el template cargado
+    const url = `/${locale}/web/dashboard/dashboard?section=campaign_create&editor=visual&template_id=${templateId}`
+    Turbo.visit(url, { frame: "dashboard_section" })
+  }
+}
+import { Controller } from "@hotwired/stimulus";
+
+export default class extends Controller {
+  connect() {
+    console.log("TestController conectado");
+  }
+}

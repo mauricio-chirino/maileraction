@@ -1,0 +1,11 @@
+it:
+  registration:
+    title: "Crea un nuovo account"
+    name: "Nome"
+    email: "Email"
+    password: "Password"
+    password_confirmation: "Conferma Password"
+    signup_button: "Registrati"
+    already_have_account: "Hai già un account?"
+    login: "Accedi"
+    error_heading: "Correggi i seguenti errori:"

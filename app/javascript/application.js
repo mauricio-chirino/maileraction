@@ -1,13 +1,10 @@
+// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 // app/javascript/application.js
-import { Application } from "@hotwired/stimulus"
+
 import "@hotwired/turbo-rails"
+import "./stimulus_application" // <- Este importa y arranca Stimulus
+import "controllers"
+import "./global_helpers"
 
-import DatatableController from "./controllers/datatable_controller"
 
 
-import ResponsiveController from "./controllers/responsive_controller"
-
-window.Stimulus = Application.start()
-Stimulus.register("datatable", DatatableController)
-
-Stimulus.register("responsive", ResponsiveController)

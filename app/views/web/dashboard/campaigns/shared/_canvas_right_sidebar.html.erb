@@ -1,0 +1,140 @@
+<!-- app/views/web/dashboard/campaigns/shared/_canvas_right_sidebar.html.erb -->
+
+<aside id="right-sidebar" 
+  class="sidebar-end bg-light border-start p-4" 
+  style="width: 330px; min-width: 330px; max-width: 360px; overflow-y: auto; height: 100vh;"
+  data-controller="inspector">
+  <h6 class="fw-semibold mb-3">Block Settings</h6>
+
+  <!-- Placeholder cuando no hay bloque seleccionado -->
+  <div data-inspector-target="panel"><!-- decia placeholder -->
+    <p class="text-muted">Select a block to see its settings.</p>
+  </div>
+
+
+
+  <!-- Panel: Logo / Hero -->
+  <div data-inspector-target="heroSettings" class="d-none">
+    <h6 class="fw-bold mb-2">Logo Settings</h6>
+    <div class="mb-3">
+      <label class="form-label">Image URL</label>
+      <input type="text" class="form-control form-control-sm" placeholder="Logo URL" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Width</label>
+      <input type="number" class="form-control form-control-sm" placeholder="e.g. 120" />
+    </div>
+    <!-- Más ajustes si quieres... -->
+  </div>
+
+  <!-- Panel: Heading -->
+  <div data-inspector-target="headingSettings" class="d-none">
+    <h6 class="fw-bold mb-2">Heading Settings</h6>
+    <div class="mb-3">
+      <label class="form-label">Text</label>
+      <input type="text" class="form-control form-control-sm" placeholder="Enter heading text" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Font Size</label>
+      <select class="form-select form-select-sm">
+        <option>Small</option>
+        <option selected>Medium</option>
+        <option>Large</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Alignment</label>
+      <div class="btn-group w-100" role="group">
+        <button class="btn btn-outline-secondary btn-sm w-100">Left</button>
+        <button class="btn btn-outline-secondary btn-sm w-100">Center</button>
+        <button class="btn btn-outline-secondary btn-sm w-100">Right</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Description / Text -->
+  <div data-inspector-target="textSettings" class="d-none">
+    <div class="mb-3">
+      <label class="form-label">Contenido</label>
+      <textarea class="form-control form-control-sm" rows="2" placeholder="Texto del bloque"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Color</label>
+      <input type="color" class="form-control form-control-color" value="#333333" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Fuente</label>
+      <select class="form-select form-select-sm">
+        <option value="Arial" selected>Arial</option>
+        <option value="Helvetica">Helvetica</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Roboto">Roboto</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Estilo</label>
+      <div class="btn-group w-100 mb-2" role="group">
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-style="bold"><i class="fas fa-bold"></i></button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-style="italic"><i class="fas fa-italic"></i></button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-style="underline"><i class="fas fa-underline"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Call to Action Button -->
+  <div data-inspector-target="buttonSettings" class="d-none">
+    <h6 class="fw-bold mb-2">Button Settings</h6>
+    <div class="mb-3">
+      <label class="form-label">Button Text</label>
+      <input type="text" class="form-control form-control-sm" placeholder="Enter button text" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Button Color</label>
+      <input type="color" class="form-control form-control-color" value="#0d6efd" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Link</label>
+      <input type="url" class="form-control form-control-sm" placeholder="https://" />
+    </div>
+  </div>
+
+  <!-- Panel: Badges -->
+  <div data-inspector-target="badgesSettings" class="d-none">
+    <h6 class="fw-bold mb-2">Badges Settings</h6>
+    <div class="mb-3">
+      <label class="form-label">Badges Texts</label>
+      <input type="text" class="form-control form-control-sm mb-1" placeholder="Badge 1" />
+      <input type="text" class="form-control form-control-sm mb-1" placeholder="Badge 2" />
+      <input type="text" class="form-control form-control-sm mb-1" placeholder="Badge 3" />
+    </div>
+  </div>
+
+  <!-- Panel: Cards -->
+  <div data-inspector-target="cardsSettings" class="d-none">
+    <h6 class="fw-bold mb-2">Cards Settings</h6>
+    <div class="mb-3">
+      <label class="form-label">Card 1 Title</label>
+      <input type="text" class="form-control form-control-sm mb-1" placeholder="Card 1 Title" />
+      <label class="form-label">Card 2 Title</label>
+      <input type="text" class="form-control form-control-sm mb-1" placeholder="Card 2 Title" />
+      <!-- Agrega más campos si tienes más tarjetas -->
+    </div>
+  </div>
+
+  <!-- Panel: Social -->
+  <div data-inspector-target="socialSettings" class="d-none">
+    <h6 class="fw-bold mb-2">Social Icons Settings</h6>
+    <div class="mb-3">
+      <label class="form-label">Facebook Link</label>
+      <input type="url" class="form-control form-control-sm mb-1" placeholder="https://facebook.com/..." />
+      <label class="form-label">Twitter Link</label>
+      <input type="url" class="form-control form-control-sm mb-1" placeholder="https://twitter.com/..." />
+      <label class="form-label">Instagram Link</label>
+      <input type="url" class="form-control form-control-sm mb-1" placeholder="https://instagram.com/..." />
+    </div>
+  </div>
+</aside>

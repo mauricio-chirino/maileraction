@@ -1,0 +1,18 @@
+<% [
+  {type: "gallery-basic", label: t("sidebar.create_campaign.blocks.gallery.basic"), desc: t("sidebar.create_campaign.blocks.gallery.basic_desc")},
+  {type: "gallery-grid", label: t("sidebar.create_campaign.blocks.gallery.grid"), desc: t("sidebar.create_campaign.blocks.gallery.grid_desc")},
+  {type: "gallery-slider", label: t("sidebar.create_campaign.blocks.gallery.slider"), desc: t("sidebar.create_campaign.blocks.gallery.slider_desc")},
+  {type: "gallery-featured", label: t("sidebar.create_campaign.blocks.gallery.featured"), desc: t("sidebar.create_campaign.blocks.gallery.featured_desc")},
+  {type: "gallery-collage", label: t("sidebar.create_campaign.blocks.gallery.collage"), desc: t("sidebar.create_campaign.blocks.gallery.collage_desc")}
+].each do |block| %>
+  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+       draggable="true"
+       data-block-type="<%= block[:type] %>"
+       data-category="gallery"
+       data-action="dragstart->sidebar#createBlockPreview">
+    <div>
+      <strong><%= block[:label] %></strong>
+      <small class="text-muted d-block"><%= block[:desc] %></small>
+    </div>
+  </div>
+<% end %>

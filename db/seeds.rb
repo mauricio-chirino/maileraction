@@ -76,78 +76,190 @@
 
 
 
-puts "Sembrando campañas de prueba..."
 
-admin = User.find_by(email: "admin@mail.com")
+# crea los template
+#
+# user = User.first # O el usuario que corresponda
 
-unless admin
-  puts "Usuario admin no encontrado. Asegúrate de ejecutar primero los seeds básicos."
-  return
-end
+# template = Template.create!(
+#   name: "Promoción Primavera",
+#   description: "Una plantilla fresca para promociones de temporada...",
+#   category: "Business",
+#   user_id: user.id,
+#   public: true,
+#   preview_image_url: "https://mi-cdn.com/templates/spring-promo.png",
+#   html_content: "<html>...tu código de plantilla aquí...</html>"
+# )
 
-industry = Industry.first || Industry.create!(name: "Tecnología", email_count: 1000)
+# template.template_blocks.create!(
+#   block_type: "hero",
+#   html_content: "<div class='hero'>¡Bienvenida Primavera!</div>",
+#   position: 1
+# )
 
-3.times do |i|
-  Campaign.find_or_create_by!(user: admin, industry: industry) do |campaign|
-    campaign.status = "pending"
-    campaign.created_at = Time.now - (i + 1).days
-    campaign.email_limit = 500
-  end
-end
-
-puts "✅ Campañas creadas: #{admin.campaigns.count}"
-
-
+# template.template_blocks.create!(
+#   block_type: "content",
+#   html_content: "<div class='content'>Oferta especial solo por esta semana...</div>",
+#   position: 2
+# )
 
 
-puts "Generando emails simulados..."
 
-email_records = []
+# db/seeds.rb
 
-10.times do |i|
-  email_records << EmailRecord.find_or_create_by!(
-    email: "test#{i}@example.com",
-    company: "Empresa #{i}",
-    website: "https://empresa#{i}.cl",
-    industry: industry
+user = User.first
+
+templates_seed = [
+  {
+    name: "Carrito abandonado",
+    description: "Recupera ventas pendientes con un recordatorio visual.",
+    category: "Marketing & Promociones",
+    theme: "Carrito abandonado",
+    html_content: <<~HTML,
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:8px;font-family:sans-serif;">
+        <tr>
+          <td align="center" style="padding:40px 0 20px;">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=200&q=80" width="80" alt="Carrito" style="border-radius:50%;">
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:0 30px 10px;">
+            <h1 style="font-size:28px;color:#252525;margin:0;">¡No olvides tus compras!</h1>
+            <p style="font-size:16px;color:#666;margin:12px 0 0;">Tienes productos en tu carrito esperando por ti.<br>Completa tu compra y obtén un <strong>10% de descuento</strong>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:20px;">
+            <a href="#" style="background:#35c27f;color:#fff;padding:14px 32px;border-radius:24px;text-decoration:none;font-weight:bold;font-size:16px;">Ir al carrito</a>
+          </td>
+        </tr>
+      </table>
+    HTML
+    preview_image_url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    name: "Promoción de verano",
+    description: "Oferta especial de verano para tus clientes.",
+    category: "Festividades & Estaciones",
+    theme: "Verano",
+    html_content: <<~HTML,
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#e8f6ff;border-radius:8px;font-family:sans-serif;">
+        <tr>
+          <td align="center" style="padding:30px 0 10px;">
+            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=200&q=80" width="90" alt="Summer" style="border-radius:12px;">
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <h1 style="font-size:26px;color:#0c69b6;margin:0;">¡Llegó el verano!</h1>
+            <h3 style="font-size:18px;color:#1574b6;margin:12px 0 8px;">Descuentos imperdibles</h3>
+            <p style="font-size:15px;color:#444;margin:0;">Disfruta de hasta <strong>30% off</strong> en productos seleccionados.</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:18px;">
+            <a href="#" style="background:#ffb200;color:#fff;padding:14px 28px;border-radius:24px;text-decoration:none;font-weight:bold;font-size:16px;">Ver ofertas</a>
+          </td>
+        </tr>
+      </table>
+    HTML
+    preview_image_url: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    name: "Bienvenida a nuevos clientes",
+    description: "Da la mejor primera impresión a tus nuevos suscriptores.",
+    category: "Negocios & Newsletter",
+    theme: "Bienvenida",
+    html_content: <<~HTML,
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4fb;border-radius:8px;font-family:sans-serif;">
+        <tr>
+          <td align="center" style="padding:35px 0 5px;">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=200&q=80" width="70" alt="Bienvenida" style="border-radius:50%;">
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <h1 style="font-size:27px;color:#3f3a5f;margin:0;">¡Bienvenido/a!</h1>
+            <p style="font-size:16px;color:#67617a;margin:16px 0 0;">
+              Gracias por unirte a nuestra comunidad.<br>
+              Esperamos que disfrutes de todos los beneficios.<br>
+              <span style="display:inline-block;margin-top:8px;">😊</span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:18px;">
+            <a href="#" style="background:#3f3a5f;color:#fff;padding:12px 28px;border-radius:24px;text-decoration:none;font-weight:bold;font-size:16px;">Descubre más</a>
+          </td>
+        </tr>
+      </table>
+    HTML
+    preview_image_url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    name: "Recetas para compartir",
+    description: "Comparte recetas deliciosas con tus suscriptores.",
+    category: "Restaurantes y Alimentos",
+    theme: "Recetas",
+    html_content: <<~HTML,
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8ee;border-radius:8px;font-family:sans-serif;">
+        <tr>
+          <td align="center" style="padding:28px 0 10px;">
+            <img src="https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=200&q=80" width="80" alt="Recetas" style="border-radius:10px;">
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <h1 style="font-size:26px;color:#a67c52;margin:0;">Receta del Día</h1>
+            <h3 style="font-size:18px;color:#7e6147;margin:10px 0 6px;">¡Prueba esta delicia!</h3>
+            <p style="font-size:15px;color:#666;margin:0;">Descubre el paso a paso para preparar un platillo espectacular en casa.</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:18px;">
+            <a href="#" style="background:#fd9340;color:#fff;padding:12px 28px;border-radius:24px;text-decoration:none;font-weight:bold;font-size:16px;">Ver receta</a>
+          </td>
+        </tr>
+      </table>
+    HTML
+    preview_image_url: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80"
+  },
+  {
+    name: "Invitación a evento especial",
+    description: "Invita a tus clientes a un evento memorable.",
+    category: "Eventos & Invitaciones",
+    theme: "Invitación a eventos",
+    html_content: <<~HTML,
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5fafd;border-radius:8px;font-family:sans-serif;">
+        <tr>
+          <td align="center" style="padding:32px 0 6px;">
+            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=200&q=80" width="80" alt="Evento" style="border-radius:14px;">
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <h1 style="font-size:27px;color:#326698;margin:0;">¡Estás invitado!</h1>
+            <p style="font-size:15px;color:#5e7fa3;margin:15px 0 0;">Acompáñanos a un evento único.<br>Reserva tu lugar y vive la experiencia.</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:16px;">
+            <a href="#" style="background:#326698;color:#fff;padding:12px 28px;border-radius:24px;text-decoration:none;font-weight:bold;font-size:16px;">Confirmar asistencia</a>
+          </td>
+        </tr>
+      </table>
+    HTML
+    preview_image_url: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80"
+  }
+]
+
+templates_seed.each do |attrs|
+  Template.create!(
+    attrs.merge(
+      user: user,
+      public: true
+    )
   )
 end
 
-puts "✅ Emails simulados: #{email_records.count}"
-
-
-
-
-puts "Asociando emails a campañas..."
-
-admin.campaigns.each do |campaign|
-  email_records.each do |record|
-    CampaignEmail.find_or_create_by!(campaign_id: campaign.id, email_record_id: record.id)
-  end
-end
-
-puts "✅ Emails asociados a campañas"
-
-
-
-
-puts "Generando estadísticas ficticias..."
-
-admin.campaigns.each do |campaign|
-  email_records.each_with_index do |record, i|
-    EmailLog.find_or_create_by!(campaign_id: campaign.id, email_record_id: record.id) do |log|
-      log.status = "delivered"
-      log.opened_at = i.even? ? Time.now - rand(10).minutes : nil
-      log.clicked_at = i % 3 == 0 ? Time.now - rand(5).minutes : nil
-    end
-
-    if i % 4 == 0 # 25% de rebote simulado
-      Bounce.find_or_create_by!(email_record_id: record.id) do |bounce|
-        bounce.reason = "Dirección no válida"
-        bounce.bounced_at = Time.now
-      end
-    end
-  end
-end
-
-puts "✅ Estadísticas creadas"
+puts "Plantillas con HTML complejo creadas."

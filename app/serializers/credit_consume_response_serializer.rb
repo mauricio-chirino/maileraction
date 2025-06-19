@@ -10,6 +10,8 @@ class CreditConsumeResponseSerializer < ActiveModel::Serializer
     object[:remaining_credits]
   end
 
+  # Si la transacción ya está serializada, déjalo así.
+  # Si es un objeto ActiveRecord, Rails usará TransactionSerializer.
   def transaction
     object[:transaction]
   end

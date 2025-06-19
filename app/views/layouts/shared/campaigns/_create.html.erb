@@ -1,0 +1,89 @@
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="mb-0"><%= t("campaign.create.title") %></h5>
+    <small class="text-muted"><%= t("campaign.create.subtitle") %></small>
+  </div>
+
+  <div class="card-body" data-controller="campaign-form">
+    <%= form_with url: "#", method: :post, local: true, html: { class: "row g-3" } do %>
+      <div class="col-md-6">
+        <label class="form-label"><%= t("campaign.create.campaign_name") %></label>
+        <input 
+          type="text"
+          class="form-control"
+          id="campaign_name"
+          placeholder="<%= t('campaign.create.placeholder_name') %>"
+          data-campaign-form-target="name"
+          data-action="input->campaign-form#toggleButtons"
+          name="campaign[name]"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label"><%= t("campaign.create.industry_segment") %></label>
+        <select name="campaign[industry_id]" class="form-select">
+          <option disabled selected><%= t("campaign.create.choose_segment") %></option>
+          <option value="1">Retail</option>
+          <option value="2">Logistics</option>
+          <option value="3">Education</option>
+          <!-- Este listado debería generarse dinámicamente desde el endpoint /api/v1/industries -->
+        </select>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label"><%= t("campaign.create.subject") %></label>
+        <input
+          type="text"
+          name="campaign[subject]"
+          class="form-control"
+          placeholder="<%= t('campaign.create.placeholder_subject') %>"
+        />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label"><%= t("campaign.create.template_or_editor") %></label>
+        <div class="d-flex gap-3">
+          <button type="button"
+                  class="btn btn-outline-secondary"
+                  data-campaign-form-target="useTemplate"
+                  data-action="click->campaign-form#openTemplates"
+                  disabled>
+            <%= t("campaign.create.use_template") %>
+          </button>
+          <button type="button"
+                  class="btn btn-outline-primary"
+                  data-campaign-form-target="editor"
+                  data-action="click->campaign-form#openEditor"
+                  disabled>
+            <%= t("campaign.create.open_drag_and_drop_editor") %>
+          </button>
+        </div>
+        <small class="text-muted d-block mt-1">
+          <%= t("campaign.create.choose_template_or_editor") %>
+        </small>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label"><%= t("campaign.create.send_limit") %></label>
+        <input
+          type="number"
+          name="campaign[email_limit]"
+          class="form-control"
+          placeholder="<%= t('campaign.create.placeholder_limit') %>"
+        />
+        <small class="text-muted"><%= t("campaign.create.credits_available") %></small>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label"><%= t("campaign.create.schedule") %></label>
+        <input type="datetime-local" name="campaign[schedule_at]" class="form-control" />
+      </div>
+
+      <div class="col-md-4 d-flex align-items-end">
+        <button type="submit" class="btn btn-success w-100">
+          <i class="bx bx-send me-1"></i> <%= t("campaign.create.launch") %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>

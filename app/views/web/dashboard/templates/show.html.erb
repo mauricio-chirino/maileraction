@@ -1,0 +1,22 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="card mb-4">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <% if @template.preview_image_url.present? %>
+          <img src="<%= @template.preview_image_url %>" class="img-fluid rounded-start" style="object-fit:cover;max-height:320px;" />
+        <% end %>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= @template.name %></h5>
+          <p class="card-text"><%= @template.description %></p>
+          <iframe srcdoc="<%= @template.html_content %>" style="width:100%;min-height:350px;border:1px solid #f0f0f0;"></iframe>
+          <%= button_to t("campaign.create.start_with_this_template"),
+                web_dashboard_dashboard_path(section: "campaign_create", editor: "visual", template_id: @template.id, campaign_name: params[:campaign_name]),
+                method: :get,
+                class: "btn btn-success mt-3" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

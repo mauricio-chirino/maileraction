@@ -1,0 +1,800 @@
+module Api
+  module V1
+    class BouncesController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+
+      def index
+        bounces = Bounce.joins(email_record: :campaign)
+                        .where(campaigns: { user_id: current_user.id })
+
+        render json: bounces, each_serializer: BounceSerializer
+      end
+
+      def show
+        bounce = Bounce.find(params[:id])
+        authorize bounce
+        render json: bounce, serializer: BounceSerializer
+      end
+    end
+  end
+end
+# app/controllers/api/v1/campaigns_controller.rb
+module Api
+  module V1
+    class CampaignsController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+      before_action :set_campaign, only: [ :show, :update, :destroy, :stats, :send_campaign, :cancel ]
+
+      # GET /api/v1/campaigns
+      def index
+        @campaigns = policy_scope(Campaign)
+        render json: @campaigns, each_serializer: CampaignSerializer
+      end
+
+      # GET /api/v1/campaigns/:id
+      def show
+        authorize @campaign
+        render json: @campaign, serializer: CampaignSerializer
+      end
+
+      # POST /api/v1/campaigns
+      def create
+        # CAMBIO: build campaign con user_uuid (no user_id)
+        @campaign = current_user.campaigns.build(campaign_params.merge(user_uuid: current_user.uuid))
+
+        if @campaign.template_uuid.present?
+          template = Template.find_by(uuid: @campaign.template_uuid)
+          if template.nil? || template.user_uuid != current_user.uuid
+            render json: { error: "No autorizado para usar esta plantilla" }, status: :forbidden and return
+          end
+        end
+
+        authorize @campaign
+        if @campaign.save
+          render json: @campaign, serializer: CampaignSerializer, status: :created
+        else
+          render json: { errors: @campaign.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      # PUT /api/v1/campaigns/:id
+      def update
+        authorize @campaign
+        if @campaign.update(campaign_params)
+          render json: @campaign, serializer: CampaignSerializer
+        else
+          render json: { errors: @campaign.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      # DELETE /api/v1/campaigns/:id
+      def destroy
+        authorize @campaign
+        @campaign.destroy
+        head :no_content
+      end
+
+      # GET /api/v1/campaigns/:id/stats
+      def stats
+        authorize @campaign, :stats?
+        stats = CampaignStatisticsService.new(@campaign).call
+        render json: {
+          campaign_id: @campaign.uuid,  # <-- CAMBIO
+          emails_sent: stats[:emails_sent],
+          emails_opened: stats[:emails_opened],
+          emails_clicked: stats[:emails_clicked],
+          emails_bounced: stats[:emails_bounced],
+          open_rate: "#{stats[:open_rate]}%",
+          click_rate: "#{stats[:click_rate]}%",
+          bounce_rate: "#{stats[:bounce_rate]}%"
+        }
+      end
+
+      # POST /api/v1/campaigns/:id/send_campaign
+      def send_campaign
+        authorize @campaign, :send?
+        if @campaign.status.in?(%w[sending completed])
+          render json: { error: "La campaña ya está en proceso o fue enviada." }, status: :unprocessable_entity and return
+        end
+        @campaign.update!(status: "sending")
+        Campaigns::SendCampaignJob.perform_later(@campaign.uuid) # <-- CAMBIO: usa UUID
+        render json: { message: "Campaña en cola para envío." }
+      end
+
+      # POST /api/v1/campaigns/:id/cancel
+      def cancel
+        authorize @campaign, :cancel?
+        if @campaign.status != "sending"
+          render json: { error: "Solo se pueden cancelar campañas en estado 'sending'." }, status: :unprocessable_entity and return
+        end
+        @campaign.update!(status: "cancelled")
+        Notification.create!(
+          user_uuid: @campaign.user_uuid, # <-- CAMBIO: usa UUID
+          title: "🚫 Campaña cancelada",
+          body: "La campaña \"#{@campaign.subject}\" fue cancelada antes de ser enviada."
+        )
+        render json: { message: "Campaña cancelada exitosamente." }, status: :ok
+      end
+
+      # GET /api/v1/campaigns/monthly_summary
+      def monthly_summary
+        authorize Campaign, :index?
+        campaigns = policy_scope(Campaign).where("created_at >= ?", 1.month.ago.beginning_of_month)
+        summaries = campaigns.map do |campaign|
+          stats = CampaignStatisticsService.new(campaign).call
+          {
+            campaign_id: campaign.uuid,  # <-- CAMBIO
+            subject: campaign.subject,
+            created_at: campaign.created_at,
+            industry_uuid: campaign.industry_uuid, # <-- CAMBIO
+            emails_sent: stats[:emails_sent],
+            emails_opened: stats[:emails_opened],
+            emails_clicked: stats[:emails_clicked],
+            emails_bounced: stats[:emails_bounced],
+            open_rate: stats[:open_rate],
+            click_rate: stats[:click_rate],
+            bounce_rate: stats[:bounce_rate]
+          }
+        end
+        render json: summaries
+      end
+
+      private
+
+      def set_campaign
+        @campaign = Campaign.find_by!(uuid: params[:id]) # <-- CAMBIO: busca por uuid
+      end
+
+      def campaign_params
+        params.require(:campaign).permit(
+          :industry_uuid, :email_limit, :status, :subject, :body, :template_uuid
+        ) # <-- CAMBIO: solo UUIDs
+      end
+    end
+  end
+end
+module Api
+  module V1
+    class CreditAccountsController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+
+      # GET /api/v1/credit_account
+      def show
+        credit_account = CreditAccount.find_by(user_uuid: current_user.uuid)
+        authorize credit_account || CreditAccount
+
+        render json: credit_account, serializer: CreditAccountSerializer, include: [ "plan", "transactions" ]
+      end
+
+      # POST /api/v1/credit_accounts/consume_campaign
+      def consume_campaign
+        credit_account = CreditAccount.find_by(user_uuid: current_user.uuid)
+        authorize credit_account || CreditAccount
+
+        if params[:campaign_uuid].blank?
+          render json: { error: "Se requiere campaign_uuid." }, status: :bad_request and return
+        end
+
+        campaign = Campaign.find_by(uuid: params[:campaign_uuid])
+        unless campaign
+          render json: { error: "Campaña no encontrada." }, status: :not_found and return
+        end
+
+        email_count = params[:emails_sent].to_i
+        if email_count <= 0
+          render json: { error: "Cantidad de correos inválida." }, status: :unprocessable_entity and return
+        end
+
+        if credit_account.nil? || credit_account.available_credit < email_count
+          render json: { error: "Créditos insuficientes." }, status: :unprocessable_entity and return
+        end
+
+        transaction = nil
+
+        # Transacción atómica
+        ActiveRecord::Base.transaction do
+          credit_account.decrement!(:available_credit, email_count)
+
+          transaction = Transaction.create!(
+            user_uuid: current_user.uuid,
+            credit_account_uuid: credit_account.uuid,
+            amount: email_count,
+            status: "consumed",
+            payment_method: "campaign",
+            campaign_uuid: campaign.uuid
+          )
+        end
+
+        render json: {
+          credit_account: CreditAccountSerializer.new(credit_account),
+          transaction: TransactionSerializer.new(transaction)
+        }
+      end
+
+      # POST /api/v1/credit_accounts/assign_initial
+      def assign_initial
+        authorize CreditAccount, :assign_initial?
+
+        user = User.find_by(uuid: params[:user_uuid])
+        return render json: { error: "Usuario no encontrado." }, status: :not_found if user.nil?
+
+        credit_account = CreditAccount.find_by(user_uuid: user.uuid) || user.build_credit_account
+
+        if credit_account.persisted?
+          render json: { error: "El usuario ya tiene créditos asignados." }, status: :unprocessable_entity
+          return
+        end
+
+        credit_account.available_credit = 30
+        credit_account.save!
+
+        Transaction.create!(
+          user_uuid: user.uuid,
+          credit_account_uuid: credit_account.uuid,
+          amount: 30,
+          status: "assigned",
+          payment_method: "initial"
+        )
+
+        render json: credit_account, serializer: CreditAccountSerializer, status: :created
+      end
+
+      # POST /api/v1/credit_accounts/consume
+      def consume
+        credit_account = CreditAccount.find_by(user_uuid: current_user.uuid)
+        authorize credit_account, :consume?
+
+        amount = params[:amount].to_i
+
+        if credit_account.nil?
+          render json: { error: "No tienes cuenta de crédito asociada." }, status: :not_found
+          return
+        end
+
+        if amount <= 0
+          render json: { error: "El monto debe ser mayor a cero." }, status: :unprocessable_entity
+          return
+        end
+
+        if credit_account.available_credit < amount
+          render json: { error: "Créditos insuficientes." }, status: :forbidden
+          return
+        end
+
+        credit_account.available_credit -= amount
+        credit_account.save!
+
+        transaction = Transaction.create!(
+          user_uuid: current_user.uuid,
+          credit_account_uuid: credit_account.uuid,
+          amount: amount,
+          status: "consumed",
+          payment_method: "credits"
+        )
+
+        render json: {
+          remaining_credits: credit_account.available_credit,
+          transaction: transaction
+        }, serializer: CreditConsumeResponseSerializer, status: :ok
+      end
+    end
+  end
+end
+# app/controllers/api/v1/email_blocks_controller.rb
+module Api
+  module V1
+    class EmailBlocksController < ApplicationController
+      # before_action :authenticate_user!
+
+      before_action :set_campaign
+
+      def index
+        authorize @campaign, :show?
+        blocks = @campaign.email_blocks.order(:position)
+        render json: blocks
+      end
+
+      def create
+        authorize @campaign, :update?
+        Rails.logger.info "BLOCK PARAMS: #{block_params.inspect}"
+        block = @campaign.email_blocks.create!(
+          block_params.merge(user_uuid: current_user.uuid)  # <-- CAMBIO: asignar user_uuid
+        )
+        render json: block, status: :created
+      end
+
+      def update
+        block = @campaign.email_blocks.find_by!(uuid: params[:id]) # <-- CAMBIO: buscar por UUID
+        authorize block, :update?
+        block.update!(block_params)
+        render json: block
+      end
+
+      def destroy
+        block = @campaign.email_blocks.find_by!(uuid: params[:id]) # <-- CAMBIO: buscar por UUID
+        authorize block, :destroy?
+        block.destroy
+        head :no_content
+      end
+
+      private
+
+      def set_campaign
+        @campaign = Campaign.find_by!(uuid: params[:campaign_id]) # <-- CAMBIO: buscar por UUID
+      end
+
+      def block_params
+        params.require(:email_block).permit(
+          :block_type,
+          :position,
+          :html_content,
+          :block_template_uuid # <-- Agrega aquí si usas templates
+        )
+      end
+    end
+  end
+end
+module Api
+  module V1
+    class EmailLogsController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+
+      def index
+        # Ahora campaigns tiene user_uuid, y EmailLog apunta a campaign_uuid
+        email_logs = policy_scope(EmailLog).joins(:campaign)
+                          .where(campaigns: { user_uuid: current_user.uuid })
+                          .order(created_at: :desc)
+
+        render json: email_logs, each_serializer: EmailLogSerializer
+      end
+
+      def show
+        email_log = EmailLog.find(params[:id])
+        authorize email_log
+        render json: email_log, serializer: EmailLogSerializer
+      end
+    end
+  end
+end
+module Api
+  module V1
+    class IndustriesController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+
+      def index
+        industries = policy_scope(Industry)
+        authorize Industry
+
+        render json: industries, each_serializer: IndustrySerializer
+      end
+
+      def email_counts
+        authorize Industry, :index?
+
+        result = Industry
+          .left_outer_joins(:public_email_records)
+          .group("industries.id", "industries.name")
+          .select("industries.id AS industry_id, industries.name AS industry_name, COUNT(public_email_records.id) AS email_count")
+          .having("COUNT(public_email_records.id) > 0")
+
+        render json: result.map(&:attributes)
+      end
+    end
+  end
+end
+# app/controllers/api/v1/public_email_records_controller.rb
+module Api
+  module V1
+    class PublicEmailRecordsController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+
+      def index
+        records = policy_scope(PublicEmailRecord)
+
+        # ✅ Filtro por status
+        if params[:status].present?
+          records = records.where(status: params[:status])
+        else
+          records = records.where(status: "valid")
+        end
+
+        # ✅ Filtro por industry
+        if params[:industry_id].present?
+          records = records.where(industry_id: params[:industry_id])
+        elsif params[:industry].present?
+          industry = Industry.find_by(name: params[:industry])
+          records = records.where(industry_id: industry.id) if industry
+        end
+
+        # ✅ Filtro por ciudad
+        if params[:city].present?
+          records = records.where(city: params[:city])
+        end
+
+        # ✅ Paginación
+        page = (params[:page] || 1).to_i
+        per_page = (params[:per_page] || 100).to_i
+        records = records.offset((page - 1) * per_page).limit(per_page)
+
+        # ✅ Render con industria incluida
+        render json: records, include: { industry: { only: [ :id, :name, :name_en ] } }
+      end
+
+
+
+
+
+      def show
+        record = PublicEmailRecord.find(params[:id])
+        render json: record, serializer: PublicEmailRecordSerializer
+      end
+
+
+
+
+      def search
+        industry = Industry.find_by(name: params[:industry])
+        if industry
+          record = PublicEmailRecord.where(industry: industry).limit(params[:limit] || 100)
+          render json: record, serializer: PublicEmailRecordSerializer
+        else
+          render json: { error: "Industria no encontrada" }, status: :not_found
+        end
+      end
+    end
+  end
+end
+module Api
+  module V1
+    class ScrapingsController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+
+      def create
+        url = params[:url]
+
+        if url.blank?
+          return render json: { error: "URL es requerida" }, status: :unprocessable_entity
+        end
+
+        ScrapeEmailJob.perform_later(url)
+        render json: { message: "Scraping encolado con éxito para: #{url}" }, status: :accepted
+      end
+    end
+  end
+end
+# app/controllers/api/v1/sessions_controller.rb
+class Api::V1::SessionsController < ApplicationController
+  def create
+    Rails.logger.info "PARAMS: #{params.inspect}"
+    user = User.find_by(email_address: params[:email_address])
+
+    if user&.authenticate(params[:password])  # Suponiendo que has configurado 'has_secure_password' en el modelo User
+      # Aquí se genera un token JWT
+      token = generate_jwt_token(user)
+      render json: { message: "Sesión iniciada", token: token }, status: :ok
+    else
+      render json: { error: "Email o contraseña inválidos" }, status: :unauthorized
+    end
+  end
+
+  def destroy
+    # Aquí podrías invalidar el token si lo deseas, dependiendo de cómo manejes la autenticación JWT
+    render json: { message: "Sesión cerrada correctamente" }, status: :ok
+  end
+
+  private
+
+
+
+
+  def generate_jwt_token(user)
+    payload = { user_id: user.id, exp: 24.hours.from_now.to_i }
+    JWT.encode(payload, Rails.application.credentials[:secret_key_base])
+  end
+end
+# Métricas incluidas en el JSON:
+# Campo	Descripción
+# total_sent	Total de emails enviados en la campaña
+# opens	Total de correos abiertos
+# clicks	Total de clics registrados
+# bounces	Total de correos rebotados
+# open_rate	Porcentaje de apertura sobre el total enviado
+# click_rate	Porcentaje de clics sobre el total enviado
+# bounce_rate	Porcentaje de rebotes sobre el total enviado
+# top_domains_bounced	Dominios que más generaron rebotes (ej: gmail.com, hotmail.com)
+
+
+module Api
+  module V1
+    class StatsController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+
+      def show
+        campaign = Campaign.find(params[:id])
+        authorize campaign, :stats?
+
+        total_sent = EmailLog.where(campaign_id: campaign.id).count
+        opens = EmailLog.where(campaign_id: campaign.id).where.not(opened_at: nil).count
+        clicks = EmailLog.where(campaign_id: campaign.id).where.not(clicked_at: nil).count
+        bounces = Bounce.joins(:email_record).where(email_records: { campaign_id: campaign.id }).count
+
+        stats = {
+          total_sent: total_sent,
+          opens: opens,
+          clicks: clicks,
+          bounces: bounces,
+          open_rate: percentage(opens, total_sent),
+          click_rate: percentage(clicks, total_sent),
+          bounce_rate: percentage(bounces, total_sent),
+          top_domains_bounced: top_bounced_domains(campaign)
+        }
+
+        render json: stats
+      end
+
+      private
+
+      def percentage(value, total)
+        return 0 if total == 0
+        ((value.to_f / total) * 100).round(2)
+      end
+
+      def top_bounced_domains(campaign)
+        Bounce.joins(:email_record)
+              .where(email_records: { campaign_id: campaign.id })
+              .group("SUBSTRING(email FROM POSITION('@' IN email) + 1)")
+              .order("count_all DESC")
+              .limit(5)
+              .count
+      end
+    end
+  end
+end
+# app/controllers/api/v1/support_requests_controller.rb
+module Api
+  module V1
+    class SupportRequestsController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+      before_action :set_support_request, only: [ :show, :update ]
+
+      def create
+        @support_request = current_user.support_requests.build(support_request_params)
+        authorize @support_request, :create?
+
+        if @support_request.save
+          AdminNotifierJob.perform_later("📬 Nuevo soporte de #{current_user.email_address}: #{@support_request.message}")
+          render json: @support_request, status: :created
+        else
+          render json: { errors: @support_request.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      def index
+        @support_requests = policy_scope(SupportRequest)
+        render json: @support_requests
+      end
+
+      def show
+        authorize @support_request
+        render json: @support_request
+      end
+
+      def update
+        authorize @support_request
+        if @support_request.update(support_request_params)
+          render json: @support_request
+        else
+          render json: { errors: @support_request.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      private
+
+      def set_support_request
+        # Usa uuid en vez de id
+        @support_request = SupportRequest.find_by!(uuid: params[:id])
+      end
+
+      def support_request_params
+        params.require(:support_request).permit(:message, :category, :priority, :status, :source)
+      end
+    end
+  end
+end
+module Api
+  module V1
+    class TemplatesController < ApplicationController
+      # before_action :authenticate_user!
+      # before_action :authenticate_jwt_user!
+      before_action :set_template, only: [ :show, :update, :destroy, :preview ]
+      after_action :verify_authorized
+
+      # GET /api/v1/templates
+      def index
+        @templates = policy_scope(Template)
+        authorize Template
+        render json: @templates, each_serializer: TemplateSerializer
+      end
+
+      # GET /api/v1/templates/:id
+      def show
+        authorize @template
+        render json: @template, serializer: TemplateSerializer
+      end
+
+      # POST /api/v1/templates
+      def create
+        @template = current_user.templates.build(template_params)
+        authorize @template
+
+        if @template.save
+          render json: @template, serializer: TemplateSerializer, status: :created
+        else
+          render json: { errors: @template.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      # PATCH/PUT /api/v1/templates/:id
+      def update
+        authorize @template
+
+        if @template.update(template_params)
+          render json: @template, serializer: TemplateSerializer
+        else
+          render json: { errors: @template.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
+      # DELETE /api/v1/templates/:id
+      def destroy
+        authorize @template
+        @template.destroy
+        head :no_content
+      end
+
+      # GET /api/v1/templates/:id/preview
+      # Este método usará el contenido HTML de la plantilla y lo devolverá directamente
+      # como una página para ser vista en el navegador.
+      def preview
+        authorize @template
+
+        html = @template.content.presence || @template.try(:content_html) || "<p>Esta plantilla no tiene contenido.</p>"
+        render html: html.html_safe, layout: false
+      end
+
+
+
+      private
+
+      def set_template
+        @template = Template.find(params[:id])
+      end
+
+      def template_params
+        params.require(:template).permit(:name, :subject, :content_html, :shared)
+      end
+    end
+  end
+end
+# controllers/api/v1/users_controller.rb
+class Api::V1::UsersController < ApplicationController
+  before_action :require_authentication
+
+
+
+  # Acción para registrar un nuevo usuario
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      render json: { message: "Usuario registrado correctamente", user: @user }, status: :created
+    else
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+
+
+  # Acción para obtener el usuario actual
+  def me
+    render json: current_user, serializer: UserSerializer
+  end
+
+  private
+
+  # Strong parameters para proteger los datos del usuario
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation)
+  end
+
+  # Para evitar métodos no permitidos
+  def reject_unallowed_methods
+    unless request.get?
+      head :method_not_allowed
+    end
+  end
+end
+module Api
+  module V1
+    class WebhooksController < ApplicationController
+      # Este controlador es seguro para recibir llamadas externas
+      skip_before_action :verify_authenticity_token, only: [ :aws_ses_tracking ]
+
+      def payment
+        # Aquí irá la lógica para procesar pagos y recargar créditos
+        # según el servicio de Stripe / MercadoPago
+        head :ok
+      end
+
+      def aws_ses
+        begin
+          raw = request.raw_post
+          Rails.logger.info("Raw POST recibido: #{raw}")
+
+          payload = JSON.parse(raw)
+          Rails.logger.info("Payload parseado: #{payload.inspect}")
+
+          if payload["notificationType"] == "Bounce"
+            bounced = payload.dig("bounce", "bouncedRecipients")
+            campaign_id = payload.dig("mail", "tags", "campaign_id")&.first
+            Rails.logger.info("campaign_id: #{campaign_id}, bounced: #{bounced}")
+
+            if bounced && campaign_id
+              bounced.each do |recipient|
+                email = recipient["emailAddress"]
+                Rails.logger.info("Procesando rebote para: #{email}")
+
+                ReboundCreditRefunder.call(campaign_id: campaign_id, email: email)
+              end
+            else
+              Rails.logger.warn("Rebote recibido sin campaign_id o sin destinatarios.")
+            end
+          end
+
+          render json: { status: "ok" }, status: :ok
+        rescue JSON::ParserError => e
+          Rails.logger.error("Error JSON: #{e.message}")
+          Rails.logger.error(e.backtrace.join("\n"))
+          render json: { error: "Invalid JSON" }, status: :bad_request
+        rescue => e
+          Rails.logger.error("Error al procesar webhook SES: #{e.message}")
+          Rails.logger.error(e.backtrace.join("\n"))
+          render json: { error: "Error interno" }, status: :internal_server_error
+        end
+      end
+
+      def aws_ses_tracking
+        begin
+          payload = JSON.parse(request.raw_post)
+          Rails.logger.info("AWS SES Tracking payload recibido: #{payload}")
+
+          mail_data = payload["mail"]
+          event_type = payload["eventType"]
+          campaign_id = mail_data.dig("tags", "campaign_id")&.first
+          recipient = mail_data["destination"]&.first
+
+          if campaign_id && recipient
+            TrackEmailEvent.call(
+              campaign_id: campaign_id,
+              email: recipient,
+              event_type: event_type
+            )
+          end
+
+          head :ok
+        rescue => e
+          Rails.logger.error("Error procesando webhook SES Tracking: #{e.message}")
+          render json: { error: "invalid payload" }, status: :unprocessable_entity
+        end
+      end
+    end
+  end
+end

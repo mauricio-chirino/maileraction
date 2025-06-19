@@ -1,0 +1,9 @@
+fr:
+  api_helper:
+    no_token: "Pas de jeton d'authentification."
+    token_expirado: "Session expirée, veuillez vous reconnecter."
+  block_id_helper:
+    generado: "ID unique généré pour %{block}"
+  global_helpers:
+    alerta_error: "Une erreur inattendue est survenue."
+    exito: "Opération réalisée avec succès."

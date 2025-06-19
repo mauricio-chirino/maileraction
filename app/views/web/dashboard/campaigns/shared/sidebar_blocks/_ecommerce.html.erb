@@ -1,0 +1,18 @@
+<% [
+  {type: "ecommerce-product", label: t("sidebar.create_campaign.blocks.ecommerce.product"), desc: t("sidebar.create_campaign.blocks.ecommerce.product_desc")},
+  {type: "ecommerce-list", label: t("sidebar.create_campaign.blocks.ecommerce.list"), desc: t("sidebar.create_campaign.blocks.ecommerce.list_desc")},
+  {type: "ecommerce-offer", label: t("sidebar.create_campaign.blocks.ecommerce.offer"), desc: t("sidebar.create_campaign.blocks.ecommerce.offer_desc")},
+  {type: "ecommerce-cart", label: t("sidebar.create_campaign.blocks.ecommerce.cart"), desc: t("sidebar.create_campaign.blocks.ecommerce.cart_desc")},
+  {type: "ecommerce-checkout", label: t("sidebar.create_campaign.blocks.ecommerce.checkout"), desc: t("sidebar.create_campaign.blocks.ecommerce.checkout_desc")}
+].each do |block| %>
+  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+       draggable="true"
+       data-block-type="<%= block[:type] %>"
+       data-category="ecommerce"
+       data-action="dragstart->sidebar#createBlockPreview">
+    <div>
+      <strong><%= block[:label] %></strong>
+      <small class="text-muted d-block"><%= block[:desc] %></small>
+    </div>
+  </div>
+<% end %>

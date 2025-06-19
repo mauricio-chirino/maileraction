@@ -1,0 +1,13 @@
+it:
+  script:
+    block:
+      eliminado: "Blocco eliminato correttamente"
+      error_eliminar: "Impossibile eliminare il blocco."
+      duplicado: "Blocco duplicato."
+    campaign:
+      creada: "Campagna creata con successo: ID %{id}"
+      error_crear: "Errore durante la creazione della campagna: %{mensaje}"
+    data:
+      error_jquery: "❌ jQuery o DataTable non è disponibile"
+      spinner_conectado: "Controller Spinner connesso"
+      inspector_conectado: "Inspector connesso"

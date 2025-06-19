@@ -1,0 +1,10 @@
+es:
+  session:
+    title: "Iniciar sesión en tu cuenta"
+    email_label: "Email"
+    email_placeholder: "ejemplo@mail.com"
+    password_label: "Contraseña"
+    password_placeholder: "••••••••"
+    login_button: "Iniciar Sesión"
+    no_account: "¿No tenés cuenta?"
+    register_link: "Registrate"

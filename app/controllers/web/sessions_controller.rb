@@ -11,35 +11,29 @@ module Web
       user = User.find_by(email_address: params[:email_address])
 
       if user&.authenticate(params[:password])
-        session[:user_id] = user.id  # Guarda al usuario en la sesión
+        session[:user_uuid] = user.uuid  # Guarda el UUID del usuario en la sesión
         redirect_after_login(user)
 
-        # Recordar al usuario si la opción "Recordarme" está seleccionada
         if params[:remember_me] == "1"
-          cookies.permanent[:user_id] = user.id
+          cookies.permanent[:user_uuid] = user.uuid
           cookies.permanent[:remember_token] = user.remember_token
         end
       else
         flash.now[:alert] = "Email o contraseña incorrectos"
-        # render :new
         redirect_to web_login_path
       end
     end
 
     def destroy
-      session[:user_id] = nil
-      cookies.delete(:user_id)
+      reset_session
+      cookies.delete(:user_uuid)
       cookies.delete(:remember_token)
 
-      redirect_to root_path(locale: I18n.locale), status: :see_other
+      redirect_to root_path(locale: I18n.locale), notice: "Sesión cerrada correctamente", status: :see_other
     end
-
 
     private
 
-    #    # Método para redirigir al usuario después de iniciar sesión
-    #    def redirect_after_login(user)
-    #      case user.role
     def redirect_after_login(user)
       case user.role.to_sym
       when :admin

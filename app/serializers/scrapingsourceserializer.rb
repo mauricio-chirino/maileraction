@@ -1,3 +1,3 @@
 class ScrapingSourceSerializer < ActiveModel::Serializer
-  attributes :id, :url, :status
+  attributes :uuid, :url, :status
 end

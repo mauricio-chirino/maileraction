@@ -1,0 +1,67 @@
+<!-- app/views/layouts/shared/campaigns/_interactive_map.html.erb -->
+<div class="row">
+  <!-- Panel lateral -->
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">📍 Mapa Interactivo en Tiempo Real</h5>
+        <p class="text-muted mb-2">Nuestro mapa georreferenciado permite seleccionar contactos públicos visualmente:</p>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <i class="bx bx-map-pin text-primary me-2"></i>
+            <strong>Interactividad completa:</strong> selecciona contactos en áreas específicas directamente desde el mapa.
+          </li>
+          <li class="mb-2">
+            <i class="bx bx-refresh text-success me-2"></i>
+            <strong>Datos en tiempo real:</strong> filtra por país, región/distrito y comuna.
+          </li>
+        </ul>
+        <p class="mt-4 text-sm text-muted">Haz clic en el mapa para comenzar a segmentar tus campañas.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mapa y filtros -->
+  <div class="col-md-8">
+    <div class="card shadow-sm" data-controller="map">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">🗺️ Segmentación Geográfica</h6>
+        <button class="btn btn-sm btn-outline-primary" data-action="click->map#reset">Reiniciar</button>
+      </div>
+      <div class="card-body">
+        <!-- Filtros -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">País</label>
+            <select class="form-select" data-map-target="country" data-action="change->map#loadRegions">
+              <option value="">Selecciona un país</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Región/Distrito</label>
+            <select class="form-select" data-map-target="region" data-action="change->map#loadCities">
+              <option value="">Selecciona una región</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label">Comuna/Ciudad</label>
+            <select class="form-select" data-map-target="district">
+              <option value="">Selecciona una ciudad</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Botón aplicar -->
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-primary" data-action="click->map#filter">Aplicar Filtros</button>
+        </div>
+
+        <!-- Mapa -->
+        <div id="map" data-map-target="map" style="height: 400px; width: 100%;" class="mt-4 rounded border"></div>
+      </div>
+    </div>
+  </div>
+</div>

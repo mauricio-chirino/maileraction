@@ -1,0 +1,37 @@
+// app/javascript/helpers/api_helper.js
+
+export function getToken() {
+  return localStorage.getItem('maileraction_jwt');
+}
+
+export function authorizedFetch(url, options = {}) {
+  const token = getToken();
+  const headers = { ...(options.headers || {}) };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+    console.log("Enviando Authorization:", headers['Authorization']); // <-- Agrega esto
+  } else {
+    console.warn("NO HAY TOKEN! No se enviará Authorization");
+  }
+  headers['Accept'] = "application/json";
+  return fetch(url, { ...options, headers });
+}
+
+
+export function removeToken() {
+  localStorage.removeItem('maileraction_jwt');
+}// app/javascript/helpers/block_id_helper.js
+
+export function uniqueBlockId(blockType) {
+  if (crypto.randomUUID) {
+    return `${blockType}-${crypto.randomUUID()}`;
+  }
+  // Fallback si randomUUID no existe
+  return `${blockType}-${Date.now()}-${Math.floor(Math.random()*10000)}`;
+}export function saveCanvas(app) {
+  const canvasController = app.getControllerForElementAndIdentifier(
+    document.querySelector('[data-controller~="canvas"]'),
+    "canvas"
+  )
+  if (canvasController) canvasController.save()
+}

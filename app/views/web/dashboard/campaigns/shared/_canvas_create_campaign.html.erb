@@ -1,0 +1,52 @@
+<!-- app/views/web/dashboard/campaigns/shared/_canvas_create_campaign.html.erb -->
+
+
+<div class="d-flex editor-flex flex-md-row flex-column" style="height: 100vh; min-height: 480px;">
+  <!-- Sidebar izquierdo -->
+  <div class="sidebar-left" style="width: 240px; min-width: 200px; background: #f9f9f9; border-right: 1px solid #eee;">
+    <%= render "web/dashboard/campaigns/shared/sidebar_create_campaign" %>
+  </div>
+
+  <!-- Canvas central -->
+  <div class="flex-grow-1 px-2 px-md-6" style="min-width:0;">
+    <div id="email-canvas"
+      class="p-2 p-md-4 bg-white border rounded h-full canvas-area"
+      data-controller="canvas"
+      data-canvas-campaign-id="<%= @campaign.id if @campaign.present? && @campaign.persisted? %>"
+      >
+      <div id="canvas-area-blocks" data-canvas-target="area">
+        <%= debug @campaign.canvas_cleared %>
+        <% if @email_blocks.empty? && @campaign.canvas_cleared == false %>
+          <% if @canvas_html.present? %>
+            <%= @canvas_html.html_safe %>
+          <% else %>
+            <%= render "web/dashboard/campaigns/shared/default_email_template" %>
+          <% end %>
+        <% elsif @email_blocks.empty? && @campaign.canvas_cleared == true %>
+          <div class="alert alert-info mt-4 text-center">
+            🚀 ¡Arrastra tu primer bloque para comenzar a construir tu campaña!
+          </div>
+        <% else %>
+
+          <% @email_blocks.each do |email_block| %>
+            <% category, *parts = email_block.block_type.split('-') %>
+            <% partial_name = ([category] + parts).join('_') %>
+            <% begin %>
+              <%= render "web/dashboard/campaigns/shared/sidebar_blocks/#{category}/#{partial_name}", email_block: email_block %>
+            <% rescue ActionView::MissingTemplate %>
+              <%= render "web/dashboard/campaigns/shared/sidebar_blocks/empty", email_block: email_block %>
+            <% end %>
+
+         
+          <% end %>
+          
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar derecho (inspector/propiedades) -->
+  <div class="sidebar-right" style="width: 350px; min-width: 200px; border-left: 1px solid #e5e5e5; background: #fafbfc;">
+    <%= render "web/dashboard/campaigns/shared/canvas_right_sidebar" %>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<% [
+  {type: "content-title", label: t("sidebar.create_campaign.blocks.content.title"), desc: t("sidebar.create_campaign.blocks.content.title_desc")},
+  {type: "content-subtitle", label: t("sidebar.create_campaign.blocks.content.subtitle"), desc: t("sidebar.create_campaign.blocks.content.subtitle_desc")},
+  {type: "content-paragraph", label: t("sidebar.create_campaign.blocks.content.paragraph"), desc: t("sidebar.create_campaign.blocks.content.paragraph_desc")},
+  {type: "content-image", label: t("sidebar.create_campaign.blocks.content.image"), desc: t("sidebar.create_campaign.blocks.content.image_desc")},
+  {type: "content-video", label: t("sidebar.create_campaign.blocks.content.video"), desc: t("sidebar.create_campaign.blocks.content.video_desc")},
+  {type: "content-list", label: t("sidebar.create_campaign.blocks.content.list"), desc: t("sidebar.create_campaign.blocks.content.list_desc")},
+  {type: "content-table", label: t("sidebar.create_campaign.blocks.content.table"), desc: t("sidebar.create_campaign.blocks.content.table_desc")},
+  {type: "content-code", label: t("sidebar.create_campaign.blocks.content.code"), desc: t("sidebar.create_campaign.blocks.content.code_desc")},
+  {type: "content-quote", label: t("sidebar.create_campaign.blocks.content.quote"), desc: t("sidebar.create_campaign.blocks.content.quote_desc")},
+  {type: "content-link", label: t("sidebar.create_campaign.blocks.content.link"), desc: t("sidebar.create_campaign.blocks.content.link_desc")},
+  {type: "content-button", label: t("sidebar.create_campaign.blocks.content.button"), desc: t("sidebar.create_campaign.blocks.content.button_desc")},
+  {type: "content-badge", label: t("sidebar.create_campaign.blocks.content.badge"), desc: t("sidebar.create_campaign.blocks.content.badge_desc")},
+  {type: "content-icon", label: t("sidebar.create_campaign.blocks.content.icon"), desc: t("sidebar.create_campaign.blocks.content.icon_desc")},
+  {type: "content-divider", label: t("sidebar.create_campaign.blocks.content.divider"), desc: t("sidebar.create_campaign.blocks.content.divider_desc")},
+  {type: "content-progress", label: t("sidebar.create_campaign.blocks.content.progress"), desc: t("sidebar.create_campaign.blocks.content.progress_desc")}
+].each do |block| %>
+  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+       draggable="true"
+       data-block-type="<%= block[:type] %>"
+       data-category="content"
+       data-action="dragstart->sidebar#createBlockPreview">
+    <div>
+      <strong><%= block[:label] %></strong>
+      <small class="text-muted d-block"><%= block[:desc] %></small>
+    </div>
+  </div>
+<% end %>

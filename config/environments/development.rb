@@ -81,7 +81,7 @@ Rails.application.configure do
   #
   # Configura el logger de Rails para que envíe la salida de los logs a la consola estándar (STDOUT).
   # Esto es útil para ver los logs en tiempo real mientras se desarrolla la aplicación.
-  config.assets.debug = true  # Esto desactiva la concatenación de activos, lo que facilita la depuración.
+  config.assets.debug = false  # era true Esto desactiva la concatenación de activos, lo que facilita la depuración.
   config.assets.compile = true # Aunque no es la opción más recomendable para producción, ayuda en desarrollo.
   config.assets.digest = false # Esto desactiva la generación de digests de nombre de archivo, lo que facilita la depuración
 

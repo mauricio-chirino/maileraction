@@ -1,0 +1,10 @@
+de:
+  session:
+    title: "Melde dich in deinem Konto an"
+    email_label: "E-Mail"
+    email_placeholder: "beispiel@email.de"
+    password_label: "Passwort"
+    password_placeholder: "••••••••"
+    login_button: "Anmelden"
+    no_account: "Noch kein Konto?"
+    register_link: "Registrieren"

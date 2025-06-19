@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_16_034751) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "uuid-ossp"
+
+  create_table "block_templates", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "html_content"
+    t.string "category"
+    t.jsonb "settings"
+    t.boolean "public"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
+    t.index ["user_id"], name: "index_block_templates_on_user_id"
+    t.index ["user_uuid"], name: "index_block_templates_on_user_uuid"
+    t.index ["uuid"], name: "index_block_templates_on_uuid", unique: true
+  end
 
   create_table "bounces", force: :cascade do |t|
     t.string "reason"
@@ -21,8 +39,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "campaign_id"
+    t.uuid "campaign_uuid"
+    t.uuid "email_record_uuid"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["campaign_id"], name: "index_bounces_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_bounces_on_campaign_uuid"
     t.index ["email_record_id"], name: "index_bounces_on_email_record_id"
+    t.index ["email_record_uuid"], name: "index_bounces_on_email_record_uuid"
+    t.index ["uuid"], name: "index_bounces_on_uuid", unique: true
   end
 
   create_table "campaign_emails", force: :cascade do |t|
@@ -30,8 +54,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.bigint "email_record_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "campaign_uuid"
+    t.uuid "email_record_uuid"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["campaign_id"], name: "index_campaign_emails_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_campaign_emails_on_campaign_uuid"
     t.index ["email_record_id"], name: "index_campaign_emails_on_email_record_id"
+    t.index ["email_record_uuid"], name: "index_campaign_emails_on_email_record_uuid"
+    t.index ["uuid"], name: "index_campaign_emails_on_uuid", unique: true
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -44,9 +74,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.string "subject"
     t.text "body"
     t.bigint "template_id"
+    t.datetime "send_at"
+    t.text "html_content"
+    t.string "name"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.boolean "canvas_cleared"
+    t.uuid "user_uuid"
+    t.uuid "industry_uuid"
+    t.uuid "template_uuid"
     t.index ["industry_id"], name: "index_campaigns_on_industry_id"
+    t.index ["industry_uuid"], name: "index_campaigns_on_industry_uuid"
     t.index ["template_id"], name: "index_campaigns_on_template_id"
+    t.index ["template_uuid"], name: "index_campaigns_on_template_uuid"
     t.index ["user_id"], name: "index_campaigns_on_user_id"
+    t.index ["user_uuid"], name: "index_campaigns_on_user_uuid"
+    t.index ["uuid"], name: "index_campaigns_on_uuid", unique: true
   end
 
   create_table "credit_accounts", force: :cascade do |t|
@@ -54,7 +96,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["user_id"], name: "index_credit_accounts_on_user_id"
+    t.index ["uuid"], name: "index_credit_accounts_on_uuid", unique: true
+  end
+
+  create_table "email_blocks", force: :cascade do |t|
+    t.bigint "campaign_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "block_template_id"
+    t.string "name"
+    t.string "block_type"
+    t.text "html_content"
+    t.jsonb "settings"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "campaign_uuid"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
+    t.uuid "block_template_uuid"
+    t.index ["block_template_id"], name: "index_email_blocks_on_block_template_id"
+    t.index ["block_template_uuid"], name: "index_email_blocks_on_block_template_uuid"
+    t.index ["campaign_id"], name: "index_email_blocks_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_email_blocks_on_campaign_uuid"
+    t.index ["user_id"], name: "index_email_blocks_on_user_id"
+    t.index ["user_uuid"], name: "index_email_blocks_on_user_uuid"
+    t.index ["uuid"], name: "index_email_blocks_on_uuid", unique: true
   end
 
   create_table "email_error_logs", force: :cascade do |t|
@@ -63,6 +131,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.text "error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "campaign_uuid"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "email_record_uuid"
+    t.index ["campaign_uuid"], name: "index_email_error_logs_on_campaign_uuid"
+    t.index ["uuid"], name: "index_email_error_logs_on_uuid", unique: true
   end
 
   create_table "email_event_logs", force: :cascade do |t|
@@ -72,9 +145,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.bigint "campaign_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "campaign_uuid"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["campaign_id"], name: "index_email_event_logs_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_email_event_logs_on_campaign_uuid"
     t.index ["email"], name: "index_email_event_logs_on_email"
     t.index ["event_type"], name: "index_email_event_logs_on_event_type"
+    t.index ["uuid"], name: "index_email_event_logs_on_uuid", unique: true
   end
 
   create_table "email_logs", force: :cascade do |t|
@@ -87,8 +164,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.datetime "updated_at", null: false
     t.boolean "credit_refunded", default: false
     t.integer "attempts_count"
+    t.uuid "campaign_uuid"
+    t.uuid "email_record_uuid"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["campaign_id"], name: "index_email_logs_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_email_logs_on_campaign_uuid"
     t.index ["email_record_id"], name: "index_email_logs_on_email_record_id"
+    t.index ["email_record_uuid"], name: "index_email_logs_on_email_record_uuid"
+    t.index ["uuid"], name: "index_email_logs_on_uuid", unique: true
   end
 
   create_table "email_records", force: :cascade do |t|
@@ -100,7 +183,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.datetime "updated_at", null: false
     t.integer "bounces_count"
     t.boolean "active"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["industry_id"], name: "index_email_records_on_industry_id"
+    t.index ["uuid"], name: "index_email_records_on_uuid", unique: true
   end
 
   create_table "industries", force: :cascade do |t|
@@ -109,6 +194,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name_en"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_industries_on_uuid", unique: true
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -119,7 +206,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.datetime "email_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+    t.index ["user_uuid"], name: "index_notifications_on_user_uuid"
+    t.index ["uuid"], name: "index_notifications_on_uuid", unique: true
   end
 
   create_table "plans", force: :cascade do |t|
@@ -129,6 +220,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.integer "max_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_plans_on_uuid", unique: true
   end
 
   create_table "public_email_records", force: :cascade do |t|
@@ -145,13 +238,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.bigint "industry_id", null: false
     t.string "source_keyword"
     t.integer "status", default: 0, null: false
+    t.uuid "industry_uuid"
     t.index ["industry_id"], name: "index_public_email_records_on_industry_id"
+    t.index ["industry_uuid"], name: "index_public_email_records_on_industry_uuid"
   end
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_roles_on_uuid", unique: true
   end
 
   create_table "scrape_targets", force: :cascade do |t|
@@ -160,6 +257,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.datetime "last_attempt_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_scrape_targets_on_uuid", unique: true
   end
 
   create_table "scraping_sources", force: :cascade do |t|
@@ -167,6 +266,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.index ["uuid"], name: "index_scraping_sources_on_uuid", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -176,8 +277,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.datetime "updated_at", null: false
     t.string "user_agent"
     t.string "ip_address"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
     t.index ["session_token"], name: "index_sessions_on_session_token"
     t.index ["user_id"], name: "index_sessions_on_user_id"
+    t.index ["user_uuid"], name: "index_sessions_on_user_uuid"
+    t.index ["uuid"], name: "index_sessions_on_uuid", unique: true
   end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
@@ -310,19 +415,44 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.integer "status"
     t.integer "priority"
     t.integer "source"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
     t.index ["user_id"], name: "index_support_requests_on_user_id"
+    t.index ["user_uuid"], name: "index_support_requests_on_user_uuid"
+    t.index ["uuid"], name: "index_support_requests_on_uuid", unique: true
+  end
+
+  create_table "template_blocks", force: :cascade do |t|
+    t.bigint "template_id", null: false
+    t.string "block_type", null: false
+    t.text "html_content", null: false
+    t.jsonb "settings"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "template_uuid"
+    t.index ["template_id"], name: "index_template_blocks_on_template_id"
+    t.index ["template_uuid"], name: "index_template_blocks_on_template_uuid"
+    t.index ["uuid"], name: "index_template_blocks_on_uuid", unique: true
   end
 
   create_table "templates", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.text "content"
     t.string "category"
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "public"
+    t.string "preview_image_url"
+    t.text "html_content"
+    t.string "theme", default: "", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
     t.index ["user_id"], name: "index_templates_on_user_id"
+    t.index ["user_uuid"], name: "index_templates_on_user_uuid"
+    t.index ["uuid"], name: "index_templates_on_uuid", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -334,9 +464,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "campaign_id"
+    t.uuid "campaign_uuid"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "user_uuid"
+    t.uuid "credit_account_uuid"
     t.index ["campaign_id"], name: "index_transactions_on_campaign_id"
+    t.index ["campaign_uuid"], name: "index_transactions_on_campaign_uuid"
     t.index ["credit_account_id"], name: "index_transactions_on_credit_account_id"
+    t.index ["credit_account_uuid"], name: "index_transactions_on_credit_account_uuid"
     t.index ["user_id"], name: "index_transactions_on_user_id"
+    t.index ["user_uuid"], name: "index_transactions_on_user_uuid"
+    t.index ["uuid"], name: "index_transactions_on_uuid", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -352,10 +490,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
     t.string "name"
     t.string "password_reset_token"
     t.datetime "password_reset_sent_at"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "plan_uuid"
     t.index ["plan_id"], name: "index_users_on_plan_id"
+    t.index ["plan_uuid"], name: "index_users_on_plan_uuid"
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
+    t.index ["uuid"], name: "index_users_on_uuid", unique: true
   end
 
+  add_foreign_key "block_templates", "users"
   add_foreign_key "bounces", "campaigns"
   add_foreign_key "bounces", "email_records"
   add_foreign_key "campaign_emails", "campaigns"
@@ -364,6 +507,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
   add_foreign_key "campaigns", "templates"
   add_foreign_key "campaigns", "users"
   add_foreign_key "credit_accounts", "users"
+  add_foreign_key "email_blocks", "block_templates"
+  add_foreign_key "email_blocks", "campaigns"
+  add_foreign_key "email_blocks", "users"
   add_foreign_key "email_event_logs", "campaigns"
   add_foreign_key "email_logs", "campaigns"
   add_foreign_key "email_logs", "email_records"
@@ -378,6 +524,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_12_042033) do
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "support_requests", "users"
+  add_foreign_key "template_blocks", "templates"
   add_foreign_key "templates", "users"
   add_foreign_key "transactions", "campaigns"
   add_foreign_key "transactions", "credit_accounts"

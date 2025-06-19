@@ -1,17 +1,12 @@
-
-#
+# app/controllers/api/v1/support_requests_controller.rb
 module Api
   module V1
     class SupportRequestsController < ApplicationController
-      before_action :authenticate_user!
       before_action :set_support_request, only: [ :show, :update ]
 
       def create
-        puts params.inspect  # 👈 agrega esto
         @support_request = current_user.support_requests.build(support_request_params)
-
         authorize @support_request, :create?
-
         if @support_request.save
           AdminNotifierJob.perform_later("📬 Nuevo soporte de #{current_user.email_address}: #{@support_request.message}")
           render json: @support_request, status: :created
@@ -32,7 +27,6 @@ module Api
 
       def update
         authorize @support_request
-
         if @support_request.update(support_request_params)
           render json: @support_request
         else
@@ -43,7 +37,7 @@ module Api
       private
 
       def set_support_request
-        @support_request = SupportRequest.find(params[:id])
+        @support_request = SupportRequest.find_by!(uuid: params[:id])
       end
 
       def support_request_params

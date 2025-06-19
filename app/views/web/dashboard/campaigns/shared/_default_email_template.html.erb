@@ -1,0 +1,112 @@
+<!-- app/views/web/dashboard/campaigns/shared/_default_email_template.html.erb -->
+
+<!-- Logo -->
+<div class="email-block position-relative mb-4"
+  data-controller="block"
+  data-block-type="hero"
+  data-block-id="hero-1"
+  draggable="true"
+  data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  <img src="/assets/logo3.svg" alt="MailerAction" width="120" />
+</div>
+
+<!-- Heading -->
+<div class="email-block position-relative mb-3"
+     data-controller="block"
+     data-block-type="heading"
+     data-block-id="heading-1"
+      data-action="click->block#select  dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  <h2 contenteditable="true"
+      class="text-center fw-bold m-0 editable-content"
+      data-controller="editable">
+    Welcome to MailerAction
+  </h2>
+</div>
+
+<!-- Description -->
+<div class="email-block position-relative text-center text-muted mb-4"
+     data-controller="block"
+     data-block-type="text"
+     data-block-id="text-1"
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+      <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  <p contenteditable="true"
+    class="text-center fw-bold m-0"
+    data-controller="editable">
+    Start sending smarter emails with our powerful tools and intuitive builder.
+  </p>
+</div>
+
+<!-- Call to Action -->
+<div class="email-block position-relative text-center mb-5"
+     data-controller="block"
+     data-block-type="button"
+     data-block-id="cta-1"
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  <a href="#" contenteditable="true"
+     class="btn btn-primary px-4 py-2"
+     data-controller="editable">
+    Get Started Now
+  </a>
+</div>
+
+<!-- Feature Badges -->
+<div class="email-block position-relative text-center mb-4"
+     data-controller="block"
+     data-block-type="badges"
+     data-block-id="badges-1"
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  <span class="badge bg-success me-2">Easy to Use</span>
+  <span class="badge bg-info me-2">Powerful Tools</span>
+  <span class="badge bg-warning">Drag &amp; Drop</span>
+</div>
+
+<!-- Feature Cards -->
+<div class="email-block position-relative row justify-content-center mb-5"
+     data-controller="block"
+     data-block-type="cards"
+     data-block-id="cards-1"
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+
+  <div class="col-md-4">
+    <div class="card h-100 text-center">
+      <div class="card-body">
+        <i class="bx bx-paint text-primary fs-1 mb-3"></i>
+        <h5 class="card-title">Beautiful Designs</h5>
+        <p class="card-text text-muted">Choose from a wide variety of professionally designed templates.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 text-center">
+      <div class="card-body">
+        <i class="bx bx-bolt-circle text-warning fs-1 mb-3"></i>
+        <h5 class="card-title">Fast Delivery</h5>
+        <p class="card-text text-muted">Deliver your message quickly with our optimized system.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Social Icons -->
+<div class="email-block position-relative text-center"
+     data-controller="block"
+     data-block-type="social"
+     data-block-id="social-1"
+      data-action="click->block#select dragstart->canvas#dragStart dragover->canvas#dragOver drop->canvas#drop dragend->canvas#dragEnd">
+  <%= render "web/dashboard/campaigns/shared/block_toolbar" %>
+  <a href="#" class="text-secondary mx-2" contenteditable="true" data-controller="editable">
+    <i class="bx bxl-facebook-circle bx-sm"></i>
+  </a>
+  <a href="#" class="text-secondary mx-2" contenteditable="true" data-controller="editable">
+    <i class="bx bxl-twitter bx-sm"></i>
+  </a>
+  <a href="#" class="text-secondary mx-2" contenteditable="true" data-controller="editable">
+    <i class="bx bxl-instagram-alt bx-sm"></i>
+  </a>
+</div>

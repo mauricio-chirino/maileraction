@@ -1,5 +1,5 @@
 class CreditAccountSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :available_credit
+  attributes :uuid, :user_uuid, :available_credit
 
   belongs_to :plan, serializer: ::PlanSerializer
 

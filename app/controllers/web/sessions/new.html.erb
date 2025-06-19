@@ -1,27 +1,26 @@
+<!-- app/views/web/sessions/new.html.erb -->
 <div class="ui middle aligned center aligned grid" style="height: 80vh;">
   <div class="column" style="max-width: 450px;">
     <h2 class="ui teal image header">
       <img src="/logo.svg" class="image" alt="MailerAction logo">
-      <div class="content">Iniciar sesión en tu cuenta</div>
+      <div class="content"><%= t("session.title") %></div>
     </h2>
     <form class="ui large form" action="/login" method="post">
       <div class="ui stacked segment">
         <div class="field">
-          <label>Email</label>
-          <input type="email" name="email" placeholder="ejemplo@mail.com" required>
+          <label><%= t("session.email_label") %></label>
+          <input type="email" name="email" placeholder="<%= t('session.email_placeholder') %>" required>
         </div>
         <div class="field">
-          <label>Contraseña</label>
-          <input type="password" name="password" placeholder="••••••••" required>
+          <label><%= t("session.password_label") %></label>
+          <input type="password" name="password" placeholder="<%= t('session.password_placeholder') %>" required>
         </div>
-        <button type="submit" class="ui fluid large teal button">Iniciar Sesión11111</button>
+        <button type="submit" class="ui fluid large teal button"><%= t("session.login_button") %></button>
       </div>
-
       <div class="ui error message"></div>
     </form>
-
     <div class="ui message">
-      ¿No tenés cuenta? <a href="/signup">Registrate</a>
+      <%= t("session.no_account") %> <a href="/signup"><%= t("session.register_link") %></a>
     </div>
   </div>
 </div>

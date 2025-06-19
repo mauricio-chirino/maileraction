@@ -1,0 +1,22 @@
+<% blocks = [
+  { type: "logo", label: t("sidebar.create_campaign.blocks.navigation.logo"), desc: t("sidebar.create_campaign.blocks.navigation.logo_desc") },
+  { type: "nav_main", label: t("sidebar.create_campaign.blocks.navigation.nav_main"), desc: t("sidebar.create_campaign.blocks.navigation.nav_main_desc") },
+  { type: "logo_nav", label: t("sidebar.create_campaign.blocks.navigation.logo_nav"), desc: t("sidebar.create_campaign.blocks.navigation.logo_nav_desc") },
+  { type: "logo_center_nav", label: t("sidebar.create_campaign.blocks.navigation.logo_center_nav"), desc: t("sidebar.create_campaign.blocks.navigation.logo_center_nav_desc") },
+  { type: "logo_nav_compact", label: t("sidebar.create_campaign.blocks.navigation.logo_nav_compact"), desc: t("sidebar.create_campaign.blocks.navigation.logo_nav_compact_desc") },
+  { type: "logo_button", label: t("sidebar.create_campaign.blocks.navigation.logo_button"), desc: t("sidebar.create_campaign.blocks.navigation.logo_button_desc") },
+  { type: "logo_social", label: t("sidebar.create_campaign.blocks.navigation.logo_social"), desc: t("sidebar.create_campaign.blocks.navigation.logo_social_desc") },
+  { type: "logo_text", label: t("sidebar.create_campaign.blocks.navigation.logo_text"), desc: t("sidebar.create_campaign.blocks.navigation.logo_text_desc") }
+] %>
+<% blocks.each do |block| %>
+  <div class="sidebar-block draggable-block px-2 py-2 mb-1 rounded bg-white d-flex align-items-start gap-2"
+       draggable="true"
+       data-block-type="navigation-<%= block[:type] %>"
+       data-category="navigation"
+       data-action="dragstart->sidebar#createBlockPreview">
+    <div>
+      <strong><%= block[:label] %></strong>
+      <small class="text-muted d-block"><%= block[:desc] %></small>
+    </div>
+  </div>
+<% end %>

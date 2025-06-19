@@ -1,34 +1,49 @@
+# app/controllers/application_controller.rb
+
 class ApplicationController < ActionController::API
+  include Pundit::Authorization
+
+  # Setea zona horaria si viene del header
   around_action :set_time_zone_from_header
 
-  include Authentication  # 👈 este es el bueno Este es el que maneja la autenticación
-  include Pundit::Authorization
-  # agrgados************************************
-  include ActionController::Cookies
-  include ActionController::Helpers
+  # Autenticación global (excepto acciones públicas como login/signup/webhooks)
+  before_action :authenticate_user_with_jwt!, unless: :open_action?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  # Aplica la autenticación globalmente, excepto para el login y la recuperación de contraseñas
-  before_action :authenticate_user!, except: [ :new, :create, :forgot_password, :reset_password ]
-
-
   private
 
+  # Autenticación por JWT
+  def authenticate_user_with_jwt!
+    header = request.headers["Authorization"]
+    token = header&.split(" ")&.last
+    if token.blank?
+      return render json: { error: "No autorizado. Debes iniciar sesión." }, status: :unauthorized
+    end
 
-
-
-
-
-
-  def authenticate_user!
-    # Esto es donde se verifica si el usuario está autenticado
-    unless session[:user_id]
-      render json: { error: "No autorizado. Iniciá sesión." }, status: :unauthorized
+    begin
+      decoded = JWT.decode(token, Rails.application.credentials[:secret_key_base])[0]
+      if decoded["exp"] && Time.at(decoded["exp"]) < Time.now
+        return render json: { error: "Token expirado, inicia sesión de nuevo." }, status: :unauthorized
+      end
+      @current_user = User.find_by!(uuid: decoded["user_uuid"]) # Usa uuid
+    rescue JWT::ExpiredSignature
+      render json: { error: "Token expirado." }, status: :unauthorized
+    rescue JWT::DecodeError, ActiveRecord::RecordNotFound
+      render json: { error: "Token inválido o usuario no encontrado." }, status: :unauthorized
     end
   end
 
+  def current_user
+    @current_user
+  end
 
+  # Acciones abiertas (no requieren autenticación)
+  def open_action?
+    (controller_name == "sessions" && action_name == "create") ||
+    (controller_name == "users" && action_name == "create") ||
+    (controller_name == "webhooks")
+  end
 
   def user_not_authorized
     render json: { error: "No autorizado" }, status: :forbidden
@@ -39,7 +54,6 @@ class ApplicationController < ActionController::API
     if time_zone.present? && ActiveSupport::TimeZone[time_zone]
       Time.use_zone(time_zone, &block)
     else
-      # fallback por defecto
       Time.use_zone("UTC", &block)
     end
   end

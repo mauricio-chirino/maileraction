@@ -1,8 +1,9 @@
 class HomeController < ApplicationController
-  skip_before_action :require_authentication
+  # Opción: puedes omitir autenticación en el home API
+  skip_before_action :authenticate_user_with_jwt!, only: [ :index ]
 
   def index
-    render layout: "application"
+    render json: { message: "Bienvenido a MailerAction API", version: "1.0" }
   end
 end
 

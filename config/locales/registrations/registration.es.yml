@@ -1,0 +1,11 @@
+es:
+  registration:
+    title: "Crear una cuenta nueva"
+    name: "Nombre"
+    email: "Correo electrónico"
+    password: "Contraseña"
+    password_confirmation: "Confirmar Contraseña"
+    signup_button: "Registrarme"
+    already_have_account: "¿Ya tenés cuenta?"
+    login: "Iniciá sesión"
+    error_heading: "Por favor corrige los siguientes errores:"

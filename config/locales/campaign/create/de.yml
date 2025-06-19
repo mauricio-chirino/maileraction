@@ -1,0 +1,20 @@
+de:
+  campaign:
+    create:
+      title: "Neue Kampagne erstellen"
+      subtitle: "Starten Sie eine neue E-Mail-Kampagne mit unserem Editor oder einer gespeicherten Vorlage."
+      campaign_name: "Kampagnenname"
+      industry_segment: "Industriesegment auswählen"
+      choose_segment: "Segment auswählen"
+      subject: "E-Mail-Betreff"
+      template_or_editor: "Vorlage oder Editor"
+      use_template: "Vorlage verwenden"
+      open_drag_and_drop_editor: "Visuellen Editor öffnen"
+      choose_template_or_editor: "Wählen Sie eine Vorlage oder erstellen Sie Ihre E-Mail mit unserem visuellen Editor."
+      send_limit: "Sende-Limit (Credits)"
+      credits_available: "Sie haben 1500 Credits verfügbar"
+      schedule: "Planen"
+      launch: "Kampagne starten"
+      placeholder_name: "Frühlingsaktion 2025"
+      placeholder_subject: "Verpassen Sie nicht unsere Angebote!"
+      placeholder_limit: "z.B. 500"
