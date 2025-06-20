@@ -88,11 +88,13 @@
     if (!loginForm) return;
 
     loginForm.addEventListener("submit", function(event) {
-      event.preventDefault();
+      // NO hagas preventDefault: deja que el form haga login Rails normalmente
 
+      // Toma los datos del form (puedes usar FormData)
       const email = loginForm.querySelector("[name='email_address']").value;
       const password = loginForm.querySelector("[name='password']").value;
 
+      // Pide el token a la API
       fetch("/api/v1/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -102,21 +104,16 @@
       .then(data => {
         if (data.token) {
           localStorage.setItem("maileraction_jwt", data.token);
-          // Chequea que el token se guardó
-          if(localStorage.getItem("maileraction_jwt")) {
-            window.location.href = "/web/dashboard/admin_dashboard";
-          } else {
-            alert("No se pudo guardar el token. Intenta nuevamente.");
-          }
-        } else {
-          alert(data.error || "Error en login");
+          // ¡No haces nada más aquí! El panel carga por session/cookie.
         }
+        // Si hay error, puedes ignorarlo aquí, porque la sesión Rails ya hizo su trabajo.
       })
       .catch(err => {
-        alert("Ocurrió un error en la autenticación");
+        // Puedes loguear el error, pero no abortar el login Rails
         console.error("Error al pedir token API:", err);
       });
+
+      // Deja que el form haga el submit normal (NO uses event.preventDefault())
     });
   });
 </script>
-

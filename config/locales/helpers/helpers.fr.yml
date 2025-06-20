@@ -7,3 +7,5 @@ fr:
   global_helpers:
     alerta_error: "Une erreur inattendue est survenue."
     exito: "Opération réalisée avec succès."
+  block:
+    ya_no_existe: "Le bloc n'existe plus."

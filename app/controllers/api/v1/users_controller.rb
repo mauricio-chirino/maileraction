@@ -1,5 +1,6 @@
 # controllers/api/v1/users_controller.rb
 class Api::V1::UsersController < ApplicationController
+  before_action :authenticate_user_with_jwt!
   before_action :require_authentication
 
   def create

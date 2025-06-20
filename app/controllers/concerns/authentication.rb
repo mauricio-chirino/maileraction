@@ -85,6 +85,9 @@ def authenticate_jwt_user!
       user_id = decoded[0]["user_id"]
       Rails.logger.info "[AUTH] Buscando usuario con UUID: #{user_id}"
 
+      Rails.logger.info "[DEBUG JWT] decoded payload: #{decoded.inspect}"
+      Rails.logger.info "[DEBUG JWT] user_id extraído: #{user_id.inspect}"
+
       @current_user = User.find_by(uuid: user_id)
 
       if @current_user

@@ -8,9 +8,14 @@ import BlockController from "./block_controller"
 import SidebarController from "./sidebar_controller"
 import CampaignFormController from "./campaign_form_controller"
 
+
+
 application.register("inspector", InspectorController)
 application.register("bootstrap", BootstrapController)
 application.register("canvas", CanvasController)
 application.register("block", BlockController)
 application.register("sidebar", SidebarController)
 application.register("campaign-form", CampaignFormController)
+
+import { authorizedFetch } from "helpers/api_helper"
+window.authorizedFetch = authorizedFetch

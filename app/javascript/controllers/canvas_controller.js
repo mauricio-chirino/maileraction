@@ -32,7 +32,7 @@ export default class extends Controller {
       el.className = "email-block position-relative mb-3"
       el.setAttribute("data-controller", "block")
       el.setAttribute("data-block-type", block.block_type)
-      el.setAttribute("data-block-id", block.id)
+      el.setAttribute("data-block-id", `block-${block.uuid || block.id}`)
       el.setAttribute("draggable", "true")
       el.setAttribute(
         "data-action",
@@ -117,5 +117,7 @@ export default class extends Controller {
 
   save() {
     // Implementa aquí si quieres sincronizar el orden con el backend.
+    // Recarga los bloques desde la API del backend
+    this.loadBlocksFromAPI(this.data.get("campaignId"))
   }
 }

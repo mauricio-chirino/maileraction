@@ -31,6 +31,8 @@ export default class extends Controller {
 
   dragEnd(event) { this.element.classList.remove("dragging") }
 
+  
+
   async remove() {
     const campaignId = document.querySelector('[data-controller="canvas"]').dataset.canvasCampaignId
     let rawBlockId = this.element.dataset.blockId
@@ -43,13 +45,27 @@ export default class extends Controller {
       }
     })
 
+    // Borra el bloque del DOM **independiente** del resultado, porque ya no existe en backend
+    //this.element.remove()
+
     if (resp.ok) {
-      this.element.remove()
+      // Sincroniza con el backend: fuerza recarga
+      const canvasController = this.application.getControllerForElementAndIdentifier(
+        document.querySelector('[data-controller~="canvas"]'),
+        "canvas"
+      )
+      if (canvasController) {
+        await canvasController.loadBlocksFromAPI(campaignId)
+      }
       alert(t("block.eliminado"))
     } else {
       alert(t("block.error_eliminar"))
     }
   }
+
+
+
+
 
   duplicate() {
     const clone = this.element.cloneNode(true)

@@ -13,6 +13,7 @@
 module Api
   module V1
     class StatsController < ApplicationController
+      
       def show
         campaign = Campaign.find_by!(uuid: params[:id])
         authorize campaign, :stats?

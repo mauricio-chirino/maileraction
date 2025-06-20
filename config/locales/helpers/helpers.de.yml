@@ -8,3 +8,5 @@ de:
     global_helpers:
       alerta_error: "Ein unerwarteter Fehler ist aufgetreten."
       exito: "Vorgang erfolgreich abgeschlossen."
+    block:
+      ya_no_existe: "Der Block existiert nicht mehr."

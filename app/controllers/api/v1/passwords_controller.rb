@@ -1,6 +1,7 @@
 module Api
   module V1
     class PasswordsController < ApplicationController
+      
       skip_before_action :authenticate_user_with_jwt!
 
       # POST /api/v1/password/forgot

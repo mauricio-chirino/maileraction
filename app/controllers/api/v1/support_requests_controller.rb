@@ -2,6 +2,7 @@
 module Api
   module V1
     class SupportRequestsController < ApplicationController
+      before_action :authenticate_user_with_jwt!
       before_action :set_support_request, only: [ :show, :update ]
 
       def create

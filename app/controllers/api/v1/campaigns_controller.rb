@@ -2,6 +2,7 @@
 module Api
   module V1
     class CampaignsController < ApplicationController
+      before_action :authenticate_user_with_jwt!
       before_action :set_campaign, only: [ :show, :update, :destroy, :stats, :send_campaign, :cancel ]
 
       def index
@@ -102,25 +103,25 @@ module Api
 
 
 
-def email_blocks
-  Rails.logger.info "[API] Usuario autenticado actual: #{@current_user.inspect}"
+      def email_blocks
+        Rails.logger.info "[API] Usuario autenticado actual: #{@current_user.inspect}"
 
-  unless @current_user
-    Rails.logger.error "[API] Usuario no autenticado al llegar aquí."
-    render json: { error: "No autenticado" }, status: :unauthorized and return
-  end
+        unless @current_user
+          Rails.logger.error "[API] Usuario no autenticado al llegar aquí."
+          render json: { error: "No autenticado" }, status: :unauthorized and return
+        end
 
-  campaign = Campaign.find_by(uuid: params[:uuid])
+        campaign = Campaign.find_by(uuid: params[:uuid])
 
-  if campaign
-    Rails.logger.info "[API] Campaña encontrada: #{campaign.uuid}"
-    # Supongamos que tienes una relación blocks: campaign.email_blocks
-    render json: campaign.email_blocks # O ajusta según tu modelo
-  else
-    Rails.logger.error "[API] Campaña no encontrada con UUID: #{params[:uuid]}"
-    render json: { error: "Campaña no encontrada" }, status: :not_found and return
-  end
-end
+        if campaign
+          Rails.logger.info "[API] Campaña encontrada: #{campaign.uuid}"
+          # Supongamos que tienes una relación blocks: campaign.email_blocks
+          render json: campaign.email_blocks # O ajusta según tu modelo
+        else
+          Rails.logger.error "[API] Campaña no encontrada con UUID: #{params[:uuid]}"
+          render json: { error: "Campaña no encontrada" }, status: :not_found and return
+        end
+      end
 
 
 

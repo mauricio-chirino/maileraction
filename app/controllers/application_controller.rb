@@ -26,7 +26,7 @@ class ApplicationController < ActionController::API
       if decoded["exp"] && Time.at(decoded["exp"]) < Time.now
         return render json: { error: "Token expirado, inicia sesión de nuevo." }, status: :unauthorized
       end
-      @current_user = User.find_by!(uuid: decoded["user_uuid"]) # Usa uuid
+      @current_user = User.find_by!(uuid: decoded["user_id"]) # Usa uuid
     rescue JWT::ExpiredSignature
       render json: { error: "Token expirado." }, status: :unauthorized
     rescue JWT::DecodeError, ActiveRecord::RecordNotFound

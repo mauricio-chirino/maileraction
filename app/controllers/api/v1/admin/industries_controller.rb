@@ -3,6 +3,7 @@ module Api
     module Admin
       class IndustriesController < ApplicationController
         # before_action :authenticate_user! # o :authorize_admin!
+        before_action :authenticate_jwt_user!
         before_action :set_industry, only: [ :show, :update, :destroy ]
 
         # GET /api/v1/admin/industries

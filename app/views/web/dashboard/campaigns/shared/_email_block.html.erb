@@ -2,8 +2,8 @@
   <div class="email-block"
        data-controller="block"
        data-block-type="<%= email_block.block_type %>"
-       data-block-id="block-<%= email_block.uuid %>"
-       data-category="navigation">
+       data-block-id="<%= email_block.uuid %>"
+       data-category="<%= email_block.block_type.split('-').first %>">
     <%= render "web/dashboard/campaigns/shared/block_toolbar", email_block: email_block %>
     <%= raw email_block.html_content %>
   </div>

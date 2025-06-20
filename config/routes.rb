@@ -10,8 +10,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post "sessions", to: "sessions#create"
+
       delete "sessions", to: "sessions#destroy"
+
       get "me", to: "users#me"
+
+      get "users/me", to: "users#me"
+
       namespace :admin do
         post "industries/reset_counts", to: "industries#reset_counts"
       end
@@ -19,6 +24,7 @@ Rails.application.routes.draw do
       resources :templates, param: :uuid do
         member { get :preview }
       end
+
       resources :templates, only: [ :index, :create, :show, :update, :destroy ], param: :uuid
       get "template/index"
       get "template/show"
@@ -44,6 +50,7 @@ Rails.application.routes.draw do
       post "scrape", to: "scrapings#create"
 
       resources :public_email_records, only: [ :index ], param: :uuid
+
       resources :scrape_targets, only: [ :create ], param: :uuid
 
       resources :public_email_records, only: [ :index, :show, :create ], param: :uuid do
@@ -58,7 +65,6 @@ Rails.application.routes.draw do
         # --- Aquí va el nested resource ---
         resources :email_blocks, only: [ :index, :create, :show, :update, :destroy ], param: :uuid
 
-        get "email_blocks", on: :member
 
         member do
           get :stats
