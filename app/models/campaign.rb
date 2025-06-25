@@ -53,6 +53,9 @@ class Campaign < ApplicationRecord
   # Delegaciones (ajusta según tu template)
   delegate :content, to: :template, allow_nil: true
 
+  # save tyoe template or visual botton
+  enum initial_creation_method: { template: 0, visual: 1 }
+
   # Métodos de validación
   def body_or_template_present
     if body.blank? && template&.content.blank?

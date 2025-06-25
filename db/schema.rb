@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_16_034751) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_20_065343) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "uuid-ossp"
@@ -82,6 +82,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_16_034751) do
     t.uuid "user_uuid"
     t.uuid "industry_uuid"
     t.uuid "template_uuid"
+    t.boolean "started_editing"
+    t.integer "initial_creation_method"
     t.index ["industry_id"], name: "index_campaigns_on_industry_id"
     t.index ["industry_uuid"], name: "index_campaigns_on_industry_uuid"
     t.index ["template_id"], name: "index_campaigns_on_template_id"
