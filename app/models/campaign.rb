@@ -54,7 +54,9 @@ class Campaign < ApplicationRecord
   delegate :content, to: :template, allow_nil: true
 
   # save tyoe template or visual botton
-  enum initial_creation_method: { template: 0, visual: 1 }
+  #enum initial_creation_method: {template: 0, visual: 1}
+
+  enum :initial_creation_method, [ :template, :visual ]
 
   # Métodos de validación
   def body_or_template_present

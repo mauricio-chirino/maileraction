@@ -7,6 +7,7 @@ module Api
       before_action :set_campaign
 
       def index
+        Rails.logger.info "JWT recibido: #{request.headers['Authorization']}"
         authorize @campaign, :show?
         blocks = @campaign.email_blocks.order(:position)
         render json: blocks

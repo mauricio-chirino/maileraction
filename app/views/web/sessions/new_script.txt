@@ -1,0 +1,33 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.getElementById("login-form");
+    if (!loginForm) return;
+
+    loginForm.addEventListener("submit", function(event) {
+      // NO hagas preventDefault: deja que el form haga login Rails normalmente
+
+      // Toma los datos del form (puedes usar FormData)
+      const email = loginForm.querySelector("[name='email_address']").value;
+      const password = loginForm.querySelector("[name='password']").value;
+
+      // Pide el token a la API
+      fetch("/api/v1/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email_address: email, password: password })
+      })
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem("maileraction_jwt", data.token);
+          // ¡No haces nada más aquí! El panel carga por session/cookie.
+        }
+        // Si hay error, puedes ignorarlo aquí, porque la sesión Rails ya hizo su trabajo.
+      })
+      .catch(err => {
+        // Puedes loguear el error, pero no abortar el login Rails
+        console.error("Error al pedir token API:", err);
+      });
+
+      // Deja que el form haga el submit normal (NO uses event.preventDefault())
+    });
+  });

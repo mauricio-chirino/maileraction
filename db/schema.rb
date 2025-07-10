@@ -13,7 +13,7 @@
 ActiveRecord::Schema[8.0].define(version: 2025_06_20_065343) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
-  enable_extension "uuid-ossp"
+  enable_extension "pgcrypto"
 
   create_table "block_templates", force: :cascade do |t|
     t.string "name"
@@ -209,9 +209,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_065343) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
-    t.uuid "user_uuid"
     t.index ["user_id"], name: "index_notifications_on_user_id"
-    t.index ["user_uuid"], name: "index_notifications_on_user_uuid"
     t.index ["uuid"], name: "index_notifications_on_uuid", unique: true
   end
 

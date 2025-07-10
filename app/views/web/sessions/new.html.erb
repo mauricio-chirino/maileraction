@@ -19,7 +19,10 @@
           <h4 class="mb-2"><%= t("sessions.title") %></h4>
           <p class="mb-4"><%= t("sessions.subtitle") %></p>
 
-          <%= form_with(url: "/web/login", method: :post, local: true, id: "login-form", html: { class: "needs-validation", novalidate: true }) do |form| %>
+         <%= form_with(url: "/web/login", method: :post, local: false, id: "login-form", html: { class: "needs-validation", novalidate: true }) do |form| %>
+
+         
+
 
             <% if flash[:alert] %>
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -83,37 +86,51 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const loginForm = document.getElementById("login-form");
-    if (!loginForm) return;
+document.addEventListener("DOMContentLoaded", function() {
+  const loginForm = document.getElementById("login-form");
+  const apiErrorDiv = document.getElementById("api-login-error");
+  if (!loginForm) return;
 
-    loginForm.addEventListener("submit", function(event) {
-      // NO hagas preventDefault: deja que el form haga login Rails normalmente
+  loginForm.addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevenir submit AJAX por Rails
 
-      // Toma los datos del form (puedes usar FormData)
-      const email = loginForm.querySelector("[name='email_address']").value;
-      const password = loginForm.querySelector("[name='password']").value;
+    // Oculta el mensaje de error
+    if(apiErrorDiv) {
+      apiErrorDiv.classList.add("d-none");
+      apiErrorDiv.textContent = "";
+    }
 
-      // Pide el token a la API
-      fetch("/api/v1/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email_address: email, password: password })
-      })
-      .then(resp => resp.json())
-      .then(data => {
-        if (data.token) {
-          localStorage.setItem("maileraction_jwt", data.token);
-          // ¡No haces nada más aquí! El panel carga por session/cookie.
+    const email = loginForm.querySelector("[name='email_address']").value;
+    const password = loginForm.querySelector("[name='password']").value;
+
+    fetch("/api/v1/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email_address: email, password: password })
+    })
+    .then(resp => resp.json().then(data => ({ status: resp.status, body: data })))
+    .then(({ status, body }) => {
+      if (status === 200 && body.token) {
+        // Guarda el token en localStorage
+        localStorage.setItem("maileraction_jwt", body.token);
+
+        // Envía el formulario Rails normalmente (desactivando este listener primero)
+        loginForm.removeEventListener("submit", arguments.callee);
+        loginForm.submit();
+      } else {
+        // Muestra el error devuelto por la API
+        if(apiErrorDiv) {
+          apiErrorDiv.textContent = body.error || "Error de autenticación.";
+          apiErrorDiv.classList.remove("d-none");
         }
-        // Si hay error, puedes ignorarlo aquí, porque la sesión Rails ya hizo su trabajo.
-      })
-      .catch(err => {
-        // Puedes loguear el error, pero no abortar el login Rails
-        console.error("Error al pedir token API:", err);
-      });
-
-      // Deja que el form haga el submit normal (NO uses event.preventDefault())
+      }
+    })
+    .catch(err => {
+      if(apiErrorDiv) {
+        apiErrorDiv.textContent = "No se pudo conectar con la API.";
+        apiErrorDiv.classList.remove("d-none");
+      }
     });
   });
+});
 </script>

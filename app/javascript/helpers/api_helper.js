@@ -3,6 +3,7 @@
 import { t } from "./i18n_helper";
 
 export function getToken() {
+  
   return localStorage.getItem('maileraction_jwt');
 }
 
